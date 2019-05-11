@@ -49,12 +49,12 @@ public class HomeScreen {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel mainPanel = new JPanel();
-		JPanel topPanel = new JPanel();
+		/*JPanel topPanel = new JPanel();*/
 		
 		JPanel contentPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
 		
-		JButton crewDetailBtn = new JButton("View Crew Status");
+		/*JButton crewDetailBtn = new JButton("View Crew Status");
 		JButton shipBtn = new JButton("View Ship Status");
 		JButton inventoryBtn = new JButton("Inventory");
 		JButton homeBtn = new JButton("Home");
@@ -63,9 +63,9 @@ public class HomeScreen {
 		topPanel.add(shipBtn);
 		topPanel.add(inventoryBtn);
 		topPanel.add(homeBtn);
-		topPanel.add(nextDayBtn);
+		topPanel.add(nextDayBtn);*/
 		
-		mainPanel.add(topPanel);
+		//mainPanel.add(topPanel);
 		mainPanel.add(contentPanel);
 
 		CardLayout cardLayout = new CardLayout();
@@ -73,21 +73,36 @@ public class HomeScreen {
 		
 		// HOME PANEL
 		JPanel homePanel = new JPanel();
+		JPanel homeSideBar = new JPanel();
+		homePanel.add(homeSideBar);
+		JPanel homeContent = new JPanel();
+		homePanel.add(homeContent);
+		JButton crewDetailBtn = new JButton("View Crew Status");
+		JButton shipBtn = new JButton("View Ship Status");
+		JButton inventoryBtn = new JButton("Inventory");
+		JButton nextDayBtn = new JButton("Next Day");
+		homeSideBar.add(crewDetailBtn);
+		homeSideBar.add(shipBtn);
+		homeSideBar.add(inventoryBtn);
+		homeSideBar.add(nextDayBtn);
 		JButton exploreBtn = new JButton("Explore");
 		JButton shopBtn = new JButton("Shop");
 		JButton rocketBtn = new JButton("Rocket");
-		homePanel.add(exploreBtn);
-		homePanel.add(shopBtn);
-		homePanel.add(rocketBtn);
+		homeContent.add(exploreBtn);
+		homeContent.add(shopBtn);
+		homeContent.add(rocketBtn);
 		contentPanel.add(homePanel, "HOME");
 		
 		// Crew Status Panel
 		JPanel crewStatusPanel = new JPanel();
 		ArrayList<CrewMember> members = game.getGameEnvironment().getCrew().getMembers();
 		for (CrewMember member: members) {
-			crewStatusPanel.add(new JLabel(member.getName()));
+			crewStatusPanel.add(new JLabel("Name: " + member.getName() + " Current Health: " + member.getCurrentHealth()));
 		}
 		contentPanel.add(crewStatusPanel, "CREW_STATUS");
+		
+		JButton homeBtn = new JButton("Home");
+		crewStatusPanel.add(homeBtn);
 		
 		// Ship Status PANEL
 		JPanel shipStatusPanel = new JPanel();
@@ -99,7 +114,7 @@ public class HomeScreen {
 		shipStatusPanel.add(spaceShipName);
 		shipStatusPanel.add(spaceShipHealth);
 		shipStatusPanel.add(peicesRequired);
-	
+		
 		contentPanel.add(shipStatusPanel, "SHIP_STATUS");
 		
 		// INVENTORY PANEL
@@ -117,41 +132,40 @@ public class HomeScreen {
 		// SHOW DEFAULT PANEL
 		cardLayout.show(contentPanel, "HOME");
 		
-		homeBtn.setEnabled(false);
+		//homeBtn.setEnabled(false);
 		
 		// Action listeners
 		homeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cardLayout.show(contentPanel, "HOME");
-				homeBtn.setEnabled(false);
 			}
 		});
 		
 		shopBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cardLayout.show(contentPanel, "SHOP");
-				homeBtn.setEnabled(true);
+				//homeBtn.setEnabled(true);
 			}
 		});
 		
 		crewDetailBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cardLayout.show(contentPanel, "CREW_STATUS");
-				homeBtn.setEnabled(true);
+				//homeBtn.setEnabled(true);
 			}
 		});
 		
 		shipBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cardLayout.show(contentPanel, "SHIP_STATUS");
-				homeBtn.setEnabled(true);
+				//homeBtn.setEnabled(true);
 			}
 		});
 
 		inventoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cardLayout.show(contentPanel, "INVENTORY");
-				homeBtn.setEnabled(true);
+				//homeBtn.setEnabled(true);
 			}
 		});
 		

@@ -9,13 +9,11 @@ public class SpaceOutPost {
 	
 	private ArrayList<MedicalSupply> currentMedicalSupplies;
 	
-	SpaceOutPost() {
-		// Inititate inventory
-		ArrayList<MedicalSupply> currentMedicalSupplies = new ArrayList<MedicalSupply>();
-	}
+	private int currentMoney;
 	
-	public void addMedicalSupply(MedicalSupply medicalSupply) {
-		currentMedicalSupplies.add(medicalSupply);
+	SpaceOutPost() {
+		currentMoney = 100;
+		initMedicalSupplies();
 	}
 	
 	public ArrayList<MedicalSupply> getMedicalSupplies() {
@@ -24,5 +22,25 @@ public class SpaceOutPost {
 			all.add(ALL_MEDICAL_SUPPLIES[i]);
 		}
 		return all;
+	}
+	
+	private void initMedicalSupplies() {
+		ArrayList<MedicalSupply> currentMedicalSupplies = new ArrayList<MedicalSupply>();
+		for (var i = 0; i < ALL_MEDICAL_SUPPLIES.length; i++) {
+			currentMedicalSupplies.add(ALL_MEDICAL_SUPPLIES[i]);
+		}
+	}
+	
+	public void purchaseMedicalSupply(String type) {
+		for (MedicalSupply m: currentMedicalSupplies) {
+			if (type.equals(m.getType())) {
+				m.incrementItemCount();
+				currentMoney -= m.getCost();
+			}
+		}
+	}
+	
+	public int getCurrentMoney() {
+		return currentMoney;
 	}
 }

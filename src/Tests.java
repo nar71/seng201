@@ -152,6 +152,26 @@ public class Tests {
 			for (MedicalSupply m : spaceOutPost.getMedicalSupplies()) {
 				System.out.println(m);
 			}
+			
+			// From here we must be able to buy items now..
+			Scanner buyScanner = new Scanner(System.in);
+			System.out.println("Would you like to buy something? (y,n)");
+			String buyScannerResp = buyScanner.next();
+			if (buyScannerResp.equals("y")) {
+				// Display all medical supplies to buy
+				Scanner itemToBuy = new Scanner(System.in);
+				System.out.println("Type the name of item to buy");
+				for (MedicalSupply m : spaceOutPost.getMedicalSupplies()) {
+					System.out.println(m);
+				}
+				String itemBought=itemToBuy.next();
+				spaceOutPost.purchaseMedicalSupply(itemBought);
+				
+				// Now display inventory again...
+				for (MedicalSupply m : spaceOutPost.getMedicalSupplies()) {
+					System.out.println(m);
+				}
+			}
 		}
 		
 		if (actionTaken == 4) {
