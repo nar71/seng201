@@ -33,7 +33,7 @@ public class Tests {
         
         // Inititalize Game
         GameEnvironment game = new GameEnvironment(teamName, numMembers, numDays, spaceShipName);
-        
+
         Crew crew = game.getCrew();
         CrewMember cm = new CrewMember("","","",0,"");
         
@@ -69,129 +69,223 @@ public class Tests {
 		System.out.println("You're spaceship is named: "+spaceShipName + " and you require: "+game.getSpaceShip().getPeicesRequired()+" peices in order to win the game");
 		System.out.println("Awesome, you can now begin the game");
 		
-		// Now we let the game begin....
-		ArrayList<String> actions = new ArrayList<String>();
-		actions.add("Status of Crew Members");
-		actions.add("Status of SpaceShip");
-		actions.add("View Inventory");
-		actions.add("Go to next day");
-		
-		// Randomize Planet objects ....
-		Planet startPlanet = game.getStartingPlanet();
-		System.out.println("You are on " + startPlanet.getName());
-		
-		System.out.println("You're actions for the day are:");
-		int i = 1;
-		for (String action: actions) {
-			System.out.println(i + ": " + action);
-			i++;
-		}
-		Scanner actionScanner = new Scanner(System.in);
-		System.out.println("What would you like to do? Press number corrosponding");
-		int actionTaken = actionScanner.nextInt();
-		
-		if (actionTaken == 1) {
-			ArrayList<CrewMember> memberss = crew.getMembers();
-			for (CrewMember member: memberss) {
-				System.out.println(member);
-			}
-			
-			// A crew member has a actions
-			System.out.println("Select a crew member to complete an action (by name)");
-			Scanner crewScanner = new Scanner(System.in);
-			ArrayList<CrewMember> members2 = crew.getMembers();
-			for (CrewMember member: members2) {
-				System.out.println(member.getName()+ " "+ member.getType());
-			}
-			String name = crewScanner.next();
-			CrewMember actionedMember = crew.getMemberByName(name);
-			
-			System.out.println("What would you like to do with this member? ");
-			Scanner crewActionScanner = new Scanner(System.in);
-			ArrayList<String> crewActions = new ArrayList<String>();
-			crewActions.add("1) Eat food or use medical supply");
-			crewActions.add("2) Sleep");
-			crewActions.add("3) Repair the shields of the ship");
-			crewActions.add("4) Search planet for spaceship parts");
-			crewActions.add("5) Pilot ship to new planet");	
-			
-			for (String ca: crewActions) {
-				System.out.println(ca);
-			}
-			
-			int selectedCrewAction = crewActionScanner.nextInt();
-			System.out.println(actionedMember);
-			System.out.println(selectedCrewAction);			
+		printDays(game, crew);
+	}
 
-			if (selectedCrewAction == 1) {
-				
-			}
-			if (selectedCrewAction == 2) {
-				if (actionedMember.canSleep()) {
-					actionedMember.sleep();
-					System.out.println(actionedMember.getName() + " is less tired (new tiredness level: "+actionedMember.getTiredness());
-				} else {
-					System.out.println("Member cannot sleep -> not tired at all");
-				}
-				actionedMember.removeAction();
-			}
-			if (selectedCrewAction == 3) {
-				game.getSpaceShip().decreaseShieldLevel();
-				System.out.println("Space Ship shield health is now: " + game.getSpaceShip().getShieldHealth());
-				actionedMember.removeAction();
-			}
-		}
-		
-		if (actionTaken == 2) {
-			System.out.println(game.getSpaceShip());
-		}
-		
-		if (actionTaken == 3) {
-			// View Inventory
-			SpaceOutPost spaceOutPost = game.getSpaceOutPost();
-			for (MedicalSupply m : spaceOutPost.getMedicalSupplies()) {
-				System.out.println(m);
-			}
-			
-			// From here we must be able to buy items now..
-			Scanner buyScanner = new Scanner(System.in);
-			System.out.println("Would you like to buy something? (y,n)");
-			String buyScannerResp = buyScanner.next();
-			if (buyScannerResp.equals("y")) {
-				// Display all medical supplies to buy
-				Scanner itemToBuy = new Scanner(System.in);
-				System.out.println("Type the name of item to buy");
-				for (MedicalSupply m : spaceOutPost.getMedicalSupplies()) {
-					System.out.println(m);
-				}
-				String itemBought=itemToBuy.next();
-				spaceOutPost.purchaseMedicalSupply(itemBought);
-				
-				// Now display inventory again...
-				for (MedicalSupply m : spaceOutPost.getMedicalSupplies()) {
-					System.out.println(m);
-				}
-			}
-		}
-		
-		if (actionTaken == 4) {
-			if (!game.isValidDayAmount()) {
-				// Check if you have won/lost....
-				System.out.println("You are finished....max days");
-			} else {
-				game.doToNextDay();
-				System.out.println("You are now at day: " + game.getCurrentDay());
-				// Random Event
-				int randomEvent = game.determineRandomEvent();
-				if (randomEvent == 1) {
-					System.out.println("Alien Pirates");
-				} else if (randomEvent == 2) {
-					System.out.println("Space Plague");
-				} else {
-					System.out.println("Asteroid BELT");
-				}
-			}
-		}
+    public static void printDays(GameEnvironment game, Crew crew) {
+        // Now we let the game begin....
+        ArrayList<String> actions = new ArrayList<String>();
+        actions.add("Status of Crew Members");
+        actions.add("Status of SpaceShip");
+        actions.add("View Inventory");
+        actions.add("Go to next day");
+        
+        // Randomize Planet objects ....
+        Planet startPlanet = game.getCurrentPlanet();
+        System.out.println("You are on " + startPlanet.getName());
+        System.out.println("You are on day: " + game.getCurrentDay());
+
+        System.out.println("You're actions for the day are:");
+        int i = 1;
+        for (String action: actions) {
+            System.out.println(i + ": " + action);
+            i++;
+        }
+        Scanner actionScanner = new Scanner(System.in);
+        System.out.println("What would you like to do? Press number corrosponding");
+        int actionTaken = actionScanner.nextInt();
+        
+        switch (actionTaken) {
+            case 1:
+                ArrayList<CrewMember> memberss = crew.getMembers();
+                for (CrewMember member: memberss) {
+                    System.out.println(member);
+                }
+                
+                // A crew member has a actions
+                System.out.println("Select a crew member to complete an action (by name)");
+                Scanner crewScanner = new Scanner(System.in);
+                ArrayList<CrewMember> members2 = crew.getMembers();
+                for (CrewMember member: members2) {
+                    System.out.println(member.getName()+ " "+ member.getType());
+                }
+                String name = crewScanner.next();
+                CrewMember actionedMember = crew.getMemberByName(name);
+                
+                System.out.println("What would you like to do with this member? ");
+                Scanner crewActionScanner = new Scanner(System.in);
+                ArrayList<String> crewActions = new ArrayList<String>();
+                crewActions.add("1) Eat food or use medical supply");
+                crewActions.add("2) Sleep");
+                crewActions.add("3) Repair the shields of the ship");
+                crewActions.add("4) Search planet for spaceship parts");
+                crewActions.add("5) Pilot ship to new planet"); 
+                
+                for (String ca: crewActions) {
+                    System.out.println(ca);
+                }
+                
+                int selectedCrewAction = crewActionScanner.nextInt();
+                System.out.println(actionedMember);
+                System.out.println(selectedCrewAction);
+
+                if (selectedCrewAction == 1) {
+                    // Display Inventory first....
+                    SpaceOutPost spaceOutPost = game.getSpaceOutPost();
+                    if (spaceOutPost.isInventoryEmpty()) {
+                        System.out.println("You're inventory is empty...go buy something first ....");
+                    } else {
+                        System.out.println("Food or med? (1,2)?");
+                        Scanner medOrFood = new Scanner(System.in);
+                        String medOrFoodResp = medOrFood.next();
+                        if (medOrFoodResp.equals("1")) {
+                            // Food
+                            System.out.println("What food would you like? ");
+                            spaceOutPost.displayFoods();
+                            Scanner foodS = new Scanner(System.in);
+                            String foodType = foodS.next();
+                            // Check if we have a food of that type.
+                            if (spaceOutPost.foodExists(foodType)) {
+                                Food food = spaceOutPost.getFoodByType(foodType);
+                                if (food.getType() == "") {
+                                    System.out.println("Invalid food");
+                                } else {
+                                    actionedMember.applyFood(food);
+                                    System.out.println(actionedMember);
+                                }
+                            }
+                        } else {
+                            System.out.println("What meds would you like? ");
+                            spaceOutPost.displayMedicalSupplies();
+                            Scanner medS = new Scanner(System.in);
+                            String medType = medS.next();
+                            // Check if we have a food of that type.
+                            if (spaceOutPost.medicalSupplyExists(medType)) {
+                                MedicalSupply ms = spaceOutPost.getMedicalSupplyByType(medType);
+                                if (ms.getType() == "") {
+                                    System.out.println("Invalid Medical Supply"); 
+                                } else {
+                                    actionedMember.applyMedicalSupply(ms);
+                                    System.out.println(actionedMember);
+                                }
+                            }
+                        }
+                    }
+                }
+          
+                if (selectedCrewAction == 2) {
+                    if (actionedMember.canSleep()) {
+                        actionedMember.sleep();
+                        System.out.println(actionedMember.getName() + " is less tired (new tiredness level: "+actionedMember.getTiredness());
+                    } else {
+                        System.out.println("Member cannot sleep -> not tired at all");
+                    }
+                    actionedMember.removeAction();
+                }
+          
+                if (selectedCrewAction == 3) {
+                    game.getSpaceShip().decreaseShieldLevel();
+                    System.out.println("Space Ship shield health is now: " + game.getSpaceShip().getShieldHealth());
+                    actionedMember.removeAction();
+                }
+
+                if (selectedCrewAction == 5) {
+                	Planet planet = game.getPlanet();
+                	Planet[] allPlanets = planet.getAll();
+                	Scanner choosePlayer = new Scanner(System.in);
+                	System.out.println("Choose another player that you would like to piolet the ship with?");
+	                ArrayList<CrewMember> members3 = crew.getMembers();
+	                for (CrewMember member: members3) {
+	                	if (!actionedMember.getName().equals(member.getName())) {
+	                    	System.out.println(member.getName()+ " "+ member.getType());
+	                	}
+	                }
+	                String choosenPlayer = choosePlayer.next();
+	                CrewMember chosenMember = crew.getMemberByName(choosenPlayer);
+	                Scanner choosePlanet = new Scanner(System.in);
+                	for (int d = 0; d < allPlanets.length; d++) {
+                		if (!allPlanets[d].getName().equals(game.getCurrentPlanet().getName())) {
+                			System.out.println(allPlanets[d]);
+                		}
+                	}
+                	String chosenPlanet = choosePlanet.next();
+                	Planet newPlanet = planet.getByName(chosenPlanet);
+
+                	// Check if it can be actioned....
+
+                	System.out.println("You have chosen planet: " + chosenPlanet);
+                	game.changeCurrentPlanet(newPlanet);
+
+                	actionedMember.removeAction();
+                	chosenMember.removeAction();
+                }
+
+                printDays(game, crew);
+            break;
+            
+            case 2:
+                System.out.println(game.getSpaceShip());
+                printDays(game, crew);
+            break;
+            
+            case 3:
+                // View Inventory
+                SpaceOutPost spaceOutPost = game.getSpaceOutPost();
+                System.out.println("You have $" + spaceOutPost.getCurrentMoney());
+                spaceOutPost.displayInventory();
+                
+                Scanner foodsOrMeds = new Scanner(System.in);
+                System.out.println("Do you want to buy foods or meds? (1,2) or n");
+                String foodsOrMedsResp = foodsOrMeds.next();
+                if (!foodsOrMeds.equals("n")) {
+                    // Display all medical supplies to buy
+                    if (foodsOrMedsResp.equals("1")) {
+                         // Buy foods.
+                        Scanner itemToBuy = new Scanner(System.in);
+                        System.out.println("Type the name of item to buy");
+                        spaceOutPost.displayFoods();
+                        String itemToBuyResp = itemToBuy.next();
+                        if (!itemToBuyResp.isEmpty()) {
+                            spaceOutPost.purchaseFood(itemToBuyResp);
+                        }
+                        System.out.println("You now have $" + spaceOutPost.getCurrentMoney());
+                        spaceOutPost.displayInventory();
+                    } else {
+                        Scanner itemToBuy = new Scanner(System.in);
+                        System.out.println("Type the name of item to buy");
+                        spaceOutPost.displayMedicalSupplies();
+                        String itemBought = itemToBuy.next();
+                        if (!itemBought.isEmpty()) {
+                            spaceOutPost.purchaseMedicalSupply(itemBought);
+                        }
+                        // Now display inventory again...
+                        System.out.println("You now have $" + spaceOutPost.getCurrentMoney());
+                        spaceOutPost.displayInventory();
+                    }
+                }
+                printDays(game, crew);
+            break;
+            
+            case 4:
+                if (!game.isValidCurrentDay()) {
+                    // Check if you have won/lost....
+                    System.out.println("You are finished....max days");
+                } else {
+                    game.doToNextDay();
+                    System.out.println("You are now at day: " + game.getCurrentDay());
+                    // Random Event
+                    int randomEvent = game.determineRandomEvent();
+                    if (randomEvent == 1) {
+                        System.out.println("Alien Pirates");
+                    } else if (randomEvent == 2) {
+                        System.out.println("Space Plague");
+                    } else {
+                        System.out.println("Asteroid BELT");
+                    }
+                }
+                printDays(game, crew);
+            break;
+        }
     }
 }
 

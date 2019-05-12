@@ -8,10 +8,12 @@ public class GameEnvironment {
 	private SpaceOutPost spaceOutPost;
 	private LocalTime time;
 	
-	private Planet startPlanet;
+	private Planet currentPlanet;
+    private Planet planet;
 	
 	private int maxGold = 100;
 	private int currentDay;
+    private int maxDays;
 	
     GameEnvironment(String teamName, int numMembers, int numDays, String shipName) {
     	this.crew = new Crew(teamName, numMembers);
@@ -19,15 +21,24 @@ public class GameEnvironment {
     	this.numDays = numDays;
     	this.spaceOutPost = new SpaceOutPost();
     	this.time = LocalTime.now();
-    	this.currentDay = numDays;
+    	this.currentDay = 1;
+        this.maxDays = numDays;
     	findStartingPlanet();
+        this.planet = new Planet();
     }
     
     public boolean isValidDayAmount() {
-    	if (currentDay >= 3 && currentDay <= 10) {
+    	if (maxDays >= 3 && maxDays <= 10) {
     		return true;
     	}
     	return false;
+    }
+
+    public boolean isValidCurrentDay() {
+        if (currentDay <= maxDays) {
+            return true;
+        }
+        return false;
     }
     
     private void findStartingPlanet() {
@@ -35,14 +46,18 @@ public class GameEnvironment {
     	Random rand = new Random();
     	double randNum = rand.nextDouble();
     	if (randNum < 0.25) {
-    		startPlanet = new Earth();
+    		currentPlanet = new Earth();
     	} else if (randNum >= 0.25 && randNum < 0.50) {
-    		startPlanet = new Mars();
+    		currentPlanet = new Mars();
     	} else if (randNum >= 0.50 && randNum < 0.75) {
-    		startPlanet = new Mercury();
+    		currentPlanet = new Mercury();
     	} else {
-    		startPlanet = new Venus();
+    		currentPlanet = new Venus();
     	}
+    }
+
+    public void changeCurrentPlanet(Planet planet) {
+        this.currentPlanet = planet;
     }
     
     public int determineRandomEvent() {
@@ -80,17 +95,19 @@ public class GameEnvironment {
 	}
     
     public void doToNextDay() {
-    	if (currentDay > 10) {
-    		// Error
-    	} else {
-    		currentDay++;
-    	}
+        if (currentDay < maxDays) {
+            currentDay++;
+        }
     }
     
-    public Planet getStartingPlanet() {
-    	return startPlanet;
+    public Planet getCurrentPlanet() {
+    	return currentPlanet;
     }
     
+    public Planet getPlanet() {
+        return planet;
+    }
+
     public int getCurrentDay() {
     	return currentDay;
     }

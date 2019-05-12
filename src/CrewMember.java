@@ -18,6 +18,7 @@ public class CrewMember {
     private boolean isSick;
     private int actions;
     private int tiredness;
+    private int hungerLevel;
 
     CrewMember(String name, String type, String description, int health, String specialty) {
         this.name = name;
@@ -28,6 +29,7 @@ public class CrewMember {
         this.currentHealth = health;
         this.actions = 2;
         this.tiredness = 100;
+        this.hungerLevel = 100;
     }
 
     public String[] getAllTypes() {
@@ -55,11 +57,21 @@ public class CrewMember {
     	}
     }
 
+    public void applyFood(Food food) {
+        hungerLevel -= food.getHungerLevel();
+    }
+
+    public void applyMedicalSupply(MedicalSupply medicalSupply) {
+        currentHealth += medicalSupply.getHealth();
+    }
+
     public String toString() {
     	String data = this.getName() + "\n";
     	data += "Type: " + this.getType() + "\n";
     	data += "Current Health: " + this.getCurrentHealth() + "\n";
     	data += "Max Health: " + this.getMaxHealth() + "\n";
+        data += "Hunger Level: " + this.getHungerLevel() + "\n";
+        data += "Tiredness: " + this.getHungerLevel() + "\n";
     	return data;
     }
     
@@ -107,5 +119,9 @@ public class CrewMember {
 
     public String getSpecialty() {
         return specialty;
+    }
+
+    public int getHungerLevel() {
+        return hungerLevel;
     }
 }

@@ -53,6 +53,7 @@ public class MedicalSupply {
 		this.description = description;
 		this.cost = cost;
 		this.health = health;
+        this.countOfItems = 0;
 	}
 	
 	public void incrementItemCount() {
