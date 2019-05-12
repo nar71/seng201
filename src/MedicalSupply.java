@@ -5,7 +5,7 @@ class Plaster extends MedicalSupply {
 
     public static final int HEALTH = 10;
     
-    public static final int COST = 20;
+    public static final int COST = 10;
 
     Plaster() {
         super(TYPE, DESCRIPTION, HEALTH, COST);
@@ -19,7 +19,7 @@ class Bandage extends MedicalSupply {
 
     public static final int HEALTH = 30;
     
-    public static final int COST = 20;
+    public static final int COST = 15;
 
     Bandage() {
         super(TYPE, DESCRIPTION, HEALTH, COST);
@@ -33,7 +33,7 @@ class FirstAidKit extends MedicalSupply {
 
     public static final int HEALTH = 30;
     
-    public static final int COST = 20;
+    public static final int COST = 50;
 
     FirstAidKit() {
         super(TYPE, DESCRIPTION, HEALTH, COST);

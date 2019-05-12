@@ -174,16 +174,18 @@ public class Tests {
                 }
           
                 if (selectedCrewAction == 2) {
+                    // apparently can sleep at any level so this has changed
                     if (actionedMember.canSleep()) {
                         actionedMember.sleep();
                         System.out.println(actionedMember.getName() + " is less tired (new tiredness level: "+actionedMember.getTiredness());
                     } else {
-                        System.out.println("Member cannot sleep -> not tired at all");
+                        System.out.println(actionedMember.getName() + " is less tired (new tiredness level: 100");
                     }
                     actionedMember.removeAction();
                 }
           
                 if (selectedCrewAction == 3) {
+                    // This needs to depend on some parameters
                     game.getSpaceShip().decreaseShieldLevel();
                     System.out.println("Space Ship shield health is now: " + game.getSpaceShip().getShieldHealth());
                     actionedMember.removeAction();
@@ -237,7 +239,7 @@ public class Tests {
                 Scanner foodsOrMeds = new Scanner(System.in);
                 System.out.println("Do you want to buy foods or meds? (1,2) or n");
                 String foodsOrMedsResp = foodsOrMeds.next();
-                if (!foodsOrMeds.equals("n")) {
+                if (!foodsOrMedsResp.equals("n")) {
                     // Display all medical supplies to buy
                     if (foodsOrMedsResp.equals("1")) {
                          // Buy foods.
@@ -246,16 +248,13 @@ public class Tests {
                         spaceOutPost.displayFoods();
                         String itemToBuyResp = itemToBuy.next();
                         if (!itemToBuyResp.isEmpty()) {
-                        	if (spaceOutPost.foodExists(itemToBuyResp)) {
-	                        	Food foodToBuy = spaceOutPost.getFoodByType(itemToBuyResp);
-	                        	if (spaceOutPost.canAffordItem(foodToBuy.getCost())) {
-	                        		spaceOutPost.purchaseFood(foodToBuy);
-	                        	} else {
-	                        		// GET MORE MONEY
-	                        	}
+                        	Food foodToBuy = spaceOutPost.getFoodByType(itemToBuyResp);
+                        	if (spaceOutPost.canAffordItem(foodToBuy.getCost())) {
+                        		spaceOutPost.purchaseFood(foodToBuy);
                         	} else {
-                        		// INVALID
-                        	}
+                        		// GET MORE MONEY
+                        	   
+                            }
                         }
                         System.out.println("You now have $" + spaceOutPost.getCurrentMoney());
                         spaceOutPost.displayInventory();
@@ -265,16 +264,12 @@ public class Tests {
                         spaceOutPost.displayMedicalSupplies();
                         String itemBought = itemToBuy.next();
                         if (!itemBought.isEmpty()) {
-                        	if (spaceOutPost.medicalSupplyExists(itemBought)) {
-                        		MedicalSupply ms = spaceOutPost.getMedicalSupplyByType(itemBought);
-                        		if (spaceOutPost.canAffordItem(ms.getCost())) {
-                        			spaceOutPost.purchaseMedicalSupply(ms);
-                        		} else {
+                    		MedicalSupply ms = spaceOutPost.getMedicalSupplyByType(itemBought);
+                    		if (spaceOutPost.canAffordItem(ms.getCost())) {
+                    			spaceOutPost.purchaseMedicalSupply(ms);
+                    		} else {
 
-                        		}
-                        	} else {
-
-                        	}
+                    		}
                         }
                         // Now display inventory again...
                         System.out.println("You now have $" + spaceOutPost.getCurrentMoney());

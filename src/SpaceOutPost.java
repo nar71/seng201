@@ -104,15 +104,15 @@ public class SpaceOutPost {
 
 	public void displayFoods() {
 		System.out.println("Foods:");
-		for (Food m : getFoods()) {
-			System.out.println(m);
+		for (Food f : getFoods()) {
+			System.out.println(f + " $" + f.getCost());
 		}
 	}
 
 	public void displayMedicalSupplies() {
 		System.out.println("Medical Supplies:");
 		for (MedicalSupply m : getMedicalSupplies()) {
-			System.out.println(m);
+			System.out.println(m + " $" + m.getCost());
 		}
 	}
 

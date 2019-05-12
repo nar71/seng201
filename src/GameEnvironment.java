@@ -85,9 +85,11 @@ public class GameEnvironment {
     	if (type == "Pirate") {
     		// Randomly remove an item from inventory
     		// First check if any items in inventory
-    		
+    		if (!spaceOutPost.isInventoryEmpty()) {
+                
+            }
     	} else if (type == "Plague") {
-
+            
     	} else if (type == "Asteroid") {
     		// Decrease damage to the ship..
     		spaceShip.decreaseShieldLevel();

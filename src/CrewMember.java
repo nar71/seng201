@@ -32,6 +32,8 @@ public class CrewMember {
         this.hungerLevel = 100;
     }
 
+    CrewMember() {}
+
     public String[] getAllTypes() {
         String[] all = new String[ALL_TYPES.length];
         for (int i = 0; i < ALL_TYPES.length; i++) {

@@ -1,6 +1,6 @@
 class Steak extends Food {
-    public static final String TYPE = "Plaster";
-    public static final int COST = 20;
+    public static final String TYPE = "Steak";
+    public static final int COST = 40;
     public static final int HUNGER_LEVEL = 100;
 
     Steak() {
@@ -20,7 +20,7 @@ class Salad extends Food {
 
 class Apple extends Food {
     public static final String TYPE = "Apple";
-    public static final int COST = 20;
+    public static final int COST = 10;
     public static final int HUNGER_LEVEL = 5;
 
     Apple() {
@@ -30,7 +30,7 @@ class Apple extends Food {
 
 class Noodles extends Food {
     public static final String TYPE = "Noodles";
-    public static final int COST = 20;
+    public static final int COST = 5;
     public static final int HUNGER_LEVEL = 20;
 
     Noodles() {
@@ -50,7 +50,7 @@ class Soup extends Food {
 
 class Pasta extends Food {
     public static final String TYPE = "Pasta";
-    public static final int COST = 20;
+    public static final int COST = 40;
     public static final int HUNGER_LEVEL = 80;
 
     Pasta() {
