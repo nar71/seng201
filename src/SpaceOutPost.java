@@ -43,22 +43,21 @@ public class SpaceOutPost {
 		return isEmpty;
 	}
 
-	public void purchaseMedicalSupply(String type) {
-		for (MedicalSupply m: currentMedicalSupplies) {
-			if (type.equals(m.getType())) {
-				m.incrementItemCount();
-				currentMoney -= m.getCost();
-			}
+	public boolean canAffordItem(int cost) {
+		if (currentMoney >= cost) {
+			return true;
 		}
+		return false;
 	}
 
-	public void purchaseFood(String type) {
-		for (Food f: currentFoods) {
-			if (type.equals(f.getType())) {
-				f.incrementItemCount();
-				currentMoney -= f.getCost();
-			}
-		}
+	public void purchaseFood(Food food) {
+		food.incrementItemCount();
+		currentMoney -= food.getCost();
+	}
+
+	public void purchaseMedicalSupply(MedicalSupply medicalSupply) {
+		medicalSupply.incrementItemCount();
+		currentMoney -= medicalSupply.getCost();
 	}
 
 	public boolean medicalSupplyExists(String type) {
@@ -91,7 +90,7 @@ public class SpaceOutPost {
 				return f;
 			}
 		}
-		return new Food("", 0);
+		return new Food();
 	}
 
 	public MedicalSupply getMedicalSupplyByType(String type) {
@@ -100,7 +99,7 @@ public class SpaceOutPost {
 				return m;
 			}
 		}
-		return new MedicalSupply("", "", 0, 0);
+		return new MedicalSupply();
 	}
 
 	public void displayFoods() {

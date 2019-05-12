@@ -22,7 +22,7 @@ class Apple extends Food {
     public static final String TYPE = "Apple";
     public static final int COST = 20;
     public static final int HUNGER_LEVEL = 5;
-    
+
     Apple() {
         super(TYPE, COST, HUNGER_LEVEL);
     }
@@ -72,6 +72,8 @@ public class Food {
         this.count = 0;
         this.hungerLevel = hunger;
 	}
+
+    Food() {}
 
 	public String toString() {
 		String ret = this.type + " (" + count + ")\n";

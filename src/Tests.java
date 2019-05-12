@@ -246,7 +246,16 @@ public class Tests {
                         spaceOutPost.displayFoods();
                         String itemToBuyResp = itemToBuy.next();
                         if (!itemToBuyResp.isEmpty()) {
-                            spaceOutPost.purchaseFood(itemToBuyResp);
+                        	if (spaceOutPost.foodExists(itemToBuyResp)) {
+	                        	Food foodToBuy = spaceOutPost.getFoodByType(itemToBuyResp);
+	                        	if (spaceOutPost.canAffordItem(foodToBuy.getCost())) {
+	                        		spaceOutPost.purchaseFood(foodToBuy);
+	                        	} else {
+	                        		// GET MORE MONEY
+	                        	}
+                        	} else {
+                        		// INVALID
+                        	}
                         }
                         System.out.println("You now have $" + spaceOutPost.getCurrentMoney());
                         spaceOutPost.displayInventory();
@@ -256,7 +265,16 @@ public class Tests {
                         spaceOutPost.displayMedicalSupplies();
                         String itemBought = itemToBuy.next();
                         if (!itemBought.isEmpty()) {
-                            spaceOutPost.purchaseMedicalSupply(itemBought);
+                        	if (spaceOutPost.medicalSupplyExists(itemBought)) {
+                        		MedicalSupply ms = spaceOutPost.getMedicalSupplyByType(itemBought);
+                        		if (spaceOutPost.canAffordItem(ms.getCost())) {
+                        			spaceOutPost.purchaseMedicalSupply(ms);
+                        		} else {
+
+                        		}
+                        	} else {
+
+                        	}
                         }
                         // Now display inventory again...
                         System.out.println("You now have $" + spaceOutPost.getCurrentMoney());

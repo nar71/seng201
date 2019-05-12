@@ -55,6 +55,8 @@ public class MedicalSupply {
 		this.health = health;
         this.countOfItems = 0;
 	}
+
+    MedicalSupply() {}
 	
 	public void incrementItemCount() {
 		countOfItems += 1;
