@@ -96,6 +96,12 @@ public class CommandLine {
         System.out.println("You are on " + startPlanet.getName());
         System.out.println("You are on day: " + game.getCurrentDay());
 
+        // First we check if all parts are found if so we wonn...
+        if (game.getSpaceShip().allPartsFound()) {
+            System.out.println("You have won the game -> all parts found..");
+            System.exit(0);
+        }
+
         // Now we let the game begin....
         ArrayList<String> actions = new ArrayList<String>();
         actions.add("Status of Crew Members");
@@ -224,13 +230,19 @@ public class CommandLine {
                 //crewAction();
             break;
       
-
             case 3:
                 // This needs to depend on some parameters
                 game.getSpaceShip().decreaseShieldLevel();
                 System.out.println("Space Ship shield health is now: " + game.getSpaceShip().getShieldHealth());
                 actionedMember.removeAction();
                 //crewAction();
+            break;
+
+            case 4:
+                // Search planet for ship parts...
+                // Do we have a random event function on the planet class....and on each sub class have diferent probability variables...
+                // Do we....
+
             break;
 
             case 5:

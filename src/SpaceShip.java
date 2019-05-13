@@ -5,10 +5,12 @@ public class SpaceShip {
 	private int peicesRequired;
 	private int shieldHealth;
 	private int numDays;
+	private int peicesFound;
 	
 	SpaceShip(String name, int numDays) {
 		this.name = name;
 		this.shieldHealth = 0;
+		this.peicesFound = 0;
 		this.numDays = numDays;
 		calculatePeicesRequired();
 	}
@@ -19,6 +21,13 @@ public class SpaceShip {
 		this.peicesRequired = peicesRequired;
 	}
 	
+	public boolean allPartsFound() {
+		if (peicesFound == peicesRequired) {
+			return true;
+		}
+		return false;
+	}
+
 	public String toString() {
 		String data = "Name: " + this.getName() + "\n";
 		data += "Shield Health: " + this.getShieldHealth() + "\n";

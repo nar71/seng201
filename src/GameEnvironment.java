@@ -86,17 +86,15 @@ public class GameEnvironment {
 
     private void alienPirates() {
         if (!spaceOutPost.isInventoryEmpty()) {
-            ArrayList<MedicalSupply> allMedicalSupplies = spaceOutPost.getMedicalSupplies();
             ArrayList<MedicalSupply> medicalSuppliesOwned = new ArrayList<MedicalSupply>();
-            for (MedicalSupply m: allMedicalSupplies) {
+            for (MedicalSupply m: spaceOutPost.getMedicalSupplies()) {
                 if (m.exists()) {
                     medicalSuppliesOwned.add(m);
                 }
             }
 
-            ArrayList<Food> allFoods = spaceOutPost.getFoods();
             ArrayList<Food> allFoodsOwned = new ArrayList<Food>();
-            for (Food f: allFoods) {
+            for (Food f: spaceOutPost.getFoods()) {
                 if (f.exists()) {
                     allFoodsOwned.add(f);
                 }
@@ -124,20 +122,22 @@ public class GameEnvironment {
 
         ArrayList<CrewMember> allNonInfectedMembers = crew.getAllNonSickMembers();
 
-        // Determine how many members to make sick
-        int randInt = Math.round((allNonInfectedMembers.size() / 2));
-        int count = random.nextInt(randInt);
-        if (count == 0) {
-            count = 1;
-        }
+        if (allNonInfectedMembers.size() > 0) {
+            // Determine how many members to make sick -> need an algo here..
+            int randInt = Math.round((allNonInfectedMembers.size()));
+            int count = random.nextInt(randInt);
+            if (count == 0) {
+                count = 1;
+            }
 
-        for (int i = 0; i < count; i++) {
-            ArrayList<CrewMember> allNonInfectedMembersNew = crew.getAllNonSickMembers();
-            int itemIndex = random.nextInt(allNonInfectedMembersNew.size());
-            CrewMember infectedMember = allNonInfectedMembersNew.get(itemIndex);
+            for (int i = 0; i < count; i++) {
+                ArrayList<CrewMember> allNonInfectedMembersNew = crew.getAllNonSickMembers();
+                int itemIndex = random.nextInt(allNonInfectedMembersNew.size());
+                CrewMember infectedMember = allNonInfectedMembersNew.get(itemIndex);
 
-            crew.makeMemberSick(infectedMember);
-            System.out.println(infectedMember);
+                crew.makeMemberSick(infectedMember);
+                System.out.println(infectedMember);
+            }
         }
     }
 
