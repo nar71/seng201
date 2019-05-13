@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import java.lang.Math;
 
 public class GameEnvironment {
-	private Crew crew;
-	private int numDays;
-	private SpaceShip spaceShip;
-	private SpaceOutPost spaceOutPost;
-	private LocalTime time;
-	
-	private Planet currentPlanet;
+    private Crew crew;
+    private int numDays;
+    private SpaceShip spaceShip;
+    private SpaceOutPost spaceOutPost;
+    private LocalTime time;
+
+    private Planet currentPlanet;
     private Planet planet;
-	
-	private int maxGold = 100;
-	private int currentDay;
+
+    private int maxGold = 100;
+    private int currentDay;
     private int maxDays;
 	
     GameEnvironment(String teamName, int numMembers, int numDays, String shipName) {
