@@ -30,6 +30,7 @@ public class CrewMember {
         this.actions = 2;
         this.tiredness = 100;
         this.hungerLevel = 100;
+        this.isSick = false;
     }
 
     CrewMember() {}
@@ -68,17 +69,27 @@ public class CrewMember {
     }
 
     public String toString() {
+        String isSickStr = "no";
+        if (isSick()) {
+            isSickStr = "yes";
+        }
+
     	String data = this.getName() + "\n";
     	data += "Type: " + this.getType() + "\n";
     	data += "Current Health: " + this.getCurrentHealth() + "\n";
     	data += "Max Health: " + this.getMaxHealth() + "\n";
         data += "Hunger Level: " + this.getHungerLevel() + "\n";
         data += "Tiredness: " + this.getHungerLevel() + "\n";
+        data += "Sick: " + isSickStr + "\n";
     	return data;
     }
     
     public void makeSick() {
     	isSick = true;
+    }
+
+    public boolean isSick() {
+        return isSick;
     }
     
     public void removeAction() {

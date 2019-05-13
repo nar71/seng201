@@ -89,8 +89,12 @@ public class Food {
 	}
 	
 	public void incrementItemCount() {
-		count++;
+		count += 1;
 	}
+
+    public void decrementItemCount() {
+        count -= 1;
+    }
 	
 	public int getCount() {
 		return count;
@@ -98,5 +102,12 @@ public class Food {
 
     public int getHungerLevel() {
         return hungerLevel;
+    }
+
+    public boolean exists() {
+        if (count > 0) {
+            return true;
+        }
+        return false;
     }
 }

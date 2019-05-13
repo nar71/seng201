@@ -55,9 +55,17 @@ public class SpaceOutPost {
 		currentMoney -= food.getCost();
 	}
 
+	public void removeFood(Food food) {
+		food.decrementItemCount();
+	}
+
 	public void purchaseMedicalSupply(MedicalSupply medicalSupply) {
 		medicalSupply.incrementItemCount();
 		currentMoney -= medicalSupply.getCost();
+	}
+
+	public void removeMedicalSupply(MedicalSupply medicalSupply) {
+		medicalSupply.decrementItemCount();
 	}
 
 	public boolean medicalSupplyExists(String type) {

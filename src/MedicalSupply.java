@@ -61,6 +61,10 @@ public class MedicalSupply {
 	public void incrementItemCount() {
 		countOfItems += 1;
 	}
+
+    public void decrementItemCount() {
+        countOfItems -= 1;
+    }
 	
 	public String toString() {
 		String ret = this.type + " (" + countOfItems + ")\n";
@@ -86,4 +90,11 @@ public class MedicalSupply {
 	public int getCost() {
 		return cost;
 	}
+
+    public boolean exists() {
+        if (countOfItems > 0) {
+            return true;
+        }
+        return false;
+    }
 }

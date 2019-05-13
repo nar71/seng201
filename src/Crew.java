@@ -33,6 +33,20 @@ public class Crew {
         }
     }
 
+    public void makeMemberSick(CrewMember member) {
+        member.makeSick();
+    }
+
+    public ArrayList<CrewMember> getAllNonSickMembers() {
+        ArrayList<CrewMember> allNonInfectedMembers = new ArrayList<CrewMember>();
+        for (CrewMember member: getMembers()) {
+            if (!member.isSick()) {
+                allNonInfectedMembers.add(member);
+            }
+        }
+        return allNonInfectedMembers;
+    }
+
     public boolean isValidNumMembers() {
         if (numMembers >= 2 && numMembers <= 4) {
             return true;

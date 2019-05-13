@@ -23,10 +23,20 @@ public class CommandLine {
         System.out.println("What would you like to name you're spaceship?");
         String spaceShipName = scanner.next();
         
-        System.out.println("How many days would you like to play for?");
-        // 3-10
-        int numDays = scanner.nextInt();
-        
+        int numDays = 0;
+        boolean isValidNumDays = false;
+        while (!isValidNumDays) {
+            System.out.println("How many days would you like to play for?");
+            // 3-10
+            int numDaysIn = scanner.nextInt();
+            if (numDaysIn >= 3 && numDaysIn <= 10) {
+                isValidNumDays = true;
+                numDays = numDaysIn;
+            } else {
+                System.out.println("Invalid number of days must be between 3 and 10 inclusive");
+            }
+        }
+
         int numMembers = 0;
         boolean isValidNumMembers = false;
         while (!isValidNumMembers) {
@@ -78,14 +88,14 @@ public class CommandLine {
         
         System.out.println("You're spaceship is named: "+spaceShipName + " and you require: "+game.getSpaceShip().getPeicesRequired()+" peices in order to win the game");
         System.out.println("Awesome, you can now begin the game");
-    
+    }
+
+    public void printDays() {
         // Randomize Planet objects ....
         Planet startPlanet = game.getCurrentPlanet();
         System.out.println("You are on " + startPlanet.getName());
         System.out.println("You are on day: " + game.getCurrentDay());
-    }
 
-    public void printDays() {
         // Now we let the game begin....
         ArrayList<String> actions = new ArrayList<String>();
         actions.add("Status of Crew Members");
@@ -317,6 +327,8 @@ public class CommandLine {
         if (!game.isValidCurrentDay()) {
             // Check if you have won/lost....
             System.out.println("You are finished....max days");
+            // exit...
+            System.exit(0);
         } else {
             game.doToNextDay();
             System.out.println("You are now at day: " + game.getCurrentDay());
@@ -324,19 +336,12 @@ public class CommandLine {
             int randomEvent = game.determineRandomEvent();
             if (randomEvent == 1) {
                 System.out.println("Alien Pirates");
+                game.getSpaceOutPost().displayInventory();
             } else if (randomEvent == 2) {
                 System.out.println("Space Plague");
             } else {
-                System.out.println("Asteroid BELT");
+                System.out.println("Asteroid Belt");
             }
         }
-    }
-
-    public String getScanString() {
-        return scanner.next();
-    }
-
-    public int getScanInt() {
-        return scanner.nextInt();
     }
 }

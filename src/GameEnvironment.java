@@ -1,5 +1,8 @@
 import java.util.Random;
 import java.time.LocalTime;
+import java.util.Collections;
+import java.util.ArrayList;
+import java.lang.Math;
 
 public class GameEnvironment {
 	private Crew crew;
@@ -27,8 +30,8 @@ public class GameEnvironment {
         this.planet = new Planet();
     }
     
-    public boolean isValidDayAmount() {
-    	if (maxDays >= 3 && maxDays <= 10) {
+    public boolean isValidNumDays(int day) {
+    	if (day >= 3 && day <= 10) {
     		return true;
     	}
     	return false;
@@ -62,44 +65,89 @@ public class GameEnvironment {
     
     public int determineRandomEvent() {
     	Random random = new Random();
-    	double randomNumber = random.nextDouble();
-    	int retVal;
+    	//double randomNumber = random.nextDouble();
+    	double randomNumber = 0.50;
+        int retVal;
     	if (randomNumber < 0.33) {
     		// Alien Pirate
     		retVal = 1;
-    		doRandomEvent("Pirate");
+            alienPirates();
     	} else if (randomNumber >= 0.33 && randomNumber < 0.66) {
     		// Space Plague
     		retVal = 2;
-    		doRandomEvent("Plague");
+    		spacePlague();
     	} else {
     		// Asteroid BELT
     		retVal = 3;
-    		doRandomEvent("Asteroid");
+    		asteroidBelt();
     	}
     	return retVal;
     }
-    
-    public void doRandomEvent(String type) {
-    	Random random = new Random();
-    	if (type == "Pirate") {
-    		// Randomly remove an item from inventory
-    		// First check if any items in inventory
-    		if (!spaceOutPost.isInventoryEmpty()) {
-                
+
+    private void alienPirates() {
+        if (!spaceOutPost.isInventoryEmpty()) {
+            ArrayList<MedicalSupply> allMedicalSupplies = spaceOutPost.getMedicalSupplies();
+            ArrayList<MedicalSupply> medicalSuppliesOwned = new ArrayList<MedicalSupply>();
+            for (MedicalSupply m: allMedicalSupplies) {
+                if (m.exists()) {
+                    medicalSuppliesOwned.add(m);
+                }
             }
-    	} else if (type == "Plague") {
-            
-    	} else if (type == "Asteroid") {
-    		// Decrease damage to the ship..
-    		spaceShip.decreaseShieldLevel();
-    	}
-	}
+
+            ArrayList<Food> allFoods = spaceOutPost.getFoods();
+            ArrayList<Food> allFoodsOwned = new ArrayList<Food>();
+            for (Food f: allFoods) {
+                if (f.exists()) {
+                    allFoodsOwned.add(f);
+                }
+            }
+
+            Random random = new Random();
+            int medOrFood = random.nextInt(2);
+            if (medOrFood == 1) {
+                // Medical Supply.
+                int itemIndex = random.nextInt(medicalSuppliesOwned.size());
+                MedicalSupply medToRemove = medicalSuppliesOwned.get(itemIndex);
+                spaceOutPost.removeMedicalSupply(medToRemove);
+            } else {
+                // OR 0 -> We have a food
+                int itemIndex = random.nextInt(allFoodsOwned.size());
+                Food foodToRemove = allFoodsOwned.get(itemIndex);
+                spaceOutPost.removeFood(foodToRemove);
+            }
+        }
+    }
+
+    private void spacePlague() {
+        // Crew members become sick -> we need to implement more than one member becoming sick...
+        Random random = new Random();
+
+        ArrayList<CrewMember> allNonInfectedMembers = crew.getAllNonSickMembers();
+
+        // Determine how many members to make sick
+        int randInt = Math.round((allNonInfectedMembers.size() / 2));
+        int count = random.nextInt(randInt);
+        if (count == 0) {
+            count = 1;
+        }
+
+        for (int i = 0; i < count; i++) {
+            ArrayList<CrewMember> allNonInfectedMembersNew = crew.getAllNonSickMembers();
+            int itemIndex = random.nextInt(allNonInfectedMembersNew.size());
+            CrewMember infectedMember = allNonInfectedMembersNew.get(itemIndex);
+
+            crew.makeMemberSick(infectedMember);
+            System.out.println(infectedMember);
+        }
+    }
+
+    private void asteroidBelt() {
+        // Decrease damage to the ship..
+        spaceShip.decreaseShieldLevel();
+    }
     
     public void doToNextDay() {
-        if (currentDay < maxDays) {
-            currentDay++;
-        }
+        currentDay++;
     }
     
     public Planet getCurrentPlanet() {
