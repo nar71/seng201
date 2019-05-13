@@ -45,18 +45,18 @@ public class GameEnvironment {
     }
     
     private void findStartingPlanet() {
-    	// Randomized event to find starting planet
-    	Random rand = new Random();
-    	double randNum = rand.nextDouble();
-    	if (randNum < 0.25) {
-    		currentPlanet = new Earth();
-    	} else if (randNum >= 0.25 && randNum < 0.50) {
-    		currentPlanet = new Mars();
-    	} else if (randNum >= 0.50 && randNum < 0.75) {
-    		currentPlanet = new Mercury();
-    	} else {
-    		currentPlanet = new Venus();
-    	}
+        // Randomized event to find starting planet
+        Random rand = new Random();
+        double randNum = rand.nextDouble();
+        if (randNum < 0.25) {
+            currentPlanet = new Earth();
+        } else if (randNum >= 0.25 && randNum < 0.50) {
+            currentPlanet = new Mars();
+        } else if (randNum >= 0.50 && randNum < 0.75) {
+            currentPlanet = new Mercury();
+        } else {
+            currentPlanet = new Venus();
+        }
     }
 
     public void changeCurrentPlanet(Planet planet) {
@@ -64,24 +64,24 @@ public class GameEnvironment {
     }
     
     public int determineRandomEvent() {
-    	Random random = new Random();
-    	//double randomNumber = random.nextDouble();
-    	double randomNumber = 0.50;
+        Random random = new Random();
+        //double randomNumber = random.nextDouble();
+        double randomNumber = 0.50;
         int retVal;
-    	if (randomNumber < 0.33) {
-    		// Alien Pirate
-    		retVal = 1;
+        if (randomNumber < 0.33) {
+            // Alien Pirate
+            retVal = 1;
             alienPirates();
-    	} else if (randomNumber >= 0.33 && randomNumber < 0.66) {
-    		// Space Plague
-    		retVal = 2;
-    		spacePlague();
-    	} else {
-    		// Asteroid BELT
-    		retVal = 3;
-    		asteroidBelt();
-    	}
-    	return retVal;
+        } else if (randomNumber >= 0.33 && randomNumber < 0.66) {
+            // Space Plague
+            retVal = 2;
+            spacePlague();
+        } else {
+            // Asteroid BELT
+            retVal = 3;
+            asteroidBelt();
+        }
+        return retVal;
     }
 
     private void alienPirates() {
