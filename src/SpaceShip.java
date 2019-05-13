@@ -28,6 +28,10 @@ public class SpaceShip {
 		return false;
 	}
 
+	public void addPeice() {
+		peicesFound += 1;
+	}
+
 	public String toString() {
 		String data = "Name: " + this.getName() + "\n";
 		data += "Shield Health: " + this.getShieldHealth() + "\n";

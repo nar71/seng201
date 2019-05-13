@@ -97,6 +97,13 @@ public class CrewMember {
     		actions -= 1;
     	}
     }
+
+    public boolean hasActionsLeft() {
+        if (actions == 1 || actions == 2) {
+            return true;
+        }
+        return false;
+    }
     
     public int getTiredness() {
     	return tiredness;

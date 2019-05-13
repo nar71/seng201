@@ -175,104 +175,109 @@ public class CommandLine {
         System.out.println(actionedMember);
         System.out.println(selectedCrewAction);
 
-        switch (selectedCrewAction) {
-            case 1:
-                // Display Inventory first....
-                SpaceOutPost spaceOutPost = game.getSpaceOutPost();
-                if (spaceOutPost.isInventoryEmpty()) {
-                    System.out.println("You're inventory is empty...go buy something first ....");
-                } else {
-                    System.out.println("Food or med? (1,2)?");
-                    String medOrFoodResp = scanner.next();
-                    if (medOrFoodResp.equals("1")) {
-                        // Food
-                        System.out.println("What food would you like? ");
-                        spaceOutPost.displayFoods();
-                        String foodType = scanner.next();
-                        // Check if we have a food of that type.
-                        if (spaceOutPost.foodExists(foodType)) {
-                            Food food = spaceOutPost.getFoodByType(foodType);
-                            if (food.getType() == "") {
-                                System.out.println("Invalid food");
-                            } else {
-                                actionedMember.applyFood(food);
-                                System.out.println(actionedMember);
-                            }
-                        }
+        if (actionedMember.hasActionsLeft()) {
+            switch (selectedCrewAction) {
+                case 1:
+                    // Display Inventory first....
+                    SpaceOutPost spaceOutPost = game.getSpaceOutPost();
+                    if (spaceOutPost.isInventoryEmpty()) {
+                        System.out.println("You're inventory is empty...go buy something first ....");
                     } else {
-                        System.out.println("What meds would you like? ");
-                        spaceOutPost.displayMedicalSupplies();
-                        String medType = scanner.next();
-                        // Check if we have a food of that type.
-                        if (spaceOutPost.medicalSupplyExists(medType)) {
-                            MedicalSupply ms = spaceOutPost.getMedicalSupplyByType(medType);
-                            if (ms.getType() == "") {
-                                System.out.println("Invalid Medical Supply"); 
-                            } else {
-                                actionedMember.applyMedicalSupply(ms);
-                                System.out.println(actionedMember);
+                        System.out.println("Food or med? (1,2)?");
+                        String medOrFoodResp = scanner.next();
+                        if (medOrFoodResp.equals("1")) {
+                            // Food
+                            System.out.println("What food would you like? ");
+                            spaceOutPost.displayFoods();
+                            String foodType = scanner.next();
+                            // Check if we have a food of that type.
+                            if (spaceOutPost.foodExists(foodType)) {
+                                Food food = spaceOutPost.getFoodByType(foodType);
+                                if (food.getType() == "") {
+                                    System.out.println("Invalid food");
+                                } else {
+                                    actionedMember.applyFood(food);
+                                    System.out.println(actionedMember);
+                                }
+                            }
+                        } else {
+                            System.out.println("What meds would you like? ");
+                            spaceOutPost.displayMedicalSupplies();
+                            String medType = scanner.next();
+                            // Check if we have a food of that type.
+                            if (spaceOutPost.medicalSupplyExists(medType)) {
+                                MedicalSupply ms = spaceOutPost.getMedicalSupplyByType(medType);
+                                if (ms.getType() == "") {
+                                    System.out.println("Invalid Medical Supply"); 
+                                } else {
+                                    actionedMember.applyMedicalSupply(ms);
+                                    System.out.println(actionedMember);
+                                }
                             }
                         }
                     }
-                }
-                crewAction();
-            break;
-      
-            case 2:
-                // apparently can sleep at any level so this has changed
-                if (actionedMember.canSleep()) {
-                    actionedMember.sleep();
-                    System.out.println(actionedMember.getName() + " is less tired (new tiredness level: "+actionedMember.getTiredness());
-                } else {
-                    System.out.println(actionedMember.getName() + " is less tired (new tiredness level: 100");
-                }
-                actionedMember.removeAction();
-                //crewAction();
-            break;
-      
-            case 3:
-                // This needs to depend on some parameters
-                game.getSpaceShip().decreaseShieldLevel();
-                System.out.println("Space Ship shield health is now: " + game.getSpaceShip().getShieldHealth());
-                actionedMember.removeAction();
-                //crewAction();
-            break;
-
-            case 4:
-                // Search planet for ship parts...
-                // Do we have a random event function on the planet class....and on each sub class have diferent probability variables...
-                // Do we....
-
-            break;
-
-            case 5:
-                Planet planet = game.getPlanet();
-                Planet[] allPlanets = planet.getAll();
-                System.out.println("Choose another player that you would like to piolet the ship with?");
-                for (CrewMember member: crew.getMembers()) {
-                    if (!actionedMember.getName().equals(member.getName())) {
-                        System.out.println(member.getName()+ " "+ member.getType());
+                    actionedMember.removeAction();
+                    crewAction();
+                break;
+          
+                case 2:
+                    // apparently can sleep at any level so this has changed
+                    if (actionedMember.canSleep()) {
+                        actionedMember.sleep();
+                        System.out.println(actionedMember.getName() + " is less tired (new tiredness level: "+actionedMember.getTiredness());
+                    } else {
+                        System.out.println(actionedMember.getName() + " is less tired (new tiredness level: 100");
                     }
-                }
-                String choosenPlayer = scanner.next();
-                CrewMember chosenMember = crew.getMemberByName(choosenPlayer);
-                for (int d = 0; d < allPlanets.length; d++) {
-                    if (!allPlanets[d].getName().equals(game.getCurrentPlanet().getName())) {
-                        System.out.println(allPlanets[d]);
+                    actionedMember.removeAction();
+                    //crewAction();
+                break;
+          
+                case 3:
+                    // This needs to depend on some parameters
+                    game.getSpaceShip().decreaseShieldLevel();
+                    System.out.println("Space Ship shield health is now: " + game.getSpaceShip().getShieldHealth());
+                    actionedMember.removeAction();
+                    //crewAction();
+                break;
+
+                case 4:
+                    // Search planet for ship parts...
+                    // Do we have a random event function on the planet class....and on each sub class have diferent probability variables...
+                    // Do we....
+                    game.searchPlanetForParts();
+                    actionedMember.removeAction();
+                    crewAction();
+                break;
+
+                case 5:
+                    Planet planet = game.getPlanet();
+                    Planet[] allPlanets = planet.getAll();
+                    System.out.println("Choose another player that you would like to piolet the ship with?");
+                    for (CrewMember member: crew.getMembers()) {
+                        if (!actionedMember.getName().equals(member.getName())) {
+                            System.out.println(member.getName()+ " "+ member.getType());
+                        }
                     }
-                }
-                String chosenPlanet = scanner.next();
-                Planet newPlanet = planet.getByName(chosenPlanet);
+                    String choosenPlayer = scanner.next();
+                    CrewMember chosenMember = crew.getMemberByName(choosenPlayer);
+                    for (int d = 0; d < allPlanets.length; d++) {
+                        if (!allPlanets[d].getName().equals(game.getCurrentPlanet().getName())) {
+                            System.out.println(allPlanets[d]);
+                        }
+                    }
+                    String chosenPlanet = scanner.next();
+                    Planet newPlanet = planet.getByName(chosenPlanet);
 
-                // Check if it can be actioned....
+                    // Check if it can be actioned....
 
-                System.out.println("You have chosen planet: " + chosenPlanet);
-                game.changeCurrentPlanet(newPlanet);
+                    System.out.println("You have chosen planet: " + chosenPlanet);
+                    game.changeCurrentPlanet(newPlanet);
 
-                actionedMember.removeAction();
-                chosenMember.removeAction();
-                //crewAction();
-            break;
+                    actionedMember.removeAction();
+                    chosenMember.removeAction();
+                    //crewAction();
+                break;
+            }
         }
     }
 

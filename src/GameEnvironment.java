@@ -14,7 +14,6 @@ public class GameEnvironment {
     private Planet currentPlanet;
     private Planet planet;
 
-    private int maxGold = 100;
     private int currentDay;
     private int maxDays;
 	
@@ -61,6 +60,49 @@ public class GameEnvironment {
 
     public void changeCurrentPlanet(Planet planet) {
         this.currentPlanet = planet;
+    }
+
+    public void searchPlanetForParts() {
+        Random random = new Random();
+
+        int randomAction = random.nextInt(4);
+        if (randomAction == 4) {
+            System.out.println("You have found nothing");
+        }
+
+        if (randomAction == 0) {
+            if (!spaceShip.allPartsFound()) {
+                System.out.println("You have found a transporter part");
+                spaceShip.addPeice();
+                System.out.print(spaceShip);
+            }
+        }
+
+        if (randomAction == 1) {
+            // Food.
+            int foodIndex = random.nextInt(spaceOutPost.getFoods().size());
+            Food foodFound = spaceOutPost.getFoods().get(foodIndex);
+            foodFound.incrementItemCount();
+            spaceOutPost.displayInventory();
+        }
+
+        if (randomAction == 2) {
+            // Medical supply
+            int medicalSupplyIndex = random.nextInt(spaceOutPost.getMedicalSupplies().size());
+            MedicalSupply medicalItemFound = spaceOutPost.getMedicalSupplies().get(medicalSupplyIndex);
+            medicalItemFound.incrementItemCount();
+            spaceOutPost.displayInventory();
+        }
+
+        if (randomAction == 3) {
+            // Increment money randomly
+            int randIncrement = random.nextInt(20);
+            if (randIncrement == 0) {
+                randIncrement = 1;
+            }
+            spaceOutPost.incrementMoney(randIncrement);
+            System.out.println("Current money now: " + spaceOutPost.getCurrentMoney());
+        }
     }
     
     public int determineRandomEvent() {

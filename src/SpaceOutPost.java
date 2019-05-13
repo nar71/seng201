@@ -140,4 +140,8 @@ public class SpaceOutPost {
 	public int getCurrentMoney() {
 		return currentMoney;
 	}
+
+	public void incrementMoney(int amount) {
+		currentMoney += amount;
+	}
 }
