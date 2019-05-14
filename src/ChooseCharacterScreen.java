@@ -61,6 +61,10 @@ public class ChooseCharacterScreen {
 		JLabel lblCharacterName = new JLabel("Character Name:");
 		lblCharacterName.setBounds(33, 53, 126, 27);
 		panel.add(lblCharacterName);
+
+		JLabel characterNameError = new JLabel("asdasd");
+		characterNameError.setBounds(33, 53, 126, 27);
+		panel.add(characterNameError);
 		
 		name = new JTextField();
 		name.setBounds(233, 55, 143, 23);
@@ -83,18 +87,23 @@ public class ChooseCharacterScreen {
 		btnNext.setBounds(688, 524, 114, 25);
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				numTimesPressed++;
-				if (btnNext.getText() == "Continue") {
-					closeWindow();
+				// Check if character name exists
+				if (name.getText().isEmpty()) {
+					characterNameError.setText("Please enter a name for you're character");
+				} else {
+					numTimesPressed++;
+					if (btnNext.getText() == "Continue") {
+						closeWindow();
+					}
+					if (numTimesPressed == game.getGameEnvironment().getCrew().getNumMembers()) {
+						type.setEnabled(false);
+						name.setEditable(false);
+						btnNext.setText("Continue");
+					}
+					String typeStr = String.valueOf(type.getSelectedItem());
+					game.getGameEnvironment().getCrew().addCrewMember(typeStr, name.getText());
+					name.setText("");
 				}
-				if (numTimesPressed == game.getGameEnvironment().getCrew().getNumMembers()) {
-					type.setEnabled(false);
-					name.setEditable(false);
-					btnNext.setText("Continue");
-				}
-				String typeStr = String.valueOf(type.getSelectedItem());
-				game.getGameEnvironment().getCrew().addCrewMember(typeStr, name.getText());
-				name.setText("");
 			}
 		});
 		panel.add(btnNext);
