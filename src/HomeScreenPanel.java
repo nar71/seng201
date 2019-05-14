@@ -23,15 +23,70 @@ import javax.swing.ButtonGroup;
 public class HomeScreenPanel {
 
 	private JFrame window;
+
 	private Game game;
+
+    private GameEnvironment environment;
+
+    private Crew crew;
+
+    private SpaceShip spaceShip;
+
+    private SpaceOutPost spaceOutPost;
+	
 	public JPanel contentPanel;
+
+	public JPanel mainPanel;
+	
+	public JPanel crewStatusPanel;
+
+	public JPanel inventoryPanel;
+
+	public JPanel pilotPanel;
+
+	public JPanel shipStatusPanel;
+
+	public JPanel hospitalPanel;
+
+    public JPanel explorePanel;
+
+    public JPanel spaceOutPostPanel;
+
 	public CardLayout cardLayout;
+
+	public JLabel dayLabel;
+
+	public JLabel currentPlanetLabel;
+
+    public JLabel peicesRequiredLabel;
+
+	public JButton homeBtn;
+
+	private static final String HOME = "HOME";
+
+	private static final String CREW_STATUS = "CREW_STATUS";
+
+	private static final String SHIP_STATUS = "SHIP_STATUS";
+
+	private static final String INVENTORY = "INVENTORY";
+
+	private static final String HOSPITAL = "HOSPITAL";
+
+    private static final String EXPLORE = "EXPLORE";
+
 	/**
 	 * Create the application.
 	 */
 	public HomeScreenPanel(Game game) {
-		this.game = game;
+		// Set up some variables
+        this.game = game;
+        this.environment = game.getGameEnvironment();
+        this.crew = environment.getCrew();
+        this.spaceOutPost = environment.getSpaceOutPost();
+        this.spaceShip = environment.getSpaceShip();
+
 		initialize();
+
 		window.setVisible(true);
 	}
 
@@ -46,36 +101,102 @@ public class HomeScreenPanel {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	public void initialize() {
 		window = new JFrame();
 		window.setBounds(new Rectangle(0, 0, 880, 610));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel mainPanel = new JPanel();
-		JPanel topTopPanel = new JPanel();
-		JPanel topPanel = new JPanel();
-		
-		JPanel contentPanel = new JPanel();
+		this.mainPanel = new JPanel();
+		this.contentPanel = new JPanel();
+
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		
-		JPanel panel = new JPanel();
-		mainPanel.add(panel);
-		
-		JLabel title = new JLabel("Game Name");
-		panel.add(title);
-		JButton homeBtn = new JButton("Home");
-		JLabel days = new JLabel("Day: " + game.getGameEnvironment().getCurrentDay() + "/" + game.getGameEnvironment().getNumDays());
-		JLabel currPlanet = new JLabel("Current Planet: " + game.getGameEnvironment().getCurrentPlanet());
-		topPanel.add(homeBtn);
-		topPanel.add(days);
-		topPanel.add(currPlanet);
-		mainPanel.add(topPanel);
+
+        addTopPanel();
+
 		mainPanel.add(contentPanel);
 
-		CardLayout cardLayout = new CardLayout();
+		// TOP PANEL
+		//addTopPanel();
+
+		this.cardLayout = new CardLayout();
 		contentPanel.setLayout(cardLayout);
 		
 		// HOME PANEL
+		addHomePanel();
+
+		// Crew Status Panel
+		addCrewStatusPanel();
+		
+		// Ship Status PANEL
+		addShipStatusPanel();
+
+		// PILOT TO NEW SHIP
+		addPilotToNewPlanetPanel();
+		
+		// INVENTORY PANEL
+		addInventoryPanel();
+		
+		// SHOP PANEL...
+        addSpaceOutPostPanel();
+
+		// A PANEL TO Apply items to members
+		addHospitalPanel();
+
+        // Explore Panel
+        addExplorePanel();
+
+		// SHOW DEFAULT PANEL
+		cardLayout.show(contentPanel, "HOME");
+		
+		// Action listeners
+		window.getContentPane().setLayout(new BoxLayout(window.getContentPane(), BoxLayout.X_AXIS));
+		window.getContentPane().add(mainPanel);
+		window.setVisible(true);
+	}
+
+	public void refresh() {
+		refreshTopPanel();
+		refreshCrewStatusPanel();
+		refreshShipStatusPanel();
+	}
+
+    private void enableHomeButton() {
+        homeBtn.setEnabled(true);
+    }
+
+    private void disableHomeButton() {
+        homeBtn.setEnabled(false);
+    }
+
+	public void addTopPanel() {
+        JPanel titlePanel = new JPanel();
+        mainPanel.add(titlePanel);
+        
+        JLabel title = new JLabel("Game Name");
+        titlePanel.add(title);
+
+        JPanel topPanel = new JPanel();
+
+        this.homeBtn = new JButton("Home");
+        this.dayLabel = new JLabel("Day: " + environment.getCurrentDay() + "/" + environment.getNumDays());
+        this.currentPlanetLabel = new JLabel("Current Planet: " + environment.getCurrentPlanet());
+        this.peicesRequiredLabel = new JLabel("Peices: " + spaceShip.getPeicesFound() + "/" + spaceShip.getPeicesRequired());
+ 
+        topPanel.add(homeBtn);
+        topPanel.add(dayLabel);
+        topPanel.add(currentPlanetLabel);
+        topPanel.add(peicesRequiredLabel);
+        
+        mainPanel.add(topPanel);
+    }
+
+	public void refreshTopPanel() {
+		dayLabel.setText("Day: " +  environment.getCurrentDay() + "/" + environment.getNumDays());
+		currentPlanetLabel.setText("Current Planet: " + environment.getCurrentPlanet());
+        peicesRequiredLabel.setText("Peices: " + spaceShip.getPeicesFound() + "/" + spaceShip.getPeicesRequired());
+	}
+
+	public void addHomePanel() {
 		JPanel homePanel = new JPanel();
 		homePanel.setLayout(new BoxLayout(homePanel, BoxLayout.X_AXIS));
 		JPanel homeSideBar = new JPanel();
@@ -111,16 +232,166 @@ public class HomeScreenPanel {
 		homeContent.add(exploreBtn);
 		JButton shopBtn = new JButton("Shop");
 		homeContent.add(shopBtn);
-		
-		contentPanel.add(homePanel, "HOME");
+		JButton hospitalBtn = new JButton("Hospital");
+		homeContent.add(hospitalBtn);
 
-		// Crew Status Panel
-		CrewStatusPanel crewStatusPanel = new CrewStatusPanel(game);
-		contentPanel.add(crewStatusPanel, "CREW_STATUS");
+		homeBtn.setEnabled(false);
+
+		hospitalBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(contentPanel, "HOSPITAL");
+			}
+		});
+
+		nextDayBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+        		if (environment.isValidCurrentDay()) {
+					// Next day.....
+					environment.goToNextDay();
+					// Set an alert
+					// Tiredness must increase
+					for (CrewMember m: crew.getMembers()) {
+						m.incrementTiredness(10);
+					}
+
+					// Random event..
+					int randomEvent = environment.determineRandomEvent();
+		            if (randomEvent == 1) {
+		            	JOptionPane.showMessageDialog(null, "Random Event: Alien Pirates (");
+		            } else if (randomEvent == 2) {
+		                JOptionPane.showMessageDialog(null, "Random Event: Space Plague");
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Random Event: Asteroid Belt");
+		            }
+				} else {
+					nextDayBtn.setEnabled(false);
+				}
+				refresh();
+			}
+		});
+
+		shopBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cardLayout.show(contentPanel, "SHOP");
+				enableHomeButton();
+			}
+		});
+
+		inventoryBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				refreshInventoryPanel();
+				cardLayout.show(contentPanel, INVENTORY);
+				enableHomeButton();
+			}
+		});
 		
-		// Ship Status PANEL
-		JPanel shipStatusPanel = new JPanel();
-		SpaceShip spaceShip = game.getGameEnvironment().getSpaceShip();
+		shipBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				refreshShipStatusPanel();
+				cardLayout.show(contentPanel, SHIP_STATUS);
+				enableHomeButton();
+			}
+		});
+		
+		crewDetailBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				refreshCrewStatusPanel();
+				cardLayout.show(contentPanel, CREW_STATUS);
+				enableHomeButton();
+			}
+		});
+
+		homeBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+                refresh();
+                cardLayout.show(contentPanel, HOME);
+			    enableHomeButton();
+            }
+		});
+
+        exploreBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                cardLayout.show(contentPanel, EXPLORE);
+                enableHomeButton();
+            }
+        });
+
+		contentPanel.add(homePanel, HOME);
+	}
+
+	public void addCrewStatusPanel() {
+		this.crewStatusPanel = new JPanel();
+		contentPanel.add(crewStatusPanel, CREW_STATUS);
+	}
+
+	public void refreshCrewStatusPanel() {
+		crewStatusPanel.removeAll();
+
+        for (CrewMember member: game.getGameEnvironment().getCrew().getMembers()) {
+            JPanel panelMember = new JPanel();
+            panelMember.setLayout(new BoxLayout(panelMember, BoxLayout.Y_AXIS));
+            crewStatusPanel.add(panelMember);
+
+            JPanel panel1M = new JPanel();
+            JLabel label = new JLabel(member.getName());
+            panel1M.add(label);
+            panelMember.add(panel1M);
+            
+            JPanel panel2M = new JPanel();
+            JLabel label2 = new JLabel("Max Health: " + member.getMaxHealth());
+            panel2M.add(label2);
+            panelMember.add(panel2M);
+            
+            JPanel panel3M = new JPanel();
+            JLabel label3 = new JLabel("Current Health: " + member.getCurrentHealth());
+            panel3M.add(label3);
+            panelMember.add(panel3M);
+            
+            JPanel panel4M = new JPanel();
+            JLabel label4 = new JLabel("Tiredness level: " + member.getTiredness());
+            panel4M.add(label4);
+            panelMember.add(panel4M);
+            
+            JPanel panel5M = new JPanel();
+            JLabel label5 = new JLabel("Hunger level: " + member.getHungerLevel());
+            panelMember.add(label5);
+            panel5M.add(label5);
+            panelMember.add(panel5M);
+            
+            JPanel panel6M = new JPanel();
+            JLabel label6 = new JLabel("Speciality: " + member.getSpecialty());
+            panel6M.add(label6);
+            panelMember.add(panel6M);
+            
+            JPanel panel7M = new JPanel();
+            JLabel label7 = new JLabel("Description: " + member.getDescription());
+            panel7M.add(label7);
+            panelMember.add(label7);
+            
+            String isSickStr = "no";
+            if (member.isSick()) {
+                isSickStr = "yes";
+            }
+            JPanel panel8M = new JPanel();
+            JLabel label8 = new JLabel("Is sick: " + isSickStr);
+            panel8M.add(label8);
+            panelMember.add(panel8M);
+            
+            JPanel buttonSleep = new JPanel();
+            JButton btnSleep = new JButton("Sleep");
+            buttonSleep.add(btnSleep);
+            panelMember.add(buttonSleep);
+        }
+    }
+
+    public void addShipStatusPanel() {
+		this.shipStatusPanel = new JPanel();
+		contentPanel.add(shipStatusPanel, "SHIP_STATUS");
+    }
+
+    public void refreshShipStatusPanel() {
+    	shipStatusPanel.removeAll();
+
 		shipStatusPanel.setLayout(new BoxLayout(shipStatusPanel, BoxLayout.Y_AXIS));
 		JLabel spaceShipName = new JLabel("Space Ship Name: " + spaceShip.getName());
 		JLabel spaceShipHealth = new JLabel("Shield Health: " + spaceShip.getShieldHealth());
@@ -140,19 +411,24 @@ public class HomeScreenPanel {
 		shipStatusPanel.add(spaceShipHealth);
 		shipStatusPanel.add(peicesRequired);
 		shipStatusPanel.add(partsFound);
-		
-		contentPanel.add(shipStatusPanel, "SHIP_STATUS");
+    }
+
+    public void addPilotToNewPlanetPanel() {
+		this.pilotPanel = new JPanel();
+		contentPanel.add(pilotPanel, "PILOT");
+    }
 
 
-		// PILOT TO NEW SHIP
-		JPanel pilotPanel = new JPanel();
-        Planet planet = game.getGameEnvironment().getPlanet();
+    public void refreshPilotToNewPlanetPanel() {
+    	pilotPanel.removeAll();
+
+        Planet planet = environment.getPlanet();
         Planet[] allPlanets = planet.getAll();
 
         ButtonGroup bgroup = new ButtonGroup();
 
         for (int d = 0; d < allPlanets.length; d++) {
-            if (!allPlanets[d].getName().equals(game.getGameEnvironment().getCurrentPlanet().getName())) {
+            if (!allPlanets[d].getName().equals(environment.getCurrentPlanet().getName())) {
                 JRadioButton radioBtn = new JRadioButton(allPlanets[d].getName());
                 bgroup.add(radioBtn);
                 pilotPanel.add(radioBtn);
@@ -160,19 +436,27 @@ public class HomeScreenPanel {
         }
 
         ButtonGroup bgroup2 = new ButtonGroup();
-        for (CrewMember m: game.getGameEnvironment().getCrew().getMembers()) {
+        for (CrewMember m: crew.getMembers()) {
         	JRadioButton radioBtn2 = new JRadioButton(m.getName());
         	bgroup2.add(radioBtn2);
         	pilotPanel.add(radioBtn2);
         }
+    }
 
-		contentPanel.add(pilotPanel, "PILOT");
-
-		
-		// INVENTORY PANEL
-		JPanel inventoryPanel = new JPanel();
+    public void addInventoryPanel() {
+		this.inventoryPanel = new JPanel();
 		inventoryPanel.setLayout(new GridLayout(1, 0, 0, 0));
-		SpaceOutPost spaceOutPost = game.getGameEnvironment().getSpaceOutPost();
+		contentPanel.add(inventoryPanel, "INVENTORY");
+    }
+
+    public void refreshInventoryPanel() {
+    	inventoryPanel.removeAll();
+
+        JPanel coinsPanel = new JPanel();
+        JLabel coinsLabel = new JLabel("Current coins: " + spaceOutPost.getCurrentMoney());
+        coinsPanel.add(coinsLabel);
+        inventoryPanel.add(coinsPanel);
+
 		JPanel medPanelMain = new JPanel();
 		medPanelMain.setLayout(new BoxLayout(medPanelMain, BoxLayout.Y_AXIS));
 		for (MedicalSupply m : spaceOutPost.getMedicalSupplies()) {
@@ -192,83 +476,42 @@ public class HomeScreenPanel {
 			foodPanelMain.add(foodPanel);
 		}
 		inventoryPanel.add(foodPanelMain);
-		contentPanel.add(inventoryPanel, "INVENTORY");
-		
-		// SHOP PANEL...
-		SpaceOutPostPanel shop = new SpaceOutPostPanel();
-		contentPanel.add(shop, "SHOP");
-		
-		// SHOW DEFAULT PANEL
-		cardLayout.show(contentPanel, "HOME");
-		
-		//homeBtn.setEnabled(false);
-		
-		// Action listeners
-		nextDayBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-        		if (game.getGameEnvironment().isValidCurrentDay()) {
-					// Next day.....
-					game.getGameEnvironment().goToNextDay();
-					// Set an alert
-					// Tiredness must increase
-					for (CrewMember m: game.getGameEnvironment().getCrew().getMembers()) {
-						m.incrementTiredness(10);
-					}
+    }
 
-					// Random event..
-					int randomEvent = game.getGameEnvironment().determineRandomEvent();
-		            if (randomEvent == 1) {
-		            	JOptionPane.showMessageDialog(null, "Random Event: Alien Pirates (");
-		            } else if (randomEvent == 2) {
-		                JOptionPane.showMessageDialog(null, "Random Event: Space Plague");
-		            } else {
-		                JOptionPane.showMessageDialog(null, "Random Event: Asteroid Belt");
-		            }
+    public void addHospitalPanel() {
+		this.hospitalPanel = new JPanel();
+		contentPanel.add(hospitalPanel, "HOSPITAL");
+    }
 
-					days.setText("Day: " + game.getGameEnvironment().getCurrentDay() + "/" + game.getGameEnvironment().getNumDays());
-				} else {
-					nextDayBtn.setEnabled(false);
-				}
-				//rewStatusPanel.refresh();
-			}
-		});
+    public void refreshHospitalPanel() {
+    	hospitalPanel.removeAll();
 
-		shopBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "SHOP");
-				homeBtn.setEnabled(true);
-			}
-		});
+		JPanel medPanelMain2 = new JPanel();
+		medPanelMain2.setLayout(new BoxLayout(medPanelMain2, BoxLayout.X_AXIS));
 
-		inventoryBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "INVENTORY");
-				homeBtn.setEnabled(true);
-			}
-		});
-		
-		shipBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "SHIP_STATUS");
-				homeBtn.setEnabled(true);
-			}
-		});
-		
-		crewDetailBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "CREW_STATUS");
-				homeBtn.setEnabled(true);
-			}
-		});
+		medPanelMain2.add(new JLabel("What item would you like to apply?"));
+		ButtonGroup hospitalJGroup = new ButtonGroup();
 
-		homeBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "HOME");
+		for (MedicalSupply m : spaceOutPost.getMedicalSupplies()) {
+			JPanel medPanel = new JPanel();
+			JRadioButton medRadio = new JRadioButton(m.getType());
+			if (!m.exists()) {
+				medRadio.setEnabled(false);
 			}
-		});
+			hospitalJGroup.add(medRadio);
+			medPanel.add(medRadio);
+			medPanelMain2.add(medPanel);
+		}
+		hospitalPanel.add(medPanelMain2);
+    }
 
-		window.getContentPane().setLayout(new BoxLayout(window.getContentPane(), BoxLayout.X_AXIS));
-		window.getContentPane().add(mainPanel);
-		window.setVisible(true);
-	}
+    public void addExplorePanel() {
+        this.explorePanel = new JPanel();
+        contentPanel.add(explorePanel, EXPLORE);
+    }
+
+    public void addSpaceOutPostPanel() {
+        this.spaceOutPostPanel = new SpaceOutPostPanel(spaceOutPost);
+        contentPanel.add(spaceOutPostPanel, "SHOP");
+    }
 }
