@@ -80,8 +80,7 @@ public class HomeScreen {
 		homePanel.add(exploreBtn);
 		contentPanel.add(homePanel, "HOME");
 		
-		
-		
+
 		// Action listeners
 		shopBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -90,7 +89,7 @@ public class HomeScreen {
 		
 		crewDetailBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				closeWindow();
+				game.runCrewDetailsScreen();
 			}
 		});
 		

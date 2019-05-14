@@ -57,4 +57,8 @@ public class SpaceShip {
 	public int getPeicesRequired() {
 		return peicesRequired;
 	}
+	
+	public int getPeicesFound() {
+		return peicesFound;
+	}
 }

@@ -204,6 +204,10 @@ public class GameEnvironment {
     	return currentDay;
     }
     
+    public int getNumDays() {
+    	return numDays;
+    }
+    
     public void setSpaceShip(SpaceShip spaceShip) {
     	this.spaceShip = spaceShip;
     }

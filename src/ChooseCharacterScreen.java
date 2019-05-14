@@ -96,9 +96,9 @@ public class ChooseCharacterScreen {
 						name.setEditable(false);
 						btnNext.setText("Continue");
 					}
-					String typeStr = String.valueOf(type.getSelectedItem());
-					game.getGameEnvironment().getCrew().addCrewMember(typeStr, name.getText());
-					name.setText("");
+						String typeStr = String.valueOf(type.getSelectedItem());
+						game.getGameEnvironment().getCrew().addCrewMember(typeStr, name.getText());
+						name.setText("");
 				}
 		});
 		panel.add(btnNext);
