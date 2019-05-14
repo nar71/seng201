@@ -47,6 +47,12 @@ public class Crew {
         return allNonInfectedMembers;
     }
 
+    public void makeAllMembersTired() {
+        for (CrewMember member: getMembers()) {
+            member.decrementTiredness(10);
+        }
+    }
+
     public boolean isValidNumMembers() {
         if (numMembers >= 2 && numMembers <= 4) {
             return true;

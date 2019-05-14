@@ -51,13 +51,13 @@ public class CrewMember {
     }
     
     public void sleep() {
-    	if (tiredness < 100) {
-    		if (tiredness > 90) {
-    			tiredness = 100;
-    		} else {
+    	//if (tiredness < 100) {
+    	//	if (tiredness > 90) {
+    	//		tiredness = 100;
+    	//	} else {
     			tiredness += 10;
-    		}
-    	}
+    	//	}
+    	//}
     }
 
     public void applyFood(Food food) {
@@ -93,9 +93,11 @@ public class CrewMember {
     }
     
     public void removeAction() {
-    	if (actions > 0) {
-    		actions -= 1;
-    	}
+        if (actions == 1 || actions == 2) {
+            actions = actions - 1;
+        } else {
+            actions = 0;
+        }
     }
 
     public boolean hasActionsLeft() {
@@ -109,6 +111,14 @@ public class CrewMember {
     	return tiredness;
     }
     
+    public void decrementTiredness(int decrement) {
+        tiredness -= decrement;
+    }
+
+    public void incrementTiredness(int increment) {
+        tiredness += increment;
+    }
+
     public int getActions() {
     	return actions;
     }

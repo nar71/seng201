@@ -347,10 +347,13 @@ public class CommandLine {
             // exit...
             System.exit(0);
         } else {
-            game.doToNextDay();
+            game.goToNextDay();
             System.out.println("You are now at day: " + game.getCurrentDay());
             // Random Event
             int randomEvent = game.determineRandomEvent();
+            for (CrewMember m: game.getCrew().getMembers()) {
+                m.incrementTiredness(10);
+            }
             if (randomEvent == 1) {
                 System.out.println("Alien Pirates");
                 game.getSpaceOutPost().displayInventory();

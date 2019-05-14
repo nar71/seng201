@@ -37,7 +37,7 @@ public class GameEnvironment {
     }
 
     public boolean isValidCurrentDay() {
-        if (currentDay <= maxDays) {
+        if (currentDay < maxDays) {
             return true;
         }
         return false;
@@ -107,8 +107,7 @@ public class GameEnvironment {
     
     public int determineRandomEvent() {
         Random random = new Random();
-        //double randomNumber = random.nextDouble();
-        double randomNumber = 0.50;
+        double randomNumber = random.nextDouble();
         int retVal;
         if (randomNumber < 0.33) {
             // Alien Pirate
@@ -126,7 +125,19 @@ public class GameEnvironment {
         return retVal;
     }
 
-    private void alienPirates() {
+    public String doRandomEvent() {
+        Random random = new Random();
+        double randomNumber = random.nextDouble();
+        if (randomNumber < 0.33) {
+            return "Alien Pirates: " + alienPirates();
+        } else if (randomNumber >= 0.33 && randomNumber < 0.66) {
+            return "Spage Plague: " + spacePlague();
+        } else {
+            return "Asteroid Belt: " + asteroidBelt();
+        }
+    }
+
+    private String alienPirates() {
         if (!spaceOutPost.isInventoryEmpty()) {
             ArrayList<MedicalSupply> medicalSuppliesOwned = new ArrayList<MedicalSupply>();
             for (MedicalSupply m: spaceOutPost.getMedicalSupplies()) {
@@ -144,26 +155,35 @@ public class GameEnvironment {
 
             Random random = new Random();
             int medOrFood = random.nextInt(2);
+            String ret = "";
             if (medOrFood == 1) {
                 // Medical Supply.
                 int itemIndex = random.nextInt(medicalSuppliesOwned.size());
                 MedicalSupply medToRemove = medicalSuppliesOwned.get(itemIndex);
                 spaceOutPost.removeMedicalSupply(medToRemove);
+            
+                ret = medToRemove.getType();
             } else {
                 // OR 0 -> We have a food
                 int itemIndex = random.nextInt(allFoodsOwned.size());
                 Food foodToRemove = allFoodsOwned.get(itemIndex);
                 spaceOutPost.removeFood(foodToRemove);
+
+                ret = foodToRemove.getType();
             }
+            return ret;
+        } else {
+            return "Inventory empty (couldnt pinch anything)";
         }
     }
 
-    private void spacePlague() {
+    private String spacePlague() {
         // Crew members become sick -> we need to implement more than one member becoming sick...
         Random random = new Random();
 
         ArrayList<CrewMember> allNonInfectedMembers = crew.getAllNonSickMembers();
 
+        String ret = "";
         if (allNonInfectedMembers.size() > 0) {
             // Determine how many members to make sick -> need an algo here..
             int randInt = Math.round((allNonInfectedMembers.size()));
@@ -178,17 +198,20 @@ public class GameEnvironment {
                 CrewMember infectedMember = allNonInfectedMembersNew.get(itemIndex);
 
                 crew.makeMemberSick(infectedMember);
-                System.out.println(infectedMember);
+                ret += infectedMember.getName();
             }
         }
+        return ret;
     }
 
-    private void asteroidBelt() {
+    private String asteroidBelt() {
         // Decrease damage to the ship..
         spaceShip.decreaseShieldLevel();
+        int shieldLevel = spaceShip.getShieldHealth();
+        return "Shield Health: " + shieldLevel;
     }
     
-    public void doToNextDay() {
+    public void goToNextDay() {
         currentDay++;
     }
     
