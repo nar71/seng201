@@ -49,127 +49,71 @@ public class HomeScreen {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel mainPanel = new JPanel();
-		/*JPanel topPanel = new JPanel();*/
-		
+		JPanel topPanel = new JPanel();
+	
 		JPanel contentPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		
-		/*JButton crewDetailBtn = new JButton("View Crew Status");
-		JButton shipBtn = new JButton("View Ship Status");
-		JButton inventoryBtn = new JButton("Inventory");
-		JButton homeBtn = new JButton("Home");
-		JButton nextDayBtn = new JButton("Next Day");
-		topPanel.add(crewDetailBtn);
-		topPanel.add(shipBtn);
-		topPanel.add(inventoryBtn);
-		topPanel.add(homeBtn);
-		topPanel.add(nextDayBtn);*/
+		JPanel panel_1 = new JPanel();
+		mainPanel.add(panel_1);
 		
-		//mainPanel.add(topPanel);
-		mainPanel.add(contentPanel);
-
-		CardLayout cardLayout = new CardLayout();
-		contentPanel.setLayout(cardLayout);
+		JLabel lblGameName = new JLabel("Game Name");
+		panel_1.add(lblGameName);
 		
-		// HOME PANEL
-		JPanel homePanel = new JPanel();
-		JPanel homeSideBar = new JPanel();
-		homePanel.add(homeSideBar);
-		JPanel homeContent = new JPanel();
-		homePanel.add(homeContent);
 		JButton crewDetailBtn = new JButton("View Crew Status");
 		JButton shipBtn = new JButton("View Ship Status");
 		JButton inventoryBtn = new JButton("Inventory");
-		JButton nextDayBtn = new JButton("Next Day");
-		homeSideBar.add(crewDetailBtn);
-		homeSideBar.add(shipBtn);
-		homeSideBar.add(inventoryBtn);
-		homeSideBar.add(nextDayBtn);
-		JButton exploreBtn = new JButton("Explore");
+		topPanel.add(crewDetailBtn);
+		topPanel.add(shipBtn);
+		topPanel.add(inventoryBtn);
+		
+		mainPanel.add(topPanel);
+		mainPanel.add(contentPanel);
+
+		// HOME PANEL
+		JPanel homePanel = new JPanel();
 		JButton shopBtn = new JButton("Shop");
 		JButton rocketBtn = new JButton("Rocket");
-		homeContent.add(exploreBtn);
-		homeContent.add(shopBtn);
-		homeContent.add(rocketBtn);
+		JButton exploreBtn = new JButton("Explore");
+		homePanel.add(shopBtn);
+		homePanel.add(rocketBtn);
+		homePanel.add(exploreBtn);
 		contentPanel.add(homePanel, "HOME");
 		
-		// Crew Status Panel
-		JPanel crewStatusPanel = new JPanel();
-		ArrayList<CrewMember> members = game.getGameEnvironment().getCrew().getMembers();
-		for (CrewMember member: members) {
-			crewStatusPanel.add(new JLabel("Name: " + member.getName() + " Current Health: " + member.getCurrentHealth()));
-		}
-		contentPanel.add(crewStatusPanel, "CREW_STATUS");
 		
-		JButton homeBtn = new JButton("Home");
-		crewStatusPanel.add(homeBtn);
-		
-		// Ship Status PANEL
-		JPanel shipStatusPanel = new JPanel();
-		SpaceShip spaceShip = game.getGameEnvironment().getSpaceShip();
-		JLabel spaceShipName = new JLabel("Space Ship Name: " + spaceShip.getName());
-		JLabel spaceShipHealth = new JLabel("Shield Health: " + spaceShip.getShieldHealth());
-		JLabel peicesRequired = new JLabel("Peices Required: " + spaceShip.getPeicesRequired());
-		
-		shipStatusPanel.add(spaceShipName);
-		shipStatusPanel.add(spaceShipHealth);
-		shipStatusPanel.add(peicesRequired);
-		
-		contentPanel.add(shipStatusPanel, "SHIP_STATUS");
-		
-		// INVENTORY PANEL
-		JPanel inventoryPanel = new JPanel();
-		SpaceOutPost spaceOutPost = game.getGameEnvironment().getSpaceOutPost();
-		for (MedicalSupply m : spaceOutPost.getMedicalSupplies()) {
-			inventoryPanel.add(new JLabel(m.getType() + "(" + m.getCount() + ")"));
-		}
-		contentPanel.add(inventoryPanel, "INVENTORY");
-		
-		// SHOP PANEL...
-		SpaceOutPostPanel shop = new SpaceOutPostPanel();
-		contentPanel.add(shop, "SHOP");
-		
-		// SHOW DEFAULT PANEL
-		cardLayout.show(contentPanel, "HOME");
-		
-		//homeBtn.setEnabled(false);
 		
 		// Action listeners
-		homeBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "HOME");
-			}
-		});
-		
 		shopBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "SHOP");
-				//homeBtn.setEnabled(true);
 			}
 		});
 		
 		crewDetailBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "CREW_STATUS");
-				//homeBtn.setEnabled(true);
+				closeWindow();
 			}
 		});
 		
 		shipBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "SHIP_STATUS");
-				//homeBtn.setEnabled(true);
 			}
 		});
 
 		inventoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "INVENTORY");
-				//homeBtn.setEnabled(true);
 			}
 		});
 		
 		window.getContentPane().add(mainPanel, BorderLayout.NORTH);
+		
+		JPanel panel = new JPanel();
+		mainPanel.add(panel);
+		
+		JLabel lblDay = new JLabel("Day 1/4");
+		panel.add(lblDay);
+		
+		JButton btnNextDay = new JButton("Next Day");
+		panel.add(btnNextDay);
 		window.setVisible(true);
 	}
 

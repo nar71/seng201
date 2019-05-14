@@ -87,10 +87,6 @@ public class ChooseCharacterScreen {
 		btnNext.setBounds(688, 524, 114, 25);
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Check if character name exists
-				if (name.getText().isEmpty()) {
-					characterNameError.setText("Please enter a name for you're character");
-				} else {
 					numTimesPressed++;
 					if (btnNext.getText() == "Continue") {
 						closeWindow();
@@ -104,7 +100,6 @@ public class ChooseCharacterScreen {
 					game.getGameEnvironment().getCrew().addCrewMember(typeStr, name.getText());
 					name.setText("");
 				}
-			}
 		});
 		panel.add(btnNext);
 		

@@ -51,4 +51,12 @@ public class Game {
     private void runHomeScreen() {
     	new HomeScreen(this);
     }
+    
+    private void runCrewDetailsScreen() {
+    	new CrewDetailsScreen(this);
+    }
+    
+    public void closeCrewDetailsScreen(CrewDetailsScreen screen) {
+    	screen.finishedWindow();
+    }
 }
