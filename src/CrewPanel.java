@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public class CrewPanel extends JPanel {
     private GameEnvironment environment;
@@ -22,6 +23,16 @@ public class CrewPanel extends JPanel {
     
     private JPanel newMedicalItemPanel;
 
+    private JPanel newPlanetPanel;
+
+    private JButton planetNextBtn;
+
+    private ButtonGroup planetButtonGroup;
+
+    private JRadioButton selectPlanetRadio;
+
+    private ArrayList<JCheckBox> selectedMembers = new ArrayList<JCheckBox>();
+
     CrewPanel(GameEnvironment game) {
         super();
 
@@ -30,7 +41,6 @@ public class CrewPanel extends JPanel {
         this.spaceOutPost = environment.getSpaceOutPost();
 
         JPanel sideBar = new JPanel();
-        
         
         JPanel panel_1 = new JPanel();
         sideBar.add(panel_1);
@@ -72,6 +82,8 @@ public class CrewPanel extends JPanel {
 
         addNewMedicalItemPanel();
 
+        addNewPlanetPanel();
+
         cardLayout.show(content, "CREW_DETAILS");
 
         // Action listeners
@@ -89,6 +101,8 @@ public class CrewPanel extends JPanel {
 
         pilotNewShipBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg1) {
+                refreshNewPlanetPanel();
+                cardLayout.show(content, "PILOT");
                 applyFoodBtn.setEnabled(true);
                 crewDetailsBtn.setEnabled(true);
                 pilotNewShipBtn.setEnabled(false);
@@ -113,6 +127,7 @@ public class CrewPanel extends JPanel {
                 crewDetailsBtn.setEnabled(true);
                 pilotNewShipBtn.setEnabled(true);
                 applyMedItemBtn.setEnabled(false);
+                refreshNewMedicalItemPanel();
                 cardLayout.show(content, "APPLY_MEDICAL_ITEM");
             }
         });
@@ -126,6 +141,10 @@ public class CrewPanel extends JPanel {
 
     private void refreshCrewDetailsPanel() {
         crewDetailsPanel.removeAll();
+
+        for (CrewMember cm: crew.getMembers()) {
+            System.out.println(cm);
+        }
 
         for (CrewMember member: crew.getMembers()) {
             JPanel panelMember = new JPanel();
@@ -190,32 +209,193 @@ public class CrewPanel extends JPanel {
     }
 
     private void refreshNewFoodPanel() {
-        // Choose a member
         newFoodPanel.removeAll();
 
-        JPanel memberSelect = new JPanel();
-        ButtonGroup bgroup = new ButtonGroup();
-
+        JPanel memberBoxPanel = new JPanel();
+        memberBoxPanel.setLayout(new BoxLayout(memberBoxPanel, BoxLayout.Y_AXIS));
+        newFoodPanel.add(memberBoxPanel);
+        ButtonGroup memberButtonGroup = new ButtonGroup();
         for (CrewMember member: crew.getMembers()) {
-            JRadioButton radioBtn = new JRadioButton(member.getName());
-            bgroup.add(radioBtn);
-            memberSelect.add(radioBtn);
+            JPanel membersPanel = new JPanel();
+            JRadioButton memberRadioBtn = new JRadioButton(member.getName());
+            if (!member.hasActionsLeft()) {
+                memberRadioBtn.setEnabled(false);
+            }
+            memberRadioBtn.putClientProperty("CrewMember", member);
+            memberButtonGroup.add(memberRadioBtn);
+            membersPanel.add(memberRadioBtn);
+            memberBoxPanel.add(membersPanel);
         }
-        newFoodPanel.add(memberSelect);
 
-        JPanel foodPanelOuter = new JPanel();
-        foodPanelOuter.setLayout(new BoxLayout(foodPanelOuter, BoxLayout.Y_AXIS));
-        for (Food f : spaceOutPost.getFoods()) {
+        JPanel foodBoxPanel = new JPanel();
+        foodBoxPanel.setLayout(new BoxLayout(foodBoxPanel, BoxLayout.Y_AXIS));
+        newFoodPanel.add(foodBoxPanel);
+        ButtonGroup foodButtonGroup = new ButtonGroup();
+        for (Food food : spaceOutPost.getFoods()) {
             JPanel foodPanel = new JPanel();
-            JLabel foodLabel = new JLabel(f.getType() + "(" + f.getCount() + ")");
-            foodPanel.add(foodLabel);
-            foodPanelOuter.add(foodPanel);
+            JRadioButton foodRadioBtn = new JRadioButton(food.getType() + "(" + food.getCount() + ")");
+            foodRadioBtn.putClientProperty("Food", food);
+            if (!food.exists()) {
+                foodRadioBtn.setEnabled(false);
+            }
+            foodButtonGroup.add(foodRadioBtn);
+            foodPanel.add(foodRadioBtn);
+            foodBoxPanel.add(foodPanel);
         }
-        newFoodPanel.add(foodPanelOuter);
+
+        JButton applyFoodBtn = new JButton("Apply Food Item");
+        newFoodPanel.add(applyFoodBtn);
+
+        applyFoodBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JRadioButton selectedMemberRadio = Funcs.selectedButton(memberButtonGroup);
+                JRadioButton selectedFoodRadio = Funcs.selectedButton(foodButtonGroup);
+
+                CrewMember member = (CrewMember) selectedMemberRadio.getClientProperty("CrewMember");
+                Food food = (Food) selectedFoodRadio.getClientProperty("Food");
+
+                member.applyFood(food);
+                spaceOutPost.removeFood(food);
+                member.removeAction();
+            }
+        });
     }
 
     private void addNewMedicalItemPanel() {
         this.newMedicalItemPanel = new JPanel();
         content.add(newMedicalItemPanel, "APPLY_MEDICAL_ITEM");
+    }
+
+    public void refreshNewMedicalItemPanel() {
+        newMedicalItemPanel.removeAll();
+
+        JPanel memberBoxPanel = new JPanel();
+        memberBoxPanel.setLayout(new BoxLayout(memberBoxPanel, BoxLayout.Y_AXIS));
+        newMedicalItemPanel.add(memberBoxPanel);
+        ButtonGroup memberButtonGroup = new ButtonGroup();
+        for (CrewMember member: crew.getMembers()) {
+            JPanel membersPanel = new JPanel();
+            JRadioButton memberRadioBtn = new JRadioButton(member.getName());
+            if (!member.hasActionsLeft()) {
+                memberRadioBtn.setEnabled(false);
+            }
+            memberRadioBtn.putClientProperty("CrewMember", member);
+            memberButtonGroup.add(memberRadioBtn);
+            membersPanel.add(memberRadioBtn);
+            memberBoxPanel.add(membersPanel);
+        }
+
+        JPanel medicalBoxPanel = new JPanel();
+        medicalBoxPanel.setLayout(new BoxLayout(medicalBoxPanel, BoxLayout.Y_AXIS));
+        newMedicalItemPanel.add(medicalBoxPanel);
+        ButtonGroup medicalRadioGroup = new ButtonGroup();
+        for (MedicalSupply medicalItem : spaceOutPost.getMedicalSupplies()) {
+            JPanel medicalPanel = new JPanel();
+            JRadioButton medicalRadioBtn = new JRadioButton(medicalItem.getType() + "(" + medicalItem.getCount() + ")");
+            medicalRadioBtn.putClientProperty("MedicalSupply", medicalItem);
+            if (!medicalItem.exists()) {
+                medicalRadioBtn.setEnabled(false);
+            }
+            medicalRadioGroup.add(medicalRadioBtn);
+            medicalPanel.add(medicalRadioBtn);
+            medicalBoxPanel.add(medicalPanel);
+        }
+
+        JButton applyMedicalItemBtn = new JButton("Apply Food Item");
+        newMedicalItemPanel.add(applyMedicalItemBtn);
+
+        applyMedicalItemBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JRadioButton selectedMemberRadio = Funcs.selectedButton(memberButtonGroup);
+                JRadioButton selectedMedicalSupplyRadio = Funcs.selectedButton(medicalRadioGroup);
+
+                CrewMember member = (CrewMember) selectedMemberRadio.getClientProperty("CrewMember");
+                MedicalSupply medicalSupply = (MedicalSupply) selectedMedicalSupplyRadio.getClientProperty("MedicalSupply");
+
+                member.applyMedicalSupply(medicalSupply);
+                spaceOutPost.removeMedicalSupply(medicalSupply);
+                member.removeAction();
+            }
+        });
+    }
+
+    private void addNewPlanetPanel() {
+        this.newPlanetPanel = new JPanel();
+        content.add(newPlanetPanel, "PILOT");
+    }
+
+    private void refreshNewPlanetPanel() {
+        CardLayout cardLayoutPlanet = new CardLayout();
+        newPlanetPanel.setLayout(cardLayoutPlanet);
+
+        //First panel.....
+        addSelectPlanetPanel();
+
+        addSelectMemberPanel();
+
+        cardLayoutPlanet.show(newPlanetPanel, "STEP_1");
+    
+        // Action Listenernes
+        planetNextBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // First make a note of planet
+                this.selectPlanetRadio = Funcs.selectedButton(planetButtonGroup);
+                //Planet selectedPlanet = (Planet) selectPlanetRadio.getClientProperty("Planet");
+                //this.selectedPlanetFinal = selectedPlanet;
+                cardLayoutPlanet.show(newPlanetPanel, "STEP_2");
+            }
+        });
+
+        //refreshNewPlanetPanel();
+    }
+
+    public void addSelectPlanetPanel() {
+        JPanel findNewPlanetPanel = new JPanel();
+        newPlanetPanel.add(findNewPlanetPanel, "STEP_1");
+
+        Planet planet = environment.getPlanet();
+        Planet[] allPlanets = planet.getAll();
+
+        this.planetButtonGroup = new ButtonGroup();
+
+        JPanel planetsPanel = new JPanel();
+        planetsPanel.setLayout(new BoxLayout(planetsPanel, BoxLayout.Y_AXIS));
+        findNewPlanetPanel.add(planetsPanel);
+
+        for (int i = 0; i < allPlanets.length; i++) {
+            if (!allPlanets[i].getName().equals(environment.getCurrentPlanet().getName())) {
+                JRadioButton planetRadioBtn = new JRadioButton(allPlanets[i].getName());
+                planetRadioBtn.putClientProperty("Planet", allPlanets[i]);
+                planetButtonGroup.add(planetRadioBtn);
+                planetsPanel.add(planetRadioBtn);
+            }
+        }
+
+        this.planetNextBtn = new JButton("Choose Members");
+        findNewPlanetPanel.add(planetNextBtn);
+    }
+
+    public void addSelectMemberPanel() {
+        JPanel findMembersPanel = new JPanel();
+        newPlanetPanel.add(findMembersPanel, "STEP_2");
+        JPanel membersPanel = new JPanel();
+        membersPanel.setLayout(new BoxLayout(membersPanel, BoxLayout.Y_AXIS));
+        findMembersPanel.add(membersPanel);
+
+        //ButtonGroup memberButtonGroupOne = new ButtonGroup();
+        for (CrewMember member: crew.getMembers()) {
+            //JRadioButton memberRadioBtnOne = new JRadioButton(member.getName());
+            JCheckBox memberCheckBox = new JCheckBox(member.getName());
+            memberCheckBox.putClientProperty("CrewMember", member);
+            if (!member.hasActionsLeft()) {
+                memberCheckBox.setEnabled(false);
+            }
+            //memberButtonGroupOne.add(memberCheckBox);
+            selectedMembers.add(memberCheckBox);
+            membersPanel.add(memberCheckBox);
+        }
+
+        this.addMemberBtn = new JButton("Do Action");
+        findMembersPanel.add(addMemberBtn);
     }
 }
