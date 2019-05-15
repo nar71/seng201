@@ -156,7 +156,7 @@ public class HomeScreenPanel {
 
 	public void refresh() {
 		refreshTopPanel();
-		refreshCrewStatusPanel();
+		//refreshCrewStatusPanel();
 		refreshShipStatusPanel();
 	}
 
@@ -295,7 +295,7 @@ public class HomeScreenPanel {
 		
 		crewDetailBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				refreshCrewStatusPanel();
+				//refreshCrewStatusPanel();
 				cardLayout.show(contentPanel, CREW_STATUS);
 				enableHomeButton();
 			}
@@ -320,8 +320,9 @@ public class HomeScreenPanel {
 	}
 
 	public void addCrewStatusPanel() {
-		this.crewStatusPanel = new JPanel();
-		contentPanel.add(crewStatusPanel, CREW_STATUS);
+		//this.crewStatusPanel = new JPanel();
+		this.crewStatusPanel = new CrewPanel(environment);
+        contentPanel.add(crewStatusPanel, CREW_STATUS);
 	}
 
 	public void refreshCrewStatusPanel() {
