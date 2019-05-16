@@ -38,7 +38,7 @@ public class HomeScreenPanel {
 
 	public JPanel mainPanel;
 	
-	public JPanel crewStatusPanel;
+	public CrewPanel crewStatusPanel;
 
 	public JPanel inventoryPanel;
 
@@ -50,7 +50,7 @@ public class HomeScreenPanel {
 
     public JPanel explorePanel;
 
-    public JPanel spaceOutPostPanel;
+    public SpaceOutPostPanel spaceOutPostPanel;
 
 	public CardLayout cardLayout;
 
@@ -103,7 +103,7 @@ public class HomeScreenPanel {
 	 */
 	public void initialize() {
 		window = new JFrame();
-		window.setBounds(new Rectangle(0, 0, 880, 610));
+		window.setBounds(new Rectangle(0, 0, 1200, 800));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		this.mainPanel = new JPanel();
@@ -118,6 +118,10 @@ public class HomeScreenPanel {
 		this.cardLayout = new CardLayout();
 		contentPanel.setLayout(cardLayout);
 		
+        for (CrewMember m: crew.getMembers()) {
+            System.out.println(m);
+        }
+
 		// HOME PANEL
 		addHomePanel();
 
@@ -145,6 +149,8 @@ public class HomeScreenPanel {
 	public void refresh() {
 		refreshTopPanel();
 		refreshShipStatusPanel();
+
+        spaceOutPostPanel.refresh();
 	}
 
     private void enableHomeButton() {
@@ -254,6 +260,9 @@ public class HomeScreenPanel {
 					nextDayBtn.setEnabled(false);
 				}
 				refresh();
+
+                spaceOutPostPanel.refresh();
+                crewStatusPanel.refresh();
 			}
 		});
 
@@ -261,13 +270,17 @@ public class HomeScreenPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				cardLayout.show(contentPanel, "SHOP");
 				enableHomeButton();
-			}
+                crewStatusPanel.refresh();
+                spaceOutPostPanel.refresh();
+            }
 		});
 
 		inventoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cardLayout.show(contentPanel, "SHOP");
                 enableHomeButton();
+                crewStatusPanel.refresh();
+                spaceOutPostPanel.refresh();
 			}
 		});
 		
@@ -276,12 +289,16 @@ public class HomeScreenPanel {
 				refreshShipStatusPanel();
 				cardLayout.show(contentPanel, SHIP_STATUS);
 				enableHomeButton();
+                crewStatusPanel.refresh();
+                spaceOutPostPanel.refresh();
 			}
 		});
 		
 		crewDetailBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, CREW_STATUS);
+                cardLayout.show(contentPanel, CREW_STATUS);
+                crewStatusPanel.refresh();
+                spaceOutPostPanel.refresh();
 				enableHomeButton();
 			}
 		});
@@ -289,6 +306,8 @@ public class HomeScreenPanel {
 		homeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
                 refresh();
+                crewStatusPanel.refresh();
+                spaceOutPostPanel.refresh();
                 cardLayout.show(contentPanel, HOME);
 			    enableHomeButton();
             }
@@ -296,6 +315,8 @@ public class HomeScreenPanel {
 
         exploreBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
+                crewStatusPanel.refresh();
+                spaceOutPostPanel.refresh();
                 cardLayout.show(contentPanel, EXPLORE);
                 enableHomeButton();
                 refreshExplorePanel();

@@ -26,6 +26,12 @@ public class SpaceOutPostPanel extends JPanel {
 
     private JLabel coinsLabel;
 
+    private JButton inventoryBtn;
+
+    private JButton medicalSuppliesBtn;
+
+    private JButton foodBtns;
+
 	SpaceOutPostPanel(SpaceOutPost spaceOutPost) {
 		super();
 
@@ -37,7 +43,7 @@ public class SpaceOutPostPanel extends JPanel {
 		add(sideBar);
 		add(content);
 		
-		CardLayout cardLayout = new CardLayout();
+		this.cardLayout = new CardLayout();
 		content.setLayout(cardLayout);
         sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));
 		
@@ -51,25 +57,23 @@ public class SpaceOutPostPanel extends JPanel {
         sideBar.add(panel_1);
         
         // SideBar
-        JButton inventoryBtn = new JButton("Inventory");
+        this.inventoryBtn = new JButton("Inventory");
         panel_1.add(inventoryBtn);
-        
         
         JPanel panel_2 = new JPanel();
         sideBar.add(panel_2);
-        JButton medicalSuppliesBtn = new JButton("Medical Supplies");
+        this.medicalSuppliesBtn = new JButton("Medical Supplies");
         panel_2.add(medicalSuppliesBtn);
         
         JPanel panel_3 = new JPanel();
         sideBar.add(panel_3);
-        JButton foodBtns = new JButton("Foods");
+        this.foodBtns = new JButton("Foods");
         panel_3.add(foodBtns);
 
 
 		// Inventory
         addInventoryPanel();
         refreshInventoryPanel();
-
 		
 		// Medical Supplies
         addMedicalSuppliesPanel();
@@ -114,6 +118,13 @@ public class SpaceOutPostPanel extends JPanel {
 			}
 		});
 	}
+
+    public void refresh() {
+        cardLayout.show(content, INVENTORY_PANEL_STRING);
+        inventoryBtn.setEnabled(false);
+        medicalSuppliesBtn.setEnabled(true);
+        foodBtns.setEnabled(true);
+    }
 
     private void addInventoryPanel() {
         this.inventoryPanel = new JPanel();

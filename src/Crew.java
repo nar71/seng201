@@ -65,7 +65,7 @@ public class Crew {
     }
     
     public CrewMember getMemberByName(String name) {
-    	CrewMember ret = new CrewMember("", "", "", 0, "");
+    	CrewMember ret = new CrewMember();
     	for (CrewMember member: getMembers()) {
     		if (name.equals(member.getName())) {
     			return member;

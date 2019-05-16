@@ -19,8 +19,9 @@ public class CrewMember {
     private int actions;
     private int tiredness;
     private int hungerLevel;
+    private String iconPath;
 
-    CrewMember(String name, String type, String description, int health, String specialty) {
+    CrewMember(String name, String type, String description, int health, String specialty, String iconPath) {
         this.name = name;
         this.type = type;
         this.description = description;
@@ -31,6 +32,7 @@ public class CrewMember {
         this.tiredness = 100;
         this.hungerLevel = 100;
         this.isSick = false;
+        this.iconPath = iconPath;
     }
 
     CrewMember() {}
@@ -158,5 +160,9 @@ public class CrewMember {
 
     public int getHungerLevel() {
         return hungerLevel;
+    }
+
+    public String getIconPath() {
+        return iconPath;
     }
 }

@@ -61,10 +61,6 @@ public class ChooseCharacterScreen {
 		JLabel lblCharacterName = new JLabel("Character Name:");
 		lblCharacterName.setBounds(33, 53, 126, 27);
 		panel.add(lblCharacterName);
-
-		JLabel characterNameError = new JLabel("asdasd");
-		characterNameError.setBounds(33, 53, 126, 27);
-		panel.add(characterNameError);
 		
 		name = new JTextField();
 		name.setBounds(233, 55, 143, 23);
@@ -75,7 +71,7 @@ public class ChooseCharacterScreen {
 		lblCharacterType.setBounds(33, 110, 126, 27);
 		panel.add(lblCharacterType);
 		
-		CrewMember cm = new CrewMember("","","",0,"");
+		CrewMember cm = new CrewMember();
 		String[] types = cm.getAllTypes();
 		JComboBox type = new JComboBox(types);
 
@@ -87,19 +83,19 @@ public class ChooseCharacterScreen {
 		btnNext.setBounds(688, 524, 114, 25);
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					numTimesPressed++;
-					if (btnNext.getText() == "Continue") {
-						closeWindow();
-					}
-					if (numTimesPressed == game.getGameEnvironment().getCrew().getNumMembers()) {
-						type.setEnabled(false);
-						name.setEditable(false);
-						btnNext.setText("Continue");
-					}
-						String typeStr = String.valueOf(type.getSelectedItem());
-						game.getGameEnvironment().getCrew().addCrewMember(typeStr, name.getText());
-						name.setText("");
+				numTimesPressed++;
+				if (btnNext.getText() == "Continue") {
+					closeWindow();
 				}
+				if (numTimesPressed == game.getGameEnvironment().getCrew().getNumMembers()) {
+					type.setEnabled(false);
+					name.setEditable(false);
+					btnNext.setText("Continue");
+				}
+				String typeStr = String.valueOf(type.getSelectedItem());
+				game.getGameEnvironment().getCrew().addCrewMember(typeStr, name.getText());
+				name.setText("");
+			}
 		});
 		panel.add(btnNext);
 		

@@ -7,7 +7,9 @@ public class Nerd extends CrewMember {
 
     public static final int HEALTH = 0;
 
+    public static final String ICON_PATH = "";
+
     Nerd(String name) {
-        super(name, TYPE, DESCRIPTION, HEALTH, SPECIALTY);
+        super(name, TYPE, DESCRIPTION, HEALTH, SPECIALTY, ICON_PATH);
     }
 }

@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.border.LineBorder;
 
 public class CrewPanel extends JPanel {
     private GameEnvironment environment;
@@ -28,6 +29,16 @@ public class CrewPanel extends JPanel {
 
     private JPanel crewMemberSleepPanel;
 
+    private JButton crewDetailsBtn;
+
+    private JButton crewMemberSleepBtn;
+
+    private JButton pilotNewShipBtn;
+
+    private JButton applyFoodBtn;
+
+    private JButton applyMedItemBtn;
+
     private ArrayList<JCheckBox> selectedMembers = new ArrayList<JCheckBox>();
 
     CrewPanel(GameEnvironment game) {
@@ -42,28 +53,32 @@ public class CrewPanel extends JPanel {
         JPanel panel_1 = new JPanel();
         sideBar.add(panel_1);
 
-        JButton crewDetailsBtn = new JButton("Crew Details");
+        this.crewDetailsBtn = new JButton("Crew Details");
         panel_1.add(crewDetailsBtn);
 
         JPanel crewMemberSleepPanel = new JPanel();
         sideBar.add(crewMemberSleepPanel);
 
-        JButton crewMemberSleepBtn = new JButton("Sleep");
+        this.crewMemberSleepBtn = new JButton("Sleep");
+        crewMemberSleepBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
         crewMemberSleepPanel.add(crewMemberSleepBtn);
 
         JPanel panel_2 = new JPanel();
         sideBar.add(panel_2);
-        JButton pilotNewShipBtn = new JButton("Pilot To New Planet");
+        this.pilotNewShipBtn = new JButton("Pilot To New Planet");
+        pilotNewShipBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
         panel_2.add(pilotNewShipBtn);
         
         JPanel panel_3 = new JPanel();
         sideBar.add(panel_3);
-        JButton applyFoodBtn = new JButton("Apply Food");
+        this.applyFoodBtn = new JButton("Apply Food");
+        applyFoodBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
         panel_3.add(applyFoodBtn);
 
         JPanel panel_4 = new JPanel();
         sideBar.add(panel_4);
-        JButton applyMedItemBtn = new JButton("Apply Medical Item");
+        this.applyMedItemBtn = new JButton("Apply Medical Item");
+        applyMedItemBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
         panel_4.add(applyMedItemBtn);
 
         this.content = new JPanel();
@@ -152,77 +167,91 @@ public class CrewPanel extends JPanel {
                 cardLayout.show(content, "APPLY_MEDICAL_ITEM");
             }
         });
+    }
 
+    public void resetHome() {
+        cardLayout.show(content, "CREW_DETAILS");        
+        applyFoodBtn.setEnabled(true);
+        crewDetailsBtn.setEnabled(false);
+        pilotNewShipBtn.setEnabled(true);
+        applyMedItemBtn.setEnabled(true);
+        crewMemberSleepBtn.setEnabled(true);
+    }
+
+    public void refresh() {
+        resetHome();
+        refreshCrewDetailsPanel();
+        refreshNewFoodPanel();
+        refreshNewMedicalItemPanel();
+        refreshNewPlanetPanel();
+        refreshCrewMemberSleepPanel();
     }
 
     private void addCrewDetailsPanel() {
         this.crewDetailsPanel = new JPanel();
         content.add(crewDetailsPanel, "CREW_DETAILS");
+        crewDetailsPanel.setLayout(new GridLayout(0, 3, 0, 0));  
     }
 
     private void refreshCrewDetailsPanel() {
         crewDetailsPanel.removeAll();
 
-        for (CrewMember cm: crew.getMembers()) {
-            System.out.println(cm);
-        }
-
         for (CrewMember member: crew.getMembers()) {
-            JPanel panelMember = new JPanel();
-            panelMember.setLayout(new BoxLayout(panelMember, BoxLayout.Y_AXIS));
-            crewDetailsPanel.add(panelMember);
+            JPanel memberPanel = new JPanel();
+            memberPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+            memberPanel.setLayout(null);
+            crewDetailsPanel.add(memberPanel);
+            
+            JLabel memberImageLabel = new JLabel("");
+            memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+            memberImageLabel.setBounds(30, 13, 150, 150);
+            memberImageLabel.setIcon(new ImageIcon(getClass().getResource(member.getIconPath())));
+            memberPanel.add(memberImageLabel);
+            
+            JLabel memberNameLabel = new JLabel(member.getName());
+            memberNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            memberNameLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+            memberNameLabel.setBounds(10, 172, 190, 25);
+            memberPanel.add(memberNameLabel);
 
-            JPanel panel1M = new JPanel();
-            JLabel label = new JLabel(member.getName());
-            panel1M.add(label);
-            panelMember.add(panel1M);
+            JLabel memberTypeLabel = new JLabel(String.format("%s", member.getType()));
+            memberTypeLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+            memberTypeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            memberTypeLabel.setBounds(10, 195, 190, 25);
+            memberPanel.add(memberTypeLabel);
             
-            JPanel panel2M = new JPanel();
-            JLabel label2 = new JLabel("Max Health: " + member.getMaxHealth());
-            panel2M.add(label2);
-            panelMember.add(panel2M);
+            JLabel memberDescLabel = new JLabel("Description:" + member.getDescription());
+            memberDescLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            memberDescLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            memberDescLabel.setBounds(10, 220, 190, 24);
+            memberPanel.add(memberDescLabel);
             
-            JPanel panel3M = new JPanel();
-            JLabel label3 = new JLabel("Current Health: " + member.getCurrentHealth());
-            panel3M.add(label3);
-            panelMember.add(panel3M);
-            
-            JPanel panel4M = new JPanel();
-            JLabel label4 = new JLabel("Tiredness level: " + member.getTiredness());
-            panel4M.add(label4);
-            panelMember.add(panel4M);
-            
-            JPanel panel5M = new JPanel();
-            JLabel label5 = new JLabel("Hunger level: " + member.getHungerLevel());
-            panelMember.add(label5);
-            panel5M.add(label5);
-            panelMember.add(panel5M);
-            
-            JPanel panel6M = new JPanel();
-            JLabel label6 = new JLabel("Speciality: " + member.getSpecialty());
-            panel6M.add(label6);
-            panelMember.add(panel6M);
-            
-            JPanel panel7M = new JPanel();
-            JLabel label7 = new JLabel("Description: " + member.getDescription());
-            panel7M.add(label7);
-            panelMember.add(label7);
-            
-            String isSickStr = "no";
-            if (member.isSick()) {
-                isSickStr = "yes";
-            }
-            JPanel panel8M = new JPanel();
-            JLabel label8 = new JLabel("Is sick: " + isSickStr);
-            panel8M.add(label8);
+            JLabel memberHealthLabel = new JLabel("Current health:" + member.getCurrentHealth());
+            memberHealthLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            memberHealthLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            memberHealthLabel.setBounds(10, 240, 377, 24);
+            memberPanel.add(memberHealthLabel);
 
-            JPanel panel9M = new JPanel();
-            panel9M.add(new JLabel("Actions: " + member.getActions()));
-            
-            panelMember.add(panel8M);
-            panelMember.add(panel9M);
+            JLabel memberCurHealthLabel = new JLabel("Max health:" + member.getMaxHealth());
+            memberCurHealthLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            memberCurHealthLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            memberCurHealthLabel.setBounds(10, 260, 377, 24);
+            memberPanel.add(memberCurHealthLabel);
+
+            JLabel memberTirednessLevel = new JLabel("Hunger level:" + member.getTiredness());
+            memberTirednessLevel.setHorizontalAlignment(SwingConstants.LEFT);
+            memberTirednessLevel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            memberTirednessLevel.setBounds(10, 280, 377, 24);
+            memberPanel.add(memberTirednessLevel);
+
+            JLabel memberSpecialtyLabel = new JLabel("Specialty:" + member.getSpecialty());
+            memberSpecialtyLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            memberSpecialtyLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            memberSpecialtyLabel.setBounds(10, 300, 377, 24);
+            memberPanel.add(memberSpecialtyLabel);
         }
     }
+
 
     private void addNewFoodPanel() {
         this.newFoodPanel = new JPanel();

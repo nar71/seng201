@@ -7,7 +7,9 @@ public class Barter extends CrewMember {
 
     public static final int HEALTH = 50;
 
+    public static final String ICON_PATH = "images/barter.jpg";
+
     Barter(String name) {
-        super(name, TYPE, DESCRIPTION, HEALTH, SPECIALTY);
+        super(name, TYPE, DESCRIPTION, HEALTH, SPECIALTY, ICON_PATH);
     }
 }
