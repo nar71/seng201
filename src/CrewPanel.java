@@ -408,11 +408,15 @@ public class CrewPanel extends JPanel {
             }
         }
 
-        JPanel membersPanelOne = new JPanel();
-        membersPanelOne.setLayout(new BoxLayout(membersPanelOne, BoxLayout.Y_AXIS));
-        newPlanetPanel.add(membersPanelOne);
+        JPanel membersPanelSplit = new JPanel();
+        membersPanelSplit.setLayout(new BoxLayout(membersPanelSplit, BoxLayout.Y_AXIS));
+        newPlanetPanel.add(membersPanelSplit);
 
-        membersPanelOne.add(new JLabel("Select first member"));
+        JPanel membersPanelOne = new JPanel();
+        membersPanelOne.setLayout(new BoxLayout(membersPanelOne, BoxLayout.X_AXIS));
+        membersPanelSplit.add(membersPanelOne);
+
+        membersPanelOne.add(new JLabel("Member 1:"));
         ButtonGroup membersBtnGroupOne = new ButtonGroup();
 
         for (CrewMember member: crew.getMembers()) {
@@ -432,10 +436,10 @@ public class CrewPanel extends JPanel {
         }
 
         JPanel membersPanelTwo = new JPanel();
-        membersPanelTwo.setLayout(new BoxLayout(membersPanelTwo, BoxLayout.Y_AXIS));
-        newPlanetPanel.add(membersPanelTwo);
+        membersPanelTwo.setLayout(new BoxLayout(membersPanelTwo, BoxLayout.X_AXIS));
+        membersPanelSplit.add(membersPanelTwo);
 
-        membersPanelTwo.add(new JLabel("Select second member"));
+        membersPanelTwo.add(new JLabel("Member 2:"));
         ButtonGroup membersBtnGroupTwo = new ButtonGroup();
 
         for (CrewMember member: crew.getMembers()) {
