@@ -62,19 +62,20 @@ public class GameEnvironment {
         this.currentPlanet = planet;
     }
 
-    public void searchPlanetForParts() {
+    public String searchPlanetForParts() {
         Random random = new Random();
+
+        String returnStr = "";
 
         int randomAction = random.nextInt(4);
         if (randomAction == 4) {
-            System.out.println("You have found nothing");
+            returnStr = "You have found nothing";
         }
 
         if (randomAction == 0) {
             if (!spaceShip.allPartsFound()) {
-                System.out.println("You have found a transporter part");
                 spaceShip.addPeice();
-                System.out.print(spaceShip);
+                returnStr = "You have found a transporter part";
             }
         }
 
@@ -83,7 +84,7 @@ public class GameEnvironment {
             int foodIndex = random.nextInt(spaceOutPost.getFoods().size());
             Food foodFound = spaceOutPost.getFoods().get(foodIndex);
             foodFound.incrementItemCount();
-            spaceOutPost.displayInventory();
+            returnStr = "You have found food: " + foodFound.getType();
         }
 
         if (randomAction == 2) {
@@ -91,7 +92,7 @@ public class GameEnvironment {
             int medicalSupplyIndex = random.nextInt(spaceOutPost.getMedicalSupplies().size());
             MedicalSupply medicalItemFound = spaceOutPost.getMedicalSupplies().get(medicalSupplyIndex);
             medicalItemFound.incrementItemCount();
-            spaceOutPost.displayInventory();
+            returnStr = "You have found a medical supply: " + medicalItemFound.getType();
         }
 
         if (randomAction == 3) {
@@ -101,8 +102,10 @@ public class GameEnvironment {
                 randIncrement = 1;
             }
             spaceOutPost.incrementMoney(randIncrement);
-            System.out.println("Current money now: " + spaceOutPost.getCurrentMoney());
+            returnStr = "You have found money: $" + randIncrement;
         }
+
+        return returnStr;
     }
     
     public int determineRandomEvent() {

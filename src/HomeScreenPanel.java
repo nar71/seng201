@@ -299,6 +299,7 @@ public class HomeScreenPanel {
             public void actionPerformed(ActionEvent arg0) {
                 cardLayout.show(contentPanel, EXPLORE);
                 enableHomeButton();
+                refreshExplorePanel();
             }
         });
 
@@ -342,6 +343,41 @@ public class HomeScreenPanel {
     public void addExplorePanel() {
         this.explorePanel = new JPanel();
         contentPanel.add(explorePanel, EXPLORE);
+    }
+
+    public void refreshExplorePanel() {
+        // Get crew member select...
+        explorePanel.removeAll();
+
+        JLabel titleLabel = new JLabel("Choose a member and go explore: " + environment.getCurrentPlanet());
+        explorePanel.add(titleLabel);
+
+        ButtonGroup memberButtonGroup = new ButtonGroup();
+
+        for (CrewMember member: crew.getMembers()) {
+            JRadioButton memberRadio = new JRadioButton(member.getName());
+            if (!member.hasActionsLeft()) {
+                memberRadio.setEnabled(false);
+            }
+            memberRadio.putClientProperty("CrewMember", member);
+            memberButtonGroup.add(memberRadio);
+            explorePanel.add(memberRadio);
+        }
+
+        JButton exploreBtn = new JButton("Explore");
+        explorePanel.add(exploreBtn);
+
+        exploreBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JRadioButton selectedMemberRadio = Funcs.selectedButton(memberButtonGroup);
+                CrewMember actionedMember = (CrewMember) selectedMemberRadio.getClientProperty("CrewMember");
+
+                actionedMember.removeAction();
+
+                String foundItem = environment.searchPlanetForParts();
+                JOptionPane.showMessageDialog(null, foundItem);
+            }
+        });
     }
 
     public void addSpaceOutPostPanel() {

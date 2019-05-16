@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class CrewPanel extends JPanel {
     private GameEnvironment environment;
@@ -25,11 +26,7 @@ public class CrewPanel extends JPanel {
 
     private JPanel newPlanetPanel;
 
-    private JButton planetNextBtn;
-
-    private ButtonGroup planetButtonGroup;
-
-    private JRadioButton selectPlanetRadio;
+    private JPanel crewMemberSleepPanel;
 
     private ArrayList<JCheckBox> selectedMembers = new ArrayList<JCheckBox>();
 
@@ -47,7 +44,13 @@ public class CrewPanel extends JPanel {
 
         JButton crewDetailsBtn = new JButton("Crew Details");
         panel_1.add(crewDetailsBtn);
-        
+
+        JPanel crewMemberSleepPanel = new JPanel();
+        sideBar.add(crewMemberSleepPanel);
+
+        JButton crewMemberSleepBtn = new JButton("Sleep");
+        crewMemberSleepPanel.add(crewMemberSleepBtn);
+
         JPanel panel_2 = new JPanel();
         sideBar.add(panel_2);
         JButton pilotNewShipBtn = new JButton("Pilot To New Planet");
@@ -84,6 +87,8 @@ public class CrewPanel extends JPanel {
 
         addNewPlanetPanel();
 
+        addCrewMemberSleepPanel();
+
         cardLayout.show(content, "CREW_DETAILS");
 
         // Action listeners
@@ -96,6 +101,19 @@ public class CrewPanel extends JPanel {
                 crewDetailsBtn.setEnabled(false);
                 pilotNewShipBtn.setEnabled(true);
                 applyMedItemBtn.setEnabled(true);
+                crewMemberSleepBtn.setEnabled(true);
+            }
+        });
+
+        crewMemberSleepBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                refreshCrewMemberSleepPanel();
+                cardLayout.show(content, "SLEEP");
+                applyFoodBtn.setEnabled(true);
+                crewDetailsBtn.setEnabled(true);
+                pilotNewShipBtn.setEnabled(true);
+                applyMedItemBtn.setEnabled(true);
+                crewMemberSleepBtn.setEnabled(false);
             }
         });
 
@@ -107,6 +125,7 @@ public class CrewPanel extends JPanel {
                 crewDetailsBtn.setEnabled(true);
                 pilotNewShipBtn.setEnabled(false);
                 applyMedItemBtn.setEnabled(true);
+                crewMemberSleepBtn.setEnabled(true);
             }
         });
 
@@ -118,6 +137,7 @@ public class CrewPanel extends JPanel {
                 applyMedItemBtn.setEnabled(true);
                 refreshNewFoodPanel();
                 cardLayout.show(content, "APPLY_FOOD");
+                crewMemberSleepBtn.setEnabled(true);
             }
         });
 
@@ -127,6 +147,7 @@ public class CrewPanel extends JPanel {
                 crewDetailsBtn.setEnabled(true);
                 pilotNewShipBtn.setEnabled(true);
                 applyMedItemBtn.setEnabled(false);
+                crewMemberSleepBtn.setEnabled(true);
                 refreshNewMedicalItemPanel();
                 cardLayout.show(content, "APPLY_MEDICAL_ITEM");
             }
@@ -325,42 +346,16 @@ public class CrewPanel extends JPanel {
     }
 
     private void refreshNewPlanetPanel() {
-        CardLayout cardLayoutPlanet = new CardLayout();
-        newPlanetPanel.setLayout(cardLayoutPlanet);
-
-        //First panel.....
-        addSelectPlanetPanel();
-
-        addSelectMemberPanel();
-
-        cardLayoutPlanet.show(newPlanetPanel, "STEP_1");
-    
-        // Action Listenernes
-        planetNextBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // First make a note of planet
-                this.selectPlanetRadio = Funcs.selectedButton(planetButtonGroup);
-                //Planet selectedPlanet = (Planet) selectPlanetRadio.getClientProperty("Planet");
-                //this.selectedPlanetFinal = selectedPlanet;
-                cardLayoutPlanet.show(newPlanetPanel, "STEP_2");
-            }
-        });
-
-        //refreshNewPlanetPanel();
-    }
-
-    public void addSelectPlanetPanel() {
-        JPanel findNewPlanetPanel = new JPanel();
-        newPlanetPanel.add(findNewPlanetPanel, "STEP_1");
+        newPlanetPanel.removeAll();
 
         Planet planet = environment.getPlanet();
         Planet[] allPlanets = planet.getAll();
 
-        this.planetButtonGroup = new ButtonGroup();
+        ButtonGroup planetButtonGroup = new ButtonGroup();
 
         JPanel planetsPanel = new JPanel();
         planetsPanel.setLayout(new BoxLayout(planetsPanel, BoxLayout.Y_AXIS));
-        findNewPlanetPanel.add(planetsPanel);
+        newPlanetPanel.add(planetsPanel);
 
         for (int i = 0; i < allPlanets.length; i++) {
             if (!allPlanets[i].getName().equals(environment.getCurrentPlanet().getName())) {
@@ -371,31 +366,87 @@ public class CrewPanel extends JPanel {
             }
         }
 
-        this.planetNextBtn = new JButton("Choose Members");
-        findNewPlanetPanel.add(planetNextBtn);
-    }
-
-    public void addSelectMemberPanel() {
-        JPanel findMembersPanel = new JPanel();
-        newPlanetPanel.add(findMembersPanel, "STEP_2");
         JPanel membersPanel = new JPanel();
         membersPanel.setLayout(new BoxLayout(membersPanel, BoxLayout.Y_AXIS));
-        findMembersPanel.add(membersPanel);
+        newPlanetPanel.add(membersPanel);
 
-        //ButtonGroup memberButtonGroupOne = new ButtonGroup();
         for (CrewMember member: crew.getMembers()) {
-            //JRadioButton memberRadioBtnOne = new JRadioButton(member.getName());
             JCheckBox memberCheckBox = new JCheckBox(member.getName());
             memberCheckBox.putClientProperty("CrewMember", member);
             if (!member.hasActionsLeft()) {
                 memberCheckBox.setEnabled(false);
             }
-            //memberButtonGroupOne.add(memberCheckBox);
             selectedMembers.add(memberCheckBox);
             membersPanel.add(memberCheckBox);
         }
 
-        this.addMemberBtn = new JButton("Do Action");
-        findMembersPanel.add(addMemberBtn);
+        JButton doActionBtn = new JButton("DO");
+        newPlanetPanel.add(doActionBtn);
+
+        // Action Listenernes
+        doActionBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Loop through list:
+                for (JCheckBox box: selectedMembers) {
+                    if (box.isSelected()) {
+                        CrewMember actionedMember = crew.getMemberByName(box.getText());
+                        actionedMember.removeAction();
+                    }
+                }
+
+                // Now move to new planet
+                JRadioButton selectedPlanetRadio = Funcs.selectedButton(planetButtonGroup);
+                Planet planet = (Planet) selectedPlanetRadio.getClientProperty("Planet");
+
+                // Change current planet
+                environment.changeCurrentPlanet(planet);
+                
+                JOptionPane.showMessageDialog(null, "You have successfully pioleted to: " + planet.getName());
+            }
+        });
+    }
+
+    public void addCrewMemberSleepPanel() {
+        this.crewMemberSleepPanel = new JPanel();
+        content.add(crewMemberSleepPanel, "SLEEP");
+    }
+
+    public void refreshCrewMemberSleepPanel() {
+        this.crewMemberSleepPanel.removeAll();
+
+        // Get crew members and create a JBUTTON
+        JPanel membersPanel = new JPanel();
+        membersPanel.setLayout(new BoxLayout(membersPanel, BoxLayout.Y_AXIS));
+        crewMemberSleepPanel.add(membersPanel);
+
+        ButtonGroup memberButtonGroup = new ButtonGroup();
+        for (CrewMember member: crew.getMembers()) {
+            JRadioButton memberRadioBtn = new JRadioButton(member.getName());
+            memberRadioBtn.putClientProperty("CrewMember", member);
+            if (!member.hasActionsLeft()) {
+                memberRadioBtn.setEnabled(false);
+            }
+            memberButtonGroup.add(memberRadioBtn);
+            membersPanel.add(memberRadioBtn);
+        }
+
+        JButton sleepBtn = new JButton("Sleep");
+        crewMemberSleepPanel.add(sleepBtn);
+        sleepBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JRadioButton selectedMemberRadio = Funcs.selectedButton(memberButtonGroup);
+
+                CrewMember member = (CrewMember) selectedMemberRadio.getClientProperty("CrewMember");
+                String responseString = "Crew member has no actions left";
+                if (member.hasActionsLeft()) {
+                    member.sleep();
+                    member.removeAction();
+                    responseString = "Crew member's tiredness has decreased by 10 points";
+                }
+
+                JOptionPane.showMessageDialog(null, responseString);
+                refreshCrewMemberSleepPanel();
+            }
+        });
     }
 }
