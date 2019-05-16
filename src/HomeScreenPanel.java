@@ -236,10 +236,9 @@ public class HomeScreenPanel {
         		if (environment.isValidCurrentDay()) {
 					// Next day.....
 					environment.goToNextDay();
-					// Set an alert
-					// Tiredness must increase
+
 					for (CrewMember m: crew.getMembers()) {
-						m.incrementTiredness(10);
+						m.decrementTiredness(10);
 					}
 
 					// Random event..

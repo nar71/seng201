@@ -8,14 +8,25 @@ public class Planet {
 	
     private String name;
     
+    private boolean transporterPartFound;
+
     Planet(String name) {
     	this.name = name;
+        this.transporterPartFound = false;
     }
     
     Planet() {}
 
     public String getName() {
     	return name;
+    }
+
+    public void foundTransporterPart() {
+        transporterPartFound = true;
+    }
+
+    public boolean transporterPartFound() {
+        return transporterPartFound;
     }
     
     public Planet[] getAll() {

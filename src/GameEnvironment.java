@@ -73,8 +73,9 @@ public class GameEnvironment {
         }
 
         if (randomAction == 0) {
-            if (!spaceShip.allPartsFound()) {
+            if (!spaceShip.allPartsFound() && !currentPlanet.transporterPartFound()) {
                 spaceShip.addPeice();
+                currentPlanet.foundTransporterPart();
                 returnStr = "You have found a transporter part";
             }
         }
