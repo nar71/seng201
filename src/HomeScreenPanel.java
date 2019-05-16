@@ -19,6 +19,7 @@ import java.awt.FlowLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import java.awt.Font;
 
 public class HomeScreenPanel {
 
@@ -103,7 +104,7 @@ public class HomeScreenPanel {
 	 */
 	public void initialize() {
 		window = new JFrame();
-		window.setBounds(new Rectangle(0, 0, 1200, 800));
+		window.setBounds(new Rectangle(0, 0, 900, 700));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		this.mainPanel = new JPanel();
@@ -166,6 +167,7 @@ public class HomeScreenPanel {
         mainPanel.add(titlePanel);
         
         JLabel title = new JLabel("Game Name");
+        title.setFont(new Font("Tahoma", Font.PLAIN, 15));
         titlePanel.add(title);
 
         JPanel topPanel = new JPanel();
@@ -173,21 +175,25 @@ public class HomeScreenPanel {
         JPanel homeBtnPanel = new JPanel();
         topPanel.add(homeBtnPanel);
         this.homeBtn = new JButton("Home");
+        homeBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
         homeBtnPanel.add(homeBtn);
 
         JPanel dayLabelPanel = new JPanel();
         topPanel.add(dayLabelPanel);
         this.dayLabel = new JLabel("Day: " + environment.getCurrentDay() + "/" + environment.getNumDays());
+        dayLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
         dayLabelPanel.add(dayLabel);
 
         JPanel currentPlanetPanel = new JPanel();
         topPanel.add(currentPlanetPanel);
         this.currentPlanetLabel = new JLabel("Current Planet: " + environment.getCurrentPlanet());
+        currentPlanetLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
         currentPlanetPanel.add(currentPlanetLabel);
 
         JPanel peicesRequiredPanel = new JPanel();
         topPanel.add(peicesRequiredPanel);
         this.peicesRequiredLabel = new JLabel("Peices: " + spaceShip.getPeicesFound() + "/" + spaceShip.getPeicesRequired());
+        peicesRequiredLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
         peicesRequiredPanel.add(peicesRequiredLabel);
         
         mainPanel.add(topPanel);
@@ -209,16 +215,19 @@ public class HomeScreenPanel {
 		JPanel crewStatusBtnPanel = new JPanel();
 		homeSideBar.add(crewStatusBtnPanel);
 		JButton crewDetailBtn = new JButton("View Crew Status");
+        crewDetailBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		crewStatusBtnPanel.add(crewDetailBtn);
 		
 		JPanel shipStatusBtnPanel = new JPanel();
 		homeSideBar.add(shipStatusBtnPanel);
 		JButton shipBtn = new JButton("View Ship Status");
+        shipBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		shipStatusBtnPanel.add(shipBtn);
 		
 		JPanel inventoryBtnPanel = new JPanel();
 		homeSideBar.add(inventoryBtnPanel);
 		JButton inventoryBtn = new JButton("Inventory"); // Takes you to inventory of spaceoutpost
+        inventoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		inventoryBtnPanel.add(inventoryBtn);
 		
 		JPanel nextDayBtnPanel = new JPanel();
@@ -231,8 +240,10 @@ public class HomeScreenPanel {
 		homeContent.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		JButton exploreBtn = new JButton("Explore");
+        exploreBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		homeContent.add(exploreBtn);
 		JButton shopBtn = new JButton("Shop");
+        shopBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		homeContent.add(shopBtn);
 
 		homeBtn.setEnabled(false);

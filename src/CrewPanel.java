@@ -41,6 +41,8 @@ public class CrewPanel extends JPanel {
 
     private ArrayList<JCheckBox> selectedMembers = new ArrayList<JCheckBox>();
 
+    private int numberOfCheckboxesChecked;
+
     CrewPanel(GameEnvironment game) {
         super();
 
@@ -249,6 +251,12 @@ public class CrewPanel extends JPanel {
             memberSpecialtyLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
             memberSpecialtyLabel.setBounds(10, 300, 377, 24);
             memberPanel.add(memberSpecialtyLabel);
+
+            JLabel actionsLeftLabel = new JLabel("Actions left:" + member.getActions());
+            actionsLeftLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            actionsLeftLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            actionsLeftLabel.setBounds(10, 320, 377, 24);
+            memberPanel.add(actionsLeftLabel);
         }
     }
 
@@ -388,25 +396,62 @@ public class CrewPanel extends JPanel {
 
         for (int i = 0; i < allPlanets.length; i++) {
             if (!allPlanets[i].getName().equals(environment.getCurrentPlanet().getName())) {
+                JLabel planetImageLabel = new JLabel("");
+                planetImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+                //memberImageLabel.setBounds(30, 13, 150, 150);
+                planetImageLabel.setIcon(new ImageIcon(getClass().getResource(allPlanets[i].getIconPath())));
                 JRadioButton planetRadioBtn = new JRadioButton(allPlanets[i].getName());
                 planetRadioBtn.putClientProperty("Planet", allPlanets[i]);
                 planetButtonGroup.add(planetRadioBtn);
                 planetsPanel.add(planetRadioBtn);
+                planetsPanel.add(planetImageLabel);
             }
         }
 
-        JPanel membersPanel = new JPanel();
-        membersPanel.setLayout(new BoxLayout(membersPanel, BoxLayout.Y_AXIS));
-        newPlanetPanel.add(membersPanel);
+        JPanel membersPanelOne = new JPanel();
+        membersPanelOne.setLayout(new BoxLayout(membersPanelOne, BoxLayout.Y_AXIS));
+        newPlanetPanel.add(membersPanelOne);
+
+        membersPanelOne.add(new JLabel("Select first member"));
+        ButtonGroup membersBtnGroupOne = new ButtonGroup();
 
         for (CrewMember member: crew.getMembers()) {
-            JCheckBox memberCheckBox = new JCheckBox(member.getName());
-            memberCheckBox.putClientProperty("CrewMember", member);
+            JRadioButton memberRadioOne = new JRadioButton(member.getName());
+            memberRadioOne.putClientProperty("CrewMember", member);
             if (!member.hasActionsLeft()) {
-                memberCheckBox.setEnabled(false);
+                memberRadioOne.setEnabled(false);
             }
-            selectedMembers.add(memberCheckBox);
-            membersPanel.add(memberCheckBox);
+
+            JLabel memberOneImageLabel = new JLabel("");
+            memberOneImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+            memberOneImageLabel.setIcon(new ImageIcon(getClass().getResource(member.getIconPath())));
+
+            membersBtnGroupOne.add(memberRadioOne);
+            membersPanelOne.add(memberRadioOne);
+            membersPanelOne.add(memberOneImageLabel);
+        }
+
+        JPanel membersPanelTwo = new JPanel();
+        membersPanelTwo.setLayout(new BoxLayout(membersPanelTwo, BoxLayout.Y_AXIS));
+        newPlanetPanel.add(membersPanelTwo);
+
+        membersPanelTwo.add(new JLabel("Select second member"));
+        ButtonGroup membersBtnGroupTwo = new ButtonGroup();
+
+        for (CrewMember member: crew.getMembers()) {
+            JRadioButton memberRadioTwo = new JRadioButton(member.getName());
+            memberRadioTwo.putClientProperty("CrewMember", member);
+            if (!member.hasActionsLeft()) {
+                memberRadioTwo.setEnabled(false);
+            }
+
+            JLabel memberTwoImageLabel = new JLabel("");
+            memberTwoImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+            memberTwoImageLabel.setIcon(new ImageIcon(getClass().getResource(member.getIconPath())));
+
+            membersBtnGroupTwo.add(memberRadioTwo);
+            membersPanelTwo.add(memberRadioTwo);
+            membersPanelTwo.add(memberTwoImageLabel);
         }
 
         JButton doActionBtn = new JButton("DO");
@@ -415,22 +460,34 @@ public class CrewPanel extends JPanel {
         // Action Listenernes
         doActionBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Loop through list:
-                for (JCheckBox box: selectedMembers) {
-                    if (box.isSelected()) {
-                        CrewMember actionedMember = crew.getMemberByName(box.getText());
-                        actionedMember.removeAction();
+                JRadioButton selectedMemberRadioOne = Funcs.selectedButton(membersBtnGroupOne);
+                JRadioButton selectedMemberRadioTwo = Funcs.selectedButton(membersBtnGroupTwo);
+
+                CrewMember selectedMemberOne = (CrewMember) selectedMemberRadioOne.getClientProperty("CrewMember");
+                CrewMember selectedMemberTwo = (CrewMember) selectedMemberRadioTwo.getClientProperty("CrewMember");
+                if (selectedMemberOne.getName() == selectedMemberTwo.getName()) {
+                    JOptionPane.showMessageDialog(null, "You cannot select two members of the same");
+                } else {
+                    selectedMemberOne.removeAction();
+                    selectedMemberTwo.removeAction();
+
+                    // Now move to new planet
+                    JRadioButton selectedPlanetRadio = Funcs.selectedButton(planetButtonGroup);
+                    Planet planet = (Planet) selectedPlanetRadio.getClientProperty("Planet");
+
+                    // Change current planet
+                    environment.changeCurrentPlanet(planet);
+                 
+                    if (!selectedMemberOne.hasActionsLeft()) {
+                        selectedMemberRadioOne.setEnabled(false);
                     }
+
+                    if (!selectedMemberTwo.hasActionsLeft()) {
+                        selectedMemberRadioTwo.setEnabled(false);
+                    }
+
+                    JOptionPane.showMessageDialog(null, "You have successfully pioleted to: " + planet.getName());
                 }
-
-                // Now move to new planet
-                JRadioButton selectedPlanetRadio = Funcs.selectedButton(planetButtonGroup);
-                Planet planet = (Planet) selectedPlanetRadio.getClientProperty("Planet");
-
-                // Change current planet
-                environment.changeCurrentPlanet(planet);
-                
-                JOptionPane.showMessageDialog(null, "You have successfully pioleted to: " + planet.getName());
             }
         });
     }
@@ -455,8 +512,14 @@ public class CrewPanel extends JPanel {
             if (!member.hasActionsLeft()) {
                 memberRadioBtn.setEnabled(false);
             }
+
+            JLabel memeberImageLabel = new JLabel("");
+            memeberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+            memeberImageLabel.setIcon(new ImageIcon(getClass().getResource(member.getIconPath())));
+
             memberButtonGroup.add(memberRadioBtn);
             membersPanel.add(memberRadioBtn);
+            membersPanel.add(memeberImageLabel);
         }
 
         JButton sleepBtn = new JButton("Sleep");
@@ -471,10 +534,13 @@ public class CrewPanel extends JPanel {
                     member.sleep();
                     member.removeAction();
                     responseString = "Crew member's tiredness has decreased by 10 points";
+                
+                    if (!member.hasActionsLeft()) {
+                        selectedMemberRadio.setEnabled(false);
+                    }
                 }
 
                 JOptionPane.showMessageDialog(null, responseString);
-                refreshCrewMemberSleepPanel();
             }
         });
     }

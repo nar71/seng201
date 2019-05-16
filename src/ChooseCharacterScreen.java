@@ -43,7 +43,7 @@ public class ChooseCharacterScreen {
 	 */
 	private void initialize() {
 		window = new JFrame();
-		window.setBounds(new Rectangle(0, 0, 880, 610));
+		window.setBounds(new Rectangle(0, 0, 900, 700));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.getContentPane().setLayout(new BoxLayout(window.getContentPane(), BoxLayout.X_AXIS));
 		
@@ -91,10 +91,11 @@ public class ChooseCharacterScreen {
 					type.setEnabled(false);
 					name.setEditable(false);
 					btnNext.setText("Continue");
+				} else {
+					String typeStr = String.valueOf(type.getSelectedItem());
+					game.getGameEnvironment().getCrew().addCrewMember(typeStr, name.getText());
+					name.setText("");
 				}
-				String typeStr = String.valueOf(type.getSelectedItem());
-				game.getGameEnvironment().getCrew().addCrewMember(typeStr, name.getText());
-				name.setText("");
 			}
 		});
 		panel.add(btnNext);

@@ -42,7 +42,7 @@ public class SetUpScreen {
 	 */
 	private void initialize() {
 		window = new JFrame();
-		window.setBounds(new Rectangle(0, 0, 880, 610));
+		window.setBounds(new Rectangle(0, 0, 900, 700));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.getContentPane().setLayout(new BoxLayout(window.getContentPane(), BoxLayout.X_AXIS));
 		

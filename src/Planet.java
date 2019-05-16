@@ -10,8 +10,11 @@ public class Planet {
     
     private boolean transporterPartFound;
 
-    Planet(String name) {
+    private String imagePath;
+
+    Planet(String name, String imagePath) {
     	this.name = name;
+        this.imagePath = imagePath;
         this.transporterPartFound = false;
     }
     
@@ -44,5 +47,9 @@ public class Planet {
 
     public String toString() {
         return "Planet: " + this.getName();
+    }
+
+    public String getIconPath() {
+        return imagePath;
     }
 }

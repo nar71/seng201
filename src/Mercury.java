@@ -1,5 +1,5 @@
 public class Mercury extends Planet {
     Mercury() {
-        super("Mercury");
+        super("Mercury", "images/mercury.png");
     }
 }
