@@ -250,4 +250,8 @@ public class GameEnvironment {
     public Crew getCrew() {
     	return this.crew;
     }
+
+    public LocalTime getTime() {
+        return time;
+    }
 }

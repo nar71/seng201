@@ -85,7 +85,7 @@ public class CrewMember {
         data += "Sick: " + isSickStr + "\n";
     	return data;
     }
-    
+
     public void makeSick() {
     	isSick = true;
     }

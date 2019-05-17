@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.Rectangle;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -40,15 +41,21 @@ public class WindowTests {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(new Rectangle(0, 0, 1200, 800));
+		frame.setBounds(new Rectangle(0, 0, 900, 700));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel main = new JPanel();
 		frame.getContentPane().add(main);
 
-		main.setLayout(new GridLayout(0, 3, 0, 0));  
+		main.setLayout(null);  
 
-        JPanel heroPanel = new JPanel();
+        JLabel memberImageLabel = new JLabel("");
+        memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+        memberImageLabel.setBounds(489, 10, 340, 258);
+        memberImageLabel.setIcon(new ImageIcon(getClass().getResource("images/barter.jpg")));
+        main.add(memberImageLabel);
+
+        /*JPanel heroPanel = new JPanel();
         heroPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
         heroPanel.setLayout(null);
         main.add(heroPanel);
