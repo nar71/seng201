@@ -234,7 +234,7 @@ public class CommandLine {
           
                 case 3:
                     // This needs to depend on some parameters
-                    game.getSpaceShip().decreaseShieldLevel();
+                    game.getSpaceShip().increaseShieldLevel();
                     System.out.println("Space Ship shield health is now: " + game.getSpaceShip().getShieldHealth());
                     actionedMember.removeAction();
                     //crewAction();

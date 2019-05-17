@@ -52,16 +52,7 @@ public class Test {
         main.add(memberImageLabel);
         
         JLabel lblNewLabel = new JLabel("New label");
-        lblNewLabel.setBounds(544, 218, 140, 128);
+        lblNewLabel.setBounds(544, 218, 290, 100);
         main.add(lblNewLabel);
-        
-        JTextArea textArea = new JTextArea();
-        textArea.setBounds(544, 377, 1, 15);
-        main.add(textArea);
-        
-        JTextPane txtpnDescriptionOfBarter = new JTextPane();
-        txtpnDescriptionOfBarter.setText("Description of barter asdasdsa");
-        txtpnDescriptionOfBarter.setBounds(534, 218, 150, 89);
-        main.add(txtpnDescriptionOfBarter);
 	}
 }

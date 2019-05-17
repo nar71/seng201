@@ -121,6 +121,9 @@ public class SpaceOutPostPanel extends JPanel {
 
     public void refresh() {
         cardLayout.show(content, INVENTORY_PANEL_STRING);
+        refreshInventoryPanel();
+        refreshMedicalSuppliesPanel();
+        refreshFoodsPanel();
         inventoryBtn.setEnabled(false);
         medicalSuppliesBtn.setEnabled(true);
         foodBtns.setEnabled(true);

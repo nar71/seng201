@@ -1,25 +1,10 @@
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.awt.Rectangle;
-import javax.swing.BoxLayout;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import java.awt.Font;
+import javax.swing.border.LineBorder;
 
 import java.time.LocalTime;
 
@@ -124,10 +109,6 @@ public class HomeScreen {
 
 		this.cardLayout = new CardLayout();
 		contentPanel.setLayout(cardLayout);
-		
-        for (CrewMember m: crew.getMembers()) {
-            System.out.println(m);
-        }
 
 		// HOME PANEL
 		addHomePanel();
@@ -267,10 +248,14 @@ public class HomeScreen {
 					// Next day.....
 					environment.goToNextDay();
 
-					for (CrewMember m: crew.getMembers()) {
-						m.decrementTiredness(10);
-                        m.resetActions();
-					}
+					for (CrewMember member: crew.getMembers()) {
+						member.decrementTiredness(10);
+                        member.resetActions();
+                        // check if is sick and remove tiredness
+                        if (member.isSick()) {
+                            member.decrementCurrentHealth();
+                        }
+                    }
 
 					// Random event..
 					int randomEvent = environment.determineRandomEvent();
@@ -278,12 +263,15 @@ public class HomeScreen {
 		            	JOptionPane.showMessageDialog(null, "Random Event: Alien Pirates (");
 		            } else if (randomEvent == 2) {
 		                JOptionPane.showMessageDialog(null, "Random Event: Space Plague");
+                        // Check if member is dead.
+
 		            } else {
 		                JOptionPane.showMessageDialog(null, "Random Event: Asteroid Belt");
 		            }
 				} else {
 					nextDayBtn.setEnabled(false);
 				}
+                
 				refresh();
 
                 spaceOutPostPanel.refresh();
@@ -363,26 +351,38 @@ public class HomeScreen {
 
     public void refreshShipStatusPanel() {
     	shipStatusPanel.removeAll();
+		shipStatusPanel.setLayout(new BoxLayout(shipStatusPanel, BoxLayout.X_AXIS));
+		
+        JPanel panelLeft = new JPanel();
+        panelLeft.setLayout(null);
+        shipStatusPanel.add(panelLeft);
 
-		shipStatusPanel.setLayout(new BoxLayout(shipStatusPanel, BoxLayout.Y_AXIS));
-		JLabel spaceShipName = new JLabel("Space Ship Name: " + spaceShip.getName());
+        JLabel spaceShipImageLabel = new JLabel("");
+        spaceShipImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+        spaceShipImageLabel.setBounds(10, 10, 200, 200);
+        spaceShipImageLabel.setIcon(new ImageIcon(getClass().getResource(spaceShip.getImagePath())));
+        panelLeft.add(spaceShipImageLabel);
+
+        JPanel panelRight = new JPanel();
+        panelRight.setLayout(null);
+        shipStatusPanel.add(panelRight);
+
+        JLabel spaceShipName = new JLabel("Space Ship Name: " + spaceShip.getName());
+        spaceShipName.setBounds(10, 10, 150, 50);
+
 		JLabel spaceShipHealth = new JLabel("Shield Health: " + spaceShip.getShieldHealth());
+        spaceShipHealth.setBounds(10, 40, 150, 50);
+
 		JLabel peicesRequired = new JLabel("Peices Required: " + spaceShip.getPeicesRequired());
-		JLabel partsFound = new JLabel("Peices found: " + spaceShip.getPeicesFound());
-			
-		JButton pioletNewPlanetBtn = new JButton("Piolet ship to new planet");
-		shipStatusPanel.add(pioletNewPlanetBtn);
+		peicesRequired.setBounds(10, 70, 150, 50);
 
-		pioletNewPlanetBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(contentPanel, "PILOT");
-			}
-		});
+        JLabel partsFound = new JLabel("Peices found: " + spaceShip.getPeicesFound());
+        partsFound.setBounds(10, 100, 150, 50);
 
-		shipStatusPanel.add(spaceShipName);
-		shipStatusPanel.add(spaceShipHealth);
-		shipStatusPanel.add(peicesRequired);
-		shipStatusPanel.add(partsFound);
+		panelRight.add(spaceShipName);
+		panelRight.add(spaceShipHealth);
+		panelRight.add(peicesRequired);
+		panelRight.add(partsFound);
     }
 
     public void addExplorePanel() {
@@ -405,11 +405,18 @@ public class HomeScreen {
                 memberRadio.setEnabled(false);
             }
             memberRadio.putClientProperty("CrewMember", member);
+
+            JLabel memberImageLabel = new JLabel("");
+            memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+            memberImageLabel.setIcon(new ImageIcon(getClass().getResource(member.getIconPath())));
+
             memberButtonGroup.add(memberRadio);
+            explorePanel.add(memberImageLabel);
             explorePanel.add(memberRadio);
         }
 
-        JButton exploreBtn = new JButton("Explore");
+
+        JButton exploreBtn = new JButton("Go exploring!");
         explorePanel.add(exploreBtn);
 
         exploreBtn.addActionListener(new ActionListener() {

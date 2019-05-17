@@ -58,10 +58,6 @@ public class GameEnvironment {
         }
     }
 
-    public void changeCurrentPlanet(Planet planet) {
-        this.currentPlanet = planet;
-    }
-
     public String searchPlanetForParts() {
         Random random = new Random();
 
@@ -127,18 +123,6 @@ public class GameEnvironment {
             asteroidBelt();
         }
         return retVal;
-    }
-
-    public String doRandomEvent() {
-        Random random = new Random();
-        double randomNumber = random.nextDouble();
-        if (randomNumber < 0.33) {
-            return "Alien Pirates: " + alienPirates();
-        } else if (randomNumber >= 0.33 && randomNumber < 0.66) {
-            return "Spage Plague: " + spacePlague();
-        } else {
-            return "Asteroid Belt: " + asteroidBelt();
-        }
     }
 
     private String alienPirates() {
@@ -210,7 +194,8 @@ public class GameEnvironment {
 
     private String asteroidBelt() {
         // Decrease damage to the ship..
-        spaceShip.decreaseShieldLevel();
+        int decrement = Math.round(spaceShip.getShieldHealth() / 2);
+        spaceShip.decreaseShieldLevel(decrement);
         int shieldLevel = spaceShip.getShieldHealth();
         return "Shield Health: " + shieldLevel;
     }
@@ -225,6 +210,10 @@ public class GameEnvironment {
     
     public Planet getPlanet() {
         return planet;
+    }
+
+    public void changeCurrentPlanet(Planet planet) {
+        this.currentPlanet = planet;
     }
 
     public int getCurrentDay() {

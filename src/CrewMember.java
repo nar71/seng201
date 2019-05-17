@@ -53,21 +53,27 @@ public class CrewMember {
     }
     
     public void sleep() {
-    	//if (tiredness < 100) {
-    	//	if (tiredness > 90) {
-    	//		tiredness = 100;
-    	//	} else {
+    	if (tiredness < 100) {
+    		if (tiredness > 90) {
+    			tiredness = 100;
+    		} else {
     			tiredness += 10;
-    	//	}
-    	//}
+    		}
+    	}
     }
 
     public void applyFood(Food food) {
-        hungerLevel -= food.getHungerLevel();
+        hungerLevel += food.getHungerLevel();
+        if (hungerLevel > 100) {
+            hungerLevel = 100;
+        }
     }
 
     public void applyMedicalSupply(MedicalSupply medicalSupply) {
         currentHealth += medicalSupply.getHealth();
+        if (currentHealth > maximumHealth) {
+            currentHealth = maximumHealth;
+        }
     }
 
     public String toString() {
@@ -97,11 +103,6 @@ public class CrewMember {
     public void removeAction() {
         if (actions == 1 || actions == 2) {
             actions = actions - 1;
-            //if (tiredness > 10) {
-            //    tiredness -= 10;
-            //} else {
-            //    tiredness = 0;
-            //}
         } else {
             actions = 0;
         }
@@ -152,6 +153,17 @@ public class CrewMember {
 
     public void setCurrentHealth(int health) {
         currentHealth = health;
+    }
+
+    public void decrementCurrentHealth() {
+        if (currentHealth > 0) {
+            if (currentHealth > 10) {
+                currentHealth -= 10;
+            } else {
+                // Check if dead remove from list
+                currentHealth = 0;
+            }
+        }
     }
 
     public int getCurrentHealth() {

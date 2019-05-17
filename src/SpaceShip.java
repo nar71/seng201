@@ -6,10 +6,12 @@ public class SpaceShip {
 	private int shieldHealth;
 	private int numDays;
 	private int peicesFound;
+
+	private static final String IMAGE_PATH = "images/spaceship.jpg";
 	
 	SpaceShip(String name, int numDays) {
 		this.name = name;
-		this.shieldHealth = 0;
+		this.shieldHealth = 100;
 		this.peicesFound = 0;
 		this.numDays = numDays;
 		calculatePeicesRequired();
@@ -17,7 +19,6 @@ public class SpaceShip {
 	
 	private void calculatePeicesRequired() {
 		int peicesRequired = Math.round((this.numDays * 2) / 3);
-		System.out.println(this.numDays);
 		this.peicesRequired = peicesRequired;
 	}
 	
@@ -43,10 +44,21 @@ public class SpaceShip {
 		return name;
 	}
 	
-	public void decreaseShieldLevel() {
-		// Needs to be scaled to current shield lvel
-		if (shieldHealth > 0) {
-			shieldHealth -= 10;
+	public void decreaseShieldLevel(int decrement) {
+		if (shieldHealth > decrement) {
+			shieldHealth -= decrement;
+			if (shieldHealth < 0) {
+				shieldHealth = 0;
+			}
+		}
+	}
+
+	public void incrementShieldLevel(int increment) {
+		if (shieldHealth < increment) {
+			shieldHealth += increment;
+			if (shieldHealth > 100) {
+				shieldHealth = 100;
+			}
 		}
 	}
 	
@@ -60,5 +72,9 @@ public class SpaceShip {
 	
 	public int getPeicesFound() {
 		return peicesFound;
+	}
+
+	public String getImagePath() {
+		return IMAGE_PATH;
 	}
 }
