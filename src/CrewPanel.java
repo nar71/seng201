@@ -240,22 +240,28 @@ public class CrewPanel extends JPanel {
             memberCurHealthLabel.setBounds(10, 260, 377, 24);
             memberPanel.add(memberCurHealthLabel);
 
-            JLabel memberTirednessLevel = new JLabel("Hunger level:" + member.getTiredness());
-            memberTirednessLevel.setHorizontalAlignment(SwingConstants.LEFT);
-            memberTirednessLevel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberTirednessLevel.setBounds(10, 280, 377, 24);
-            memberPanel.add(memberTirednessLevel);
+            JLabel memberHungerLabel = new JLabel("Hunger level:" + member.getHungerLevel());
+            memberHungerLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            memberHungerLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            memberHungerLabel.setBounds(10, 280, 377, 24);
+            memberPanel.add(memberHungerLabel);
+
+            JLabel memberTirednessLabel = new JLabel("Tiredness:" + member.getTiredness());
+            memberTirednessLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            memberTirednessLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            memberTirednessLabel.setBounds(10, 300, 377, 24);
+            memberPanel.add(memberTirednessLabel);
 
             JLabel memberSpecialtyLabel = new JLabel("Specialty:" + member.getSpecialty());
             memberSpecialtyLabel.setHorizontalAlignment(SwingConstants.LEFT);
             memberSpecialtyLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberSpecialtyLabel.setBounds(10, 300, 377, 24);
+            memberSpecialtyLabel.setBounds(10, 320, 377, 24);
             memberPanel.add(memberSpecialtyLabel);
 
             JLabel actionsLeftLabel = new JLabel("Actions left:" + member.getActions());
             actionsLeftLabel.setHorizontalAlignment(SwingConstants.LEFT);
             actionsLeftLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            actionsLeftLabel.setBounds(10, 320, 377, 24);
+            actionsLeftLabel.setBounds(10, 340, 377, 24);
             memberPanel.add(actionsLeftLabel);
         }
     }
@@ -458,7 +464,7 @@ public class CrewPanel extends JPanel {
             membersPanelTwo.add(memberTwoImageLabel);
         }
 
-        JButton doActionBtn = new JButton("DO");
+        JButton doActionBtn = new JButton("Sleep");
         newPlanetPanel.add(doActionBtn);
 
         // Action Listenernes
@@ -548,4 +554,27 @@ public class CrewPanel extends JPanel {
             }
         });
     }
+
+    public JPanel getSelectMemberPanel() {
+        JPanel memberPanel = new JPanel();
+        ButtonGroup memberBtnGroup = new ButtonGroup();
+
+        for (CrewMember member: crew.getMembers()) {
+            JRadioButton memberRadio = new JRadioButton(member.getName());
+            memberRadio.putClientProperty("CrewMember", member);
+            if (!member.hasActionsLeft()) {
+                memberRadio.setEnabled(false);
+            }
+
+            JLabel memberOneImageLabel = new JLabel("");
+            memberOneImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+            memberOneImageLabel.setIcon(new ImageIcon(getClass().getResource(member.getIconPath())));
+
+            memberBtnGroup.add(memberRadio);
+            memberPanel.add(memberRadio);
+            memberPanel.add(memberOneImageLabel);
+        }
+
+        return memberPanel;
+    }    
 }

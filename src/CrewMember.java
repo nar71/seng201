@@ -97,11 +97,11 @@ public class CrewMember {
     public void removeAction() {
         if (actions == 1 || actions == 2) {
             actions = actions - 1;
-            if (tiredness > 10) {
-                tiredness -= 10;
-            } else {
-                tiredness = 0;
-            }
+            //if (tiredness > 10) {
+            //    tiredness -= 10;
+            //} else {
+            //    tiredness = 0;
+            //}
         } else {
             actions = 0;
         }
@@ -112,6 +112,10 @@ public class CrewMember {
             return true;
         }
         return false;
+    }
+
+    public void resetActions() {
+        actions = 2;
     }
     
     public int getTiredness() {

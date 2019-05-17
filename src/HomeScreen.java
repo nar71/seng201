@@ -269,6 +269,7 @@ public class HomeScreen {
 
 					for (CrewMember m: crew.getMembers()) {
 						m.decrementTiredness(10);
+                        m.resetActions();
 					}
 
 					// Random event..
