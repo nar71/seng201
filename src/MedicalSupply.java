@@ -40,6 +40,21 @@ class FirstAidKit extends MedicalSupply {
     }
 }
 
+class SpacePlagueCure extends MedicalSupply {
+    public static final String TYPE = "Space Plague Cure";
+
+    public static final String DESCRIPTION = "";
+
+    public static final int HEALTH = 0;
+    
+    public static final int COST = 50;
+
+    SpacePlagueCure() {
+        super(TYPE, DESCRIPTION, HEALTH, COST);
+        isSpacePlagueCure = true;
+    }
+}
+
 public class MedicalSupply {
 	private String type;
 	private String description;
@@ -47,13 +62,15 @@ public class MedicalSupply {
 	private int cost;
 	
 	private int countOfItems;
-	
+    protected boolean isSpacePlagueCure;
+
 	MedicalSupply(String type, String description, int health, int cost) {
 		this.type = type;
 		this.description = description;
 		this.cost = cost;
 		this.health = health;
         this.countOfItems = 0;
+        this.isSpacePlagueCure = false;
 	}
 
     MedicalSupply() {}
@@ -96,5 +113,9 @@ public class MedicalSupply {
             return true;
         }
         return false;
+    }
+
+    public boolean isSpacePlagueCure() {
+        return isSpacePlagueCure;
     }
 }

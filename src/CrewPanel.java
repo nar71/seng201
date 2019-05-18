@@ -241,7 +241,7 @@ public class CrewPanel extends JPanel {
     private void addCrewDetailsPanel() {
         this.crewDetailsPanel = new JPanel();
         content.add(crewDetailsPanel, CREW_STATUS_PANEL_STRING);
-        crewDetailsPanel.setLayout(new GridLayout(0, 3, 0, 0));  
+        crewDetailsPanel.setLayout(new GridLayout(0, 2, 0, 0));  
     }
 
     private void refreshCrewDetailsPanel() {
@@ -274,7 +274,7 @@ public class CrewPanel extends JPanel {
             JLabel memberDescLabel = new JLabel("Description:" + member.getDescription());
             memberDescLabel.setHorizontalAlignment(SwingConstants.LEFT);
             memberDescLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberDescLabel.setBounds(10, 220, 190, 24);
+            memberDescLabel.setBounds(10, 220, 377, 24);
             memberPanel.add(memberDescLabel);
             
             JLabel memberHealthLabel = new JLabel("Current health:" + member.getCurrentHealth());
@@ -312,6 +312,16 @@ public class CrewPanel extends JPanel {
             actionsLeftLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
             actionsLeftLabel.setBounds(10, 340, 377, 24);
             memberPanel.add(actionsLeftLabel);
+
+            String isSickString = "no";
+            if (member.isSick()) {
+                isSickString = "yes";
+            }
+            JLabel isSickLabel = new JLabel("Is sick: " + isSickString);
+            isSickLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            isSickLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            isSickLabel.setBounds(10, 360, 377, 24);
+            memberPanel.add(isSickLabel);
         }
     }
 
@@ -417,6 +427,14 @@ public class CrewPanel extends JPanel {
                 member.applyMedicalSupply(medicalSupply);
                 spaceOutPost.removeMedicalSupply(medicalSupply);
                 
+                String responseString = medicalSupply.getType() + " successfully applied";
+
+                // Check if space plague cure..
+                if (member.isSick() && medicalSupply.isSpacePlagueCure()) {
+                    member.cure();
+                    responseString += " " + member.getName() + " cured"; 
+                }
+
                 member.removeAction();
                 selectedMemberBtnGroup.clearSelection();
                 if (!member.hasActionsLeft()) {
@@ -429,7 +447,7 @@ public class CrewPanel extends JPanel {
                 }
                 selectedMedicalSupplyRadio.setText(medicalSupply.getType() + "(" + medicalSupply.getCount() + ")");
 
-                JOptionPane.showMessageDialog(null, medicalSupply.getType() + " successfully applied");
+                JOptionPane.showMessageDialog(null, responseString);
             }
         });
     }
@@ -599,11 +617,7 @@ public class CrewPanel extends JPanel {
     }
 
     public ImageIcon getScaledMemberIcon(CrewMember member) {
-        // Rescale what we already have
-        ImageIcon imageIcon = new ImageIcon(getClass().getResource(member.getIconPath()));
-        Image image = imageIcon.getImage();
-        Image smallerImg = image.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
-        return new ImageIcon(smallerImg);
+        return Funcs.getScaledIcon(member.getIconPath(), 100, 100);
     }
 
     public JPanel getSelectMemberPanel() {

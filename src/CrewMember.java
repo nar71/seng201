@@ -96,6 +96,10 @@ public class CrewMember {
     	isSick = true;
     }
 
+    public void cure() {
+        isSick = false;
+    }
+
     public boolean isSick() {
         return isSick;
     }

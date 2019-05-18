@@ -16,6 +16,7 @@ public class SpaceOutPost {
 		currentMedicalSupplies.add(new Bandage());
 		currentMedicalSupplies.add(new FirstAidKit());
 		currentMedicalSupplies.add(new Plaster());
+		currentMedicalSupplies.add(new SpacePlagueCure());
 	}
 	
 	private void initFoods() {

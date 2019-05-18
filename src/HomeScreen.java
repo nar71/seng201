@@ -95,7 +95,7 @@ public class HomeScreen {
 	 */
 	public void initialize() {
 		window = new JFrame();
-		window.setBounds(new Rectangle(0, 0, 1000, 700));
+		window.setBounds(new Rectangle(0, 0, 1000, 850));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		this.mainPanel = new JPanel();
@@ -351,38 +351,32 @@ public class HomeScreen {
 
     public void refreshShipStatusPanel() {
     	shipStatusPanel.removeAll();
-		shipStatusPanel.setLayout(new BoxLayout(shipStatusPanel, BoxLayout.X_AXIS));
-		
-        JPanel panelLeft = new JPanel();
-        panelLeft.setLayout(null);
-        shipStatusPanel.add(panelLeft);
+		shipStatusPanel.setLayout(null);
 
         JLabel spaceShipImageLabel = new JLabel("");
         spaceShipImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-        spaceShipImageLabel.setBounds(10, 10, 200, 200);
+        spaceShipImageLabel.setBounds(100, 50, 200, 200);
         spaceShipImageLabel.setIcon(new ImageIcon(getClass().getResource(spaceShip.getImagePath())));
-        panelLeft.add(spaceShipImageLabel);
+        shipStatusPanel.add(spaceShipImageLabel);
 
-        JPanel panelRight = new JPanel();
-        panelRight.setLayout(null);
-        shipStatusPanel.add(panelRight);
-
-        JLabel spaceShipName = new JLabel("Space Ship Name: " + spaceShip.getName());
-        spaceShipName.setBounds(10, 10, 150, 50);
+        JLabel spaceShipName = new JLabel(spaceShip.getName());
+        spaceShipName.setFont(new Font("Dialog", Font.BOLD, 18));
+        spaceShipName.setHorizontalAlignment(SwingConstants.CENTER);
+        spaceShipName.setBounds(100, 250, 200, 50);
 
 		JLabel spaceShipHealth = new JLabel("Shield Health: " + spaceShip.getShieldHealth());
-        spaceShipHealth.setBounds(10, 40, 150, 50);
+        spaceShipHealth.setBounds(350, 50, 250, 50);
 
 		JLabel peicesRequired = new JLabel("Peices Required: " + spaceShip.getPeicesRequired());
-		peicesRequired.setBounds(10, 70, 150, 50);
+        peicesRequired.setBounds(350, 80, 250, 50);
 
         JLabel partsFound = new JLabel("Peices found: " + spaceShip.getPeicesFound());
-        partsFound.setBounds(10, 100, 150, 50);
+        partsFound.setBounds(350, 110, 250, 50);
 
-		panelRight.add(spaceShipName);
-		panelRight.add(spaceShipHealth);
-		panelRight.add(peicesRequired);
-		panelRight.add(partsFound);
+		shipStatusPanel.add(spaceShipName);
+		shipStatusPanel.add(spaceShipHealth);
+		shipStatusPanel.add(peicesRequired);
+		shipStatusPanel.add(partsFound);
     }
 
     public void addExplorePanel() {

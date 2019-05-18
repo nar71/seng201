@@ -1,23 +1,3 @@
-/*import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.JSlider;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import java.awt.Rectangle;
-import javax.swing.BoxLayout;
-import java.awt.CardLayout;
-import javax.swing.SwingConstants;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
-import java.awt.Font;*/
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -62,7 +42,7 @@ public class SetUpScreen {
 	 */
 	private void initialize() {
 		window = new JFrame();
-		window.setBounds(new Rectangle(0, 0, 900, 700));
+		window.setBounds(new Rectangle(0, 0, 1000, 850));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.getContentPane().setLayout(new BoxLayout(window.getContentPane(), BoxLayout.X_AXIS));
 		
@@ -88,7 +68,7 @@ public class SetUpScreen {
 		JLabel lblGameTitle = new JLabel("GAME NAME");
 		lblGameTitle.setFont(new Font("Dialog", Font.BOLD, 24));
 		lblGameTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameTitle.setBounds(12, 43, 874, 58);
+		lblGameTitle.setBounds(12, 43, 974, 58);
 		startGamePanel.add(lblGameTitle);
 		
 		JButton newGameBtn = new JButton("New Game");
@@ -97,7 +77,7 @@ public class SetUpScreen {
 				cardLayout.show(contentPanel, "GAME_DATA_PANEL");
 			}
 		});
-		newGameBtn.setBounds(386, 233, 114, 25);
+		newGameBtn.setBounds(425, 194, 150, 60);
 		startGamePanel.add(newGameBtn);
 		
 		JButton exitBtn = new JButton("Exit");
@@ -106,7 +86,7 @@ public class SetUpScreen {
 				System.exit(0);
 			}
 		});
-		exitBtn.setBounds(386, 290, 114, 25);
+		exitBtn.setBounds(425, 259, 150, 60);
 		startGamePanel.add(exitBtn);
 	}
 
@@ -117,33 +97,33 @@ public class SetUpScreen {
 
 		JLabel lblGameName = new JLabel("Game Name");
 		lblGameName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameName.setBounds(0, 0, 878, 42);
+		lblGameName.setBounds(12, 0, 974, 69);
 		gameDataPanel.add(lblGameName);
 		
 		JLabel lblHowManyCharacters = new JLabel("Team name");
-		lblHowManyCharacters.setBounds(35, 80, 276, 29);
+		lblHowManyCharacters.setBounds(40, 90, 276, 29);
 		gameDataPanel.add(lblHowManyCharacters);
 		
 		JLabel lblRocketShipName = new JLabel("Rocket ship name");
-		lblRocketShipName.setBounds(37, 132, 276, 29);
+		lblRocketShipName.setBounds(40, 140, 276, 29);
 		gameDataPanel.add(lblRocketShipName);
 		
 		JTextField rocketShipTxtField = new JTextField();
 		rocketShipTxtField.setColumns(10);
-		rocketShipTxtField.setBounds(444, 132, 176, 24);
+		rocketShipTxtField.setBounds(444, 140, 200, 30);
 		gameDataPanel.add(rocketShipTxtField);
 		
 		JTextField teamNameTxt = new JTextField();
 		teamNameTxt.setColumns(10);
-		teamNameTxt.setBounds(444, 85, 176, 24);
+		teamNameTxt.setBounds(444, 90, 200, 30);
 		gameDataPanel.add(teamNameTxt);
 		
 		JLabel lblNumDays = new JLabel("How many days do you want to play?");
-		lblNumDays.setBounds(35, 184, 276, 29);
+		lblNumDays.setBounds(40, 190, 276, 29);
 		gameDataPanel.add(lblNumDays);
 
 		JLabel lblNumCharacters = new JLabel("How many characters do you want to play?");
-		lblNumCharacters.setBounds(35, 242, 325, 29);
+		lblNumCharacters.setBounds(40, 240, 325, 29);
 		gameDataPanel.add(lblNumCharacters);
 		
 		JSlider sliderDaysAmount = new JSlider();
@@ -153,7 +133,7 @@ public class SetUpScreen {
 		sliderDaysAmount.setMinimum(3);
 		sliderDaysAmount.setMaximum(10);
 		sliderDaysAmount.setMajorTickSpacing(1);
-		sliderDaysAmount.setBounds(444, 169, 264, 45);
+		sliderDaysAmount.setBounds(444, 190, 264, 45);
 		sliderDaysAmount.setValue(1);
 		
 		JSlider sliderCharactersAmount = new JSlider();
@@ -164,11 +144,11 @@ public class SetUpScreen {
 		sliderCharactersAmount.setMinimum(2);
 		sliderCharactersAmount.setSnapToTicks(true);
 		sliderCharactersAmount.setMinorTickSpacing(1);
-		sliderCharactersAmount.setBounds(444, 232, 264, 35);
+		sliderCharactersAmount.setBounds(444, 240, 264, 35);
 		gameDataPanel.add(sliderCharactersAmount);
 		
 		JButton btnContinue = new JButton("Continue");
-		btnContinue.setBounds(707, 527, 114, 25);
+		btnContinue.setBounds(781, 676, 130, 40);
 		btnContinue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				game.setGameEnvironment(new GameEnvironment(
@@ -184,37 +164,37 @@ public class SetUpScreen {
 	}
 
 	public void addChooseCharacterPanel() {
-		JPanel chooseCharacterPanel = new JPanel();
+		JPanel chooseCharacterPanel =  new JPanel();
 		chooseCharacterPanel.setLayout(null);
 		contentPanel.add(chooseCharacterPanel, "CHOOSE_CHARACTER_PANEL");
 
 		JLabel lblGameName = new JLabel("Game Name");
 		lblGameName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameName.setBounds(0, 0, 878, 42);
+		lblGameName.setBounds(12, 0, 974, 69);
 		chooseCharacterPanel.add(lblGameName);
 
 		JLabel lblCharacterName = new JLabel("Character Name:");
-		lblCharacterName.setBounds(33, 100, 126, 27);
+		lblCharacterName.setBounds(66, 100, 126, 27);
 		chooseCharacterPanel.add(lblCharacterName);
 		
 		JTextField characterNameTxt = new JTextField();
-		characterNameTxt.setBounds(233, 100, 143, 23);
+		characterNameTxt.setBounds(267, 102, 200, 30);
 		chooseCharacterPanel.add(characterNameTxt);
 		characterNameTxt.setColumns(10);
 		
 		JLabel lblCharacterType = new JLabel("Character Type:");
-		lblCharacterType.setBounds(33, 140, 126, 27);
+		lblCharacterType.setBounds(66, 140, 126, 27);
 		chooseCharacterPanel.add(lblCharacterType);
 		
 		CrewMember crewMember = new CrewMember();
 		String[] types = crewMember.getAllTypes();
 		JComboBox type = new JComboBox(types);
 
-		type.setBounds(233, 140, 143, 24);
+		type.setBounds(267, 141, 200, 30);
 		chooseCharacterPanel.add(type);
 		
 		JButton btnNext = new JButton("Add");
-		btnNext.setBounds(707, 527, 114, 25);
+		btnNext.setBounds(781, 676, 130, 40);
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				numAddBtnPressed++;
@@ -239,20 +219,20 @@ public class SetUpScreen {
 		Barter barter = new Barter("");
         JLabel memberImageLabel = new JLabel("");
         memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-        memberImageLabel.setBounds(531, 100, 150, 150);
+        memberImageLabel.setBounds(577, 98, 150, 150);
         memberImageLabel.setIcon(new ImageIcon(getClass().getResource(barter.getIconPath())));
         chooseCharacterPanel.add(memberImageLabel);
 
 		JLabel descriptionLabel = new JLabel(barter.getDescription());
-		descriptionLabel.setBounds(531, 200, 300, 150);
+		descriptionLabel.setBounds(577, 204, 300, 150);
 		chooseCharacterPanel.add(descriptionLabel);
 
 		JLabel healthLbl = new JLabel("Max Health: " + barter.getMaxHealth());
-		healthLbl.setBounds(531, 240, 150, 150);
+		healthLbl.setBounds(577, 240, 150, 150);
 		chooseCharacterPanel.add(healthLbl);
 
 		JLabel specialtyLbl = new JLabel("Specialty: " + barter.getSpecialty());
-		specialtyLbl.setBounds(531, 260, 150, 150);
+		specialtyLbl.setBounds(577, 260, 150, 150);
 		chooseCharacterPanel.add(specialtyLbl);
 
 		type.addActionListener(new ActionListener() {
