@@ -95,7 +95,7 @@ public class HomeScreen {
 	 */
 	public void initialize() {
 		window = new JFrame();
-		window.setBounds(new Rectangle(0, 0, 1000, 850));
+		window.setBounds(new Rectangle(0, 0, 1000, 810));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		this.mainPanel = new JPanel();
@@ -419,6 +419,10 @@ public class HomeScreen {
                 CrewMember actionedMember = (CrewMember) selectedMemberRadio.getClientProperty("CrewMember");
 
                 actionedMember.removeAction();
+                memberButtonGroup.clearSelection();
+                if (!actionedMember.hasActionsLeft()) {
+                    selectedMemberRadio.setEnabled(false);
+                }
 
                 String foundItem = environment.searchPlanetForParts();
                 JOptionPane.showMessageDialog(null, foundItem);

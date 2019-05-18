@@ -42,7 +42,7 @@ public class SetUpScreen {
 	 */
 	private void initialize() {
 		window = new JFrame();
-		window.setBounds(new Rectangle(0, 0, 1000, 850));
+		window.setBounds(new Rectangle(0, 0, 1000, 810));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.getContentPane().setLayout(new BoxLayout(window.getContentPane(), BoxLayout.X_AXIS));
 		
@@ -95,37 +95,48 @@ public class SetUpScreen {
 		gameDataPanel.setLayout(null);
 		contentPanel.add(gameDataPanel, "GAME_DATA_PANEL");
 
-		JLabel lblGameName = new JLabel("Game Name");
-		lblGameName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameName.setBounds(12, 0, 974, 69);
-		gameDataPanel.add(lblGameName);
+		JLabel gameNameLabel = new JLabel("Game Name");
+		gameNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		gameNameLabel.setBounds(12, 0, 974, 69);
+		gameDataPanel.add(gameNameLabel);
 		
-		JLabel lblHowManyCharacters = new JLabel("Team name");
-		lblHowManyCharacters.setBounds(40, 90, 276, 29);
-		gameDataPanel.add(lblHowManyCharacters);
-		
-		JLabel lblRocketShipName = new JLabel("Rocket ship name");
-		lblRocketShipName.setBounds(40, 140, 276, 29);
-		gameDataPanel.add(lblRocketShipName);
-		
-		JTextField rocketShipTxtField = new JTextField();
-		rocketShipTxtField.setColumns(10);
-		rocketShipTxtField.setBounds(444, 140, 200, 30);
-		gameDataPanel.add(rocketShipTxtField);
+		JLabel teamNameLabel = new JLabel("Team name");
+		teamNameLabel.setBounds(40, 90, 276, 29);
+		gameDataPanel.add(teamNameLabel);
+
+		JLabel teamNameErrorLabel = new JLabel("");
+		teamNameErrorLabel.setBounds(40, 110, 276, 29);
+		teamNameErrorLabel.setForeground(Color.red);
+		gameDataPanel.add(teamNameErrorLabel);
 		
 		JTextField teamNameTxt = new JTextField();
 		teamNameTxt.setColumns(10);
 		teamNameTxt.setBounds(444, 90, 200, 30);
 		gameDataPanel.add(teamNameTxt);
+
+		JLabel lblRocketShipName = new JLabel("Rocket ship name");
+		lblRocketShipName.setBounds(40, 140, 276, 29);
+		gameDataPanel.add(lblRocketShipName);
+		
+		JLabel rocketShipNameErrorLabel = new JLabel("");
+		rocketShipNameErrorLabel.setBounds(40, 160, 276, 29);
+		rocketShipNameErrorLabel.setForeground(Color.red);
+		gameDataPanel.add(rocketShipNameErrorLabel);
+
+		JTextField rocketShipTxtField = new JTextField();
+		rocketShipTxtField.setColumns(10);
+		rocketShipTxtField.setBounds(444, 140, 200, 30);
+		gameDataPanel.add(rocketShipTxtField);
 		
 		JLabel lblNumDays = new JLabel("How many days do you want to play?");
 		lblNumDays.setBounds(40, 190, 276, 29);
 		gameDataPanel.add(lblNumDays);
 
-		JLabel lblNumCharacters = new JLabel("How many characters do you want to play?");
-		lblNumCharacters.setBounds(40, 240, 325, 29);
-		gameDataPanel.add(lblNumCharacters);
-		
+		JLabel numDaysErrorLabel = new JLabel("");
+		numDaysErrorLabel.setBounds(40, 210, 276, 29);
+		numDaysErrorLabel.setForeground(Color.red);
+		gameDataPanel.add(numDaysErrorLabel);
+
 		JSlider sliderDaysAmount = new JSlider();
 		gameDataPanel.add(sliderDaysAmount);
 		sliderDaysAmount.setSnapToTicks(true);
@@ -135,7 +146,16 @@ public class SetUpScreen {
 		sliderDaysAmount.setMajorTickSpacing(1);
 		sliderDaysAmount.setBounds(444, 190, 264, 45);
 		sliderDaysAmount.setValue(1);
-		
+
+		JLabel lblNumCharacters = new JLabel("How many characters do you want to play?");
+		lblNumCharacters.setBounds(40, 240, 325, 29);
+		gameDataPanel.add(lblNumCharacters);
+
+		JLabel numCharactersErrorLabel = new JLabel("");
+		numCharactersErrorLabel.setBounds(40, 260, 276, 29);
+		numCharactersErrorLabel.setForeground(Color.red);
+		gameDataPanel.add(numCharactersErrorLabel);
+
 		JSlider sliderCharactersAmount = new JSlider();
 		sliderCharactersAmount.setValue(2);
 		sliderCharactersAmount.setPaintLabels(true);
@@ -151,13 +171,40 @@ public class SetUpScreen {
 		btnContinue.setBounds(781, 676, 130, 40);
 		btnContinue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				game.setGameEnvironment(new GameEnvironment(
-						teamNameTxt.getText().trim(), 
-						sliderCharactersAmount.getValue(), 
-						sliderDaysAmount.getValue(), 
-						rocketShipTxtField.getText()
-				));
-				cardLayout.show(contentPanel, "CHOOSE_CHARACTER_PANEL");
+				boolean hasErrors = false;
+				String teamName = teamNameTxt.getText().trim();
+				if (teamName.length() < 4 || teamName.length() > 8) {
+					teamNameErrorLabel.setText("Must be between 4-8 characters long");
+					hasErrors = true;
+				}
+
+				String rocketShipName = rocketShipTxtField.getText().trim();
+				if (rocketShipName.length() < 4 || rocketShipName.length() > 8) {
+					rocketShipNameErrorLabel.setText("Must be between 4-8 characters long");
+					hasErrors = true;
+				}
+
+				int numDays = sliderDaysAmount.getValue();
+				if (!Funcs.isValidNumDays(numDays)) {
+					numDaysErrorLabel.setText("Invalid number of days");
+					hasErrors = true;
+				}
+
+				int numCharacters = sliderCharactersAmount.getValue();
+				if (!Funcs.isValidNumCharacters(numCharacters)) {
+					numCharactersErrorLabel.setText("Invalid number of characters");
+					hasErrors = true;
+				}
+
+				if (!hasErrors) {
+					game.setGameEnvironment(new GameEnvironment(
+							teamName,
+							sliderCharactersAmount.getValue(), 
+							sliderDaysAmount.getValue(), 
+							rocketShipName
+					));
+					cardLayout.show(contentPanel, "CHOOSE_CHARACTER_PANEL");
+				}
 			}
 		});
 		gameDataPanel.add(btnContinue);

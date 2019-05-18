@@ -6,6 +6,20 @@ import javax.swing.ImageIcon;
 import java.awt.Image;
 
 public class Funcs {
+    public static boolean isValidNumDays(int days) {
+        if (days >= 3 && days <= 10) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isValidNumCharacters(int num) {
+        if (num >= 2 && num <= 4) {
+            return true;
+        }
+        return false;
+    }
+
     public static JRadioButton selectedButton(ButtonGroup buttonGroup) {
         JRadioButton selectedButton = null;
         for (Enumeration<AbstractButton> e = buttonGroup.getElements(); e.hasMoreElements();) {

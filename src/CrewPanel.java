@@ -255,62 +255,56 @@ public class CrewPanel extends JPanel {
             
             JLabel memberImageLabel = new JLabel("");
             memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            memberImageLabel.setBounds(30, 13, 150, 150);
+            memberImageLabel.setBounds(30, 13, 120, 120);
             memberImageLabel.setIcon(new ImageIcon(getClass().getResource(member.getIconPath())));
             memberPanel.add(memberImageLabel);
             
             JLabel memberNameLabel = new JLabel(member.getName());
             memberNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
             memberNameLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-            memberNameLabel.setBounds(10, 172, 190, 25);
+            memberNameLabel.setBounds(10, 150, 190, 25);
             memberPanel.add(memberNameLabel);
 
             JLabel memberTypeLabel = new JLabel(String.format("%s", member.getType()));
             memberTypeLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
             memberTypeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            memberTypeLabel.setBounds(10, 195, 190, 25);
+            memberTypeLabel.setBounds(10, 170, 190, 25);
             memberPanel.add(memberTypeLabel);
             
             JLabel memberDescLabel = new JLabel("Description:" + member.getDescription());
             memberDescLabel.setHorizontalAlignment(SwingConstants.LEFT);
             memberDescLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberDescLabel.setBounds(10, 220, 377, 24);
+            memberDescLabel.setBounds(10, 190, 300, 24);
             memberPanel.add(memberDescLabel);
+
+            JLabel memberSpecialtyLabel = new JLabel("Specialty:" + member.getSpecialty());
+            memberSpecialtyLabel.setHorizontalAlignment(SwingConstants.LEFT);
+            memberSpecialtyLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            memberSpecialtyLabel.setBounds(10, 210, 190, 24);
+            memberPanel.add(memberSpecialtyLabel);
             
-            JLabel memberHealthLabel = new JLabel("Current health:" + member.getCurrentHealth());
+            JLabel memberHealthLabel = new JLabel("Health:" + member.getCurrentHealth() + "/" + member.getMaxHealth());
             memberHealthLabel.setHorizontalAlignment(SwingConstants.LEFT);
             memberHealthLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberHealthLabel.setBounds(10, 240, 377, 24);
+            memberHealthLabel.setBounds(10, 230, 190, 24);
             memberPanel.add(memberHealthLabel);
-
-            JLabel memberCurHealthLabel = new JLabel("Max health:" + member.getMaxHealth());
-            memberCurHealthLabel.setHorizontalAlignment(SwingConstants.LEFT);
-            memberCurHealthLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberCurHealthLabel.setBounds(10, 260, 377, 24);
-            memberPanel.add(memberCurHealthLabel);
 
             JLabel memberHungerLabel = new JLabel("Hunger level:" + member.getHungerLevel());
             memberHungerLabel.setHorizontalAlignment(SwingConstants.LEFT);
             memberHungerLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberHungerLabel.setBounds(10, 280, 377, 24);
+            memberHungerLabel.setBounds(10, 250, 190, 24);
             memberPanel.add(memberHungerLabel);
 
             JLabel memberTirednessLabel = new JLabel("Tiredness:" + member.getTiredness());
             memberTirednessLabel.setHorizontalAlignment(SwingConstants.LEFT);
             memberTirednessLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberTirednessLabel.setBounds(10, 300, 377, 24);
+            memberTirednessLabel.setBounds(10, 270, 190, 24);
             memberPanel.add(memberTirednessLabel);
-
-            JLabel memberSpecialtyLabel = new JLabel("Specialty:" + member.getSpecialty());
-            memberSpecialtyLabel.setHorizontalAlignment(SwingConstants.LEFT);
-            memberSpecialtyLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberSpecialtyLabel.setBounds(10, 320, 377, 24);
-            memberPanel.add(memberSpecialtyLabel);
 
             JLabel actionsLeftLabel = new JLabel("Actions left:" + member.getActions());
             actionsLeftLabel.setHorizontalAlignment(SwingConstants.LEFT);
             actionsLeftLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            actionsLeftLabel.setBounds(10, 340, 377, 24);
+            actionsLeftLabel.setBounds(10, 290, 190, 24);
             memberPanel.add(actionsLeftLabel);
 
             String isSickString = "no";
@@ -320,7 +314,7 @@ public class CrewPanel extends JPanel {
             JLabel isSickLabel = new JLabel("Is sick: " + isSickString);
             isSickLabel.setHorizontalAlignment(SwingConstants.LEFT);
             isSickLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            isSickLabel.setBounds(10, 360, 377, 24);
+            isSickLabel.setBounds(10, 310, 190, 24);
             memberPanel.add(isSickLabel);
         }
     }
