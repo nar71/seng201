@@ -73,6 +73,8 @@ public class GameEnvironment {
                 spaceShip.addPeice();
                 currentPlanet.foundTransporterPart();
                 returnStr = "You have found a transporter part";
+            } else {
+                returnStr = "Go travel to another planet to find a transporter part";
             }
         }
 
@@ -166,15 +168,13 @@ public class GameEnvironment {
     }
 
     private String spacePlague() {
-        // Crew members become sick -> we need to implement more than one member becoming sick...
         Random random = new Random();
 
         ArrayList<CrewMember> allNonInfectedMembers = crew.getAllNonSickMembers();
 
-        String ret = "";
+        String returnString = "";
         if (allNonInfectedMembers.size() > 0) {
-            // Determine how many members to make sick -> need an algo here..
-            int randInt = Math.round((allNonInfectedMembers.size()));
+            int randInt = Math.round((allNonInfectedMembers.size()) / 2);
             int count = random.nextInt(randInt);
             if (count == 0) {
                 count = 1;
@@ -185,11 +185,17 @@ public class GameEnvironment {
                 int itemIndex = random.nextInt(allNonInfectedMembersNew.size());
                 CrewMember infectedMember = allNonInfectedMembersNew.get(itemIndex);
 
-                crew.makeMemberSick(infectedMember);
-                ret += infectedMember.getName();
+                if (!infectedMember.isSick()) {
+                    infectedMember.makeSick();
+                    if (infectedMember.decrementCurrentHealthAndCheckIfDead()) {
+                        crew.removeCrewMember(infectedMember);
+                        returnString += "You have lost a crew member\n";
+                    }
+                }
+                returnString += infectedMember.getName() + "\n";
             }
         }
-        return ret;
+        return returnString;
     }
 
     private String asteroidBelt() {
@@ -202,6 +208,26 @@ public class GameEnvironment {
     
     public void goToNextDay() {
         currentDay++;
+        for (CrewMember member: crew.getMembers()) {
+            if (member.getTiredness() > 10) {
+                member.decrementTiredness(10);
+            } else {
+                member.setTiredness(0);
+            }
+            member.resetActions();
+            if (member.isSick()) {   
+                if (member.decrementCurrentHealthAndCheckIfDead()) {
+                    crew.removeCrewMember(member);
+                }
+            }
+        }
+    }
+
+    public boolean hasDaysLeft() {
+        if (currentDay == numDays) {
+            return false;
+        }
+        return true;
     }
     
     public Planet getCurrentPlanet() {

@@ -1,21 +1,40 @@
 import java.util.*;
 
 public class CommandLine {
+    /**
+     * The game environment that manages all of the game data
+     */
     private GameEnvironment game;
+
+    /**
+     * The crew class that holds all of the crew members
+     */
     private Crew crew;
 
+    /**
+     * The scanner for the command line input responses
+     */
     private Scanner scanner;
 
+    /**
+     * CommandLine constructor which initiates the scanner and calls the set up methods.
+     */
     CommandLine() {
         this.scanner = new Scanner(System.in);
         setUp();
         printDays();
     }
 
+    /**
+     * Launch the command line
+     */
     public static void main(String[] args) {
         new CommandLine();
     }
 
+    /**
+     * Sets up the start of the game. Gets the team and spaceship name and adds the crew members
+     */
     public void setUp() {
         System.out.println("What would you like to name you're team?");
         String teamName = scanner.next();
@@ -90,6 +109,9 @@ public class CommandLine {
         System.out.println("Awesome, you can now begin the game");
     }
 
+    /**
+     * Base point for the actions that can be taken during the game. All in a switch statement.
+     */
     public void printDays() {
         // Randomize Planet objects ....
         Planet startPlanet = game.getCurrentPlanet();
@@ -145,6 +167,9 @@ public class CommandLine {
         }
     }
 
+    /**
+     * Base point for the actions that a crew member can make. All in a switch statement.
+     */
     public void crewAction() {
         for (CrewMember member: crew.getMembers()) {
             System.out.println(member);
@@ -281,6 +306,9 @@ public class CommandLine {
         }
     }
 
+    /**
+     * Does the space outpost action. Shows inventory and can buy foods and medical supplies
+     */
     public void spaceOutPostAction() {
         // View Inventory
         SpaceOutPost spaceOutPost = game.getSpaceOutPost();
@@ -340,6 +368,9 @@ public class CommandLine {
         }
     }
 
+    /**
+     * Does the next day action, which calls a random event.
+     */
     public void nextDayAction() {
         if (!game.isValidCurrentDay()) {
             // Check if you have won/lost....

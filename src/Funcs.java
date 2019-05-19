@@ -19,7 +19,7 @@ public class Funcs {
         }
         return false;
     }
-
+    
     public static JRadioButton selectedButton(ButtonGroup buttonGroup) {
         JRadioButton selectedButton = null;
         for (Enumeration<AbstractButton> e = buttonGroup.getElements(); e.hasMoreElements();) {

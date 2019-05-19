@@ -39,38 +39,66 @@ public class WindowTests {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(new Rectangle(0, 0, 900, 700));
+		frame.setBounds(new Rectangle(0, 0, 1000, 700));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JPanel mainPanel = new JPanel();
+		JPanel contentPanel = new JPanel();
 
+		CardLayout cardLayout = new CardLayout();
+		
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        contentPanel.setLayout(cardLayout);
 
-		JPanel shipStatusPanel = new JPanel();
-		frame.getContentPane().add(shipStatusPanel);		
-		shipStatusPanel.setLayout(null);
+		JPanel homePanel = new JPanel();
+		contentPanel.add(homePanel, "HOME");
 
-        JLabel spaceShipImageLabel = new JLabel("");
-        spaceShipImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-        spaceShipImageLabel.setBounds(51, 50, 200, 200);
-        spaceShipImageLabel.setIcon(new ImageIcon(getClass().getResource("images/spaceship.jpg")));
-        shipStatusPanel.add(spaceShipImageLabel);
-
-        JLabel spaceShipName = new JLabel("Space Ship Name");
-        spaceShipName.setFont(new Font("Dialog", Font.BOLD, 18));
-        spaceShipName.setHorizontalAlignment(SwingConstants.CENTER);
-        spaceShipName.setBounds(51, 50, 200, 50);
-
-		JLabel spaceShipHealth = new JLabel("Shield Health: " + "100");
-        spaceShipHealth.setBounds(300, 112, 250, 50);
-
-		JLabel peicesRequired = new JLabel("Peices Required: " + "2");
-		peicesRequired.setBounds(300, 148, 250, 50);
-
-        JLabel partsFound = new JLabel("Peices found: " + "0");
-        partsFound.setBounds(300, 181, 250, 50);
-
-        shipStatusPanel.add(spaceShipName);
-        shipStatusPanel.add(spaceShipHealth);
-        shipStatusPanel.add(peicesRequired);
-        shipStatusPanel.add(partsFound);
+		homePanel.setLayout(new BoxLayout(homePanel, BoxLayout.X_AXIS));
+		JPanel homeSideBar = new JPanel();
+		homePanel.add(homeSideBar);
+		
+		//homeSideBar.setLayout(new BoxLayout(homeSideBar, BoxLayout.Y_AXIS));
+		homeSideBar.setLayout(null);
+		
+		//JPanel crewStatusBtnPanel = new JPanel();
+		//homeSideBar.add(crewStatusBtnPanel);
+		JButton crewDetailBtn = new JButton("View Crew Status");
+        crewDetailBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		crewDetailBtn.setBounds(26, 30, 165, 30);
+		homeSideBar.add(crewDetailBtn);
+		//crewStatusBtnPanel.add(crewDetailBtn);
+		
+		//JPanel shipStatusBtnPanel = new JPanel();
+		//homeSideBar.add(shipStatusBtnPanel);
+		JButton shipBtn = new JButton("View Ship Status");
+        shipBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        shipBtn.setBounds(26, 69, 165, 30);
+		homeSideBar.add(shipBtn);
+		//shipStatusBtnPanel.add(shipBtn);
+		
+		//JPanel inventoryBtnPanel = new JPanel();
+		//homeSideBar.add(inventoryBtnPanel);
+		JButton inventoryBtn = new JButton("Inventory"); // Takes you to inventory of spaceoutpost
+        inventoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        inventoryBtn.setBounds(26, 108, 165, 30);
+		homeSideBar.add(inventoryBtn);
+		//inventoryBtnPanel.add(inventoryBtn);
+		
+		JButton shopBtn = new JButton("Shop");
+        shopBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        shopBtn.setBounds(12, 67, 165, 30);
+        homeSideBar.add(shopBtn);
+        
+		JButton exploreBtn = new JButton("Explore");
+        exploreBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        exploreBtn.setBounds(235, 69, 165, 30);
+        homeSideBar.add(exploreBtn);
+        
+        
+		cardLayout.show(contentPanel, "HOME");
+        
+		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
+		frame.getContentPane().add(mainPanel);
+		frame.setVisible(true);
 	}
-
 }

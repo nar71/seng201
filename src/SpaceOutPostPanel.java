@@ -70,7 +70,6 @@ public class SpaceOutPostPanel extends JPanel {
         this.foodBtns = new JButton("Foods");
         panel_3.add(foodBtns);
 
-
 		// Inventory
         addInventoryPanel();
         refreshInventoryPanel();
@@ -80,53 +79,61 @@ public class SpaceOutPostPanel extends JPanel {
 		
 		// Foods
         addFoodsPanel();
-		
-
+	
         // SHOW inventory By default
         cardLayout.show(content, INVENTORY_PANEL_STRING);
 
         // Action handlers
         inventoryBtn.setEnabled(false);
 
-        foodBtns.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent arg1) {
-                refreshFoodsPanel();
-        		cardLayout.show(content, FOODS_PANEL_STRING);
-        		inventoryBtn.setEnabled(true);
-                medicalSuppliesBtn.setEnabled(true);
-                foodBtns.setEnabled(false);
-        	}
-        });
-        
-        medicalSuppliesBtn.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent arg0) {
-                refreshMedicalSuppliesPanel();
-        		cardLayout.show(content, MEDICAL_SUPPLIES_PANEL_STRING);
-        		inventoryBtn.setEnabled(true);
-                foodBtns.setEnabled(true);
-                medicalSuppliesBtn.setEnabled(false);
-        	}
-        });
-		
-		inventoryBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg2) {
-                refreshInventoryPanel();
-				cardLayout.show(content, INVENTORY_PANEL_STRING);
-                inventoryBtn.setEnabled(false);
-                medicalSuppliesBtn.setEnabled(true);
-                foodBtns.setEnabled(true);
-			}
-		});
+        addActionListeners();
 	}
 
     public void refresh() {
         cardLayout.show(content, INVENTORY_PANEL_STRING);
+        refreshCoinLabel();
         refreshInventoryPanel();
         refreshMedicalSuppliesPanel();
         refreshFoodsPanel();
         inventoryBtn.setEnabled(false);
         medicalSuppliesBtn.setEnabled(true);
         foodBtns.setEnabled(true);
+    }
+
+    public void refreshCoinLabel() {
+        this.coinsLabel.setText("Current coins: " + spaceOutPost.getCurrentMoney());
+    }
+
+    public void addActionListeners() {
+        foodBtns.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg1) {
+                refreshFoodsPanel();
+                cardLayout.show(content, FOODS_PANEL_STRING);
+                inventoryBtn.setEnabled(true);
+                medicalSuppliesBtn.setEnabled(true);
+                foodBtns.setEnabled(false);
+            }
+        });
+        
+        medicalSuppliesBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                refreshMedicalSuppliesPanel();
+                cardLayout.show(content, MEDICAL_SUPPLIES_PANEL_STRING);
+                inventoryBtn.setEnabled(true);
+                foodBtns.setEnabled(true);
+                medicalSuppliesBtn.setEnabled(false);
+            }
+        });
+        
+        inventoryBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg2) {
+                refreshInventoryPanel();
+                cardLayout.show(content, INVENTORY_PANEL_STRING);
+                inventoryBtn.setEnabled(false);
+                medicalSuppliesBtn.setEnabled(true);
+                foodBtns.setEnabled(true);
+            }
+        });
     }
 
     private void addInventoryPanel() {

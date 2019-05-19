@@ -74,7 +74,6 @@ public class HomeScreen {
         this.crew = environment.getCrew();
         this.spaceOutPost = environment.getSpaceOutPost();
         this.spaceShip = environment.getSpaceShip();
-
         this.previousTime = environment.getTime();
 
 		initialize();
@@ -82,13 +81,13 @@ public class HomeScreen {
 		window.setVisible(true);
 	}
 
-	/*public void finishedWindow() {
+	public void finishedWindow() {
 		window.dispose();
 	}
 
-	public void closeWindow() {
-		game.closeHomeScreen(this);
-	}*/
+	public void closeWindow(boolean isVictory, String message) {
+		game.closeHomeScreen(this, isVictory, message);
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -97,54 +96,34 @@ public class HomeScreen {
 		window = new JFrame();
 		window.setBounds(new Rectangle(0, 0, 1000, 810));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
+        this.cardLayout = new CardLayout();
 		this.mainPanel = new JPanel();
 		this.contentPanel = new JPanel();
 
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        contentPanel.setLayout(cardLayout);
 
         addTopPanel();
 
 		mainPanel.add(contentPanel);
 
-		this.cardLayout = new CardLayout();
-		contentPanel.setLayout(cardLayout);
-
-		// HOME PANEL
 		addHomePanel();
-
-		// Crew Status Panel
 		addCrewStatusPanel();
-		
-		// Ship Status PANEL
 		addShipStatusPanel();
-		
-		// SHOP PANEL...
         addSpaceOutPostPanel();
-
-        // Explore Panel
         addExplorePanel();
 
-		// SHOW DEFAULT PANEL
 		cardLayout.show(contentPanel, "HOME");
 		
-		// Action listeners
 		window.getContentPane().setLayout(new BoxLayout(window.getContentPane(), BoxLayout.X_AXIS));
 		window.getContentPane().add(mainPanel);
 		window.setVisible(true);
 	}
 
 	public void refresh() {
-        // Here we refresh time.
-        /*LocalTime time = environment.getTime();
-        if (previousTime.getMinutes() < time.getMinutes()) {
-            previousTime = time;
-            environment.goToNextDay();
-        }*/
-
 		refreshTopPanel();
 		refreshShipStatusPanel();
-
         spaceOutPostPanel.refresh();
 	}
 
@@ -174,22 +153,24 @@ public class HomeScreen {
 
         JPanel dayLabelPanel = new JPanel();
         topPanel.add(dayLabelPanel);
-        this.dayLabel = new JLabel("Day: " + environment.getCurrentDay() + "/" + environment.getNumDays());
+        this.dayLabel = new JLabel("");
         dayLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
         dayLabelPanel.add(dayLabel);
 
         JPanel currentPlanetPanel = new JPanel();
         topPanel.add(currentPlanetPanel);
-        this.currentPlanetLabel = new JLabel("Current Planet: " + environment.getCurrentPlanet());
+        this.currentPlanetLabel = new JLabel("");
         currentPlanetLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
         currentPlanetPanel.add(currentPlanetLabel);
 
         JPanel peicesRequiredPanel = new JPanel();
         topPanel.add(peicesRequiredPanel);
-        this.peicesRequiredLabel = new JLabel("Peices: " + spaceShip.getPeicesFound() + "/" + spaceShip.getPeicesRequired());
+        this.peicesRequiredLabel = new JLabel("");
         peicesRequiredLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
         peicesRequiredPanel.add(peicesRequiredLabel);
         
+        refreshTopPanel();
+
         mainPanel.add(topPanel);
     }
 
@@ -202,69 +183,62 @@ public class HomeScreen {
 	public void addHomePanel() {
 		JPanel homePanel = new JPanel();
 		homePanel.setLayout(new BoxLayout(homePanel, BoxLayout.X_AXIS));
-		JPanel homeSideBar = new JPanel();
-		homePanel.add(homeSideBar);
-		homeSideBar.setLayout(new BoxLayout(homeSideBar, BoxLayout.Y_AXIS));
-		
-		JPanel crewStatusBtnPanel = new JPanel();
-		homeSideBar.add(crewStatusBtnPanel);
-		JButton crewDetailBtn = new JButton("View Crew Status");
-        crewDetailBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		crewStatusBtnPanel.add(crewDetailBtn);
-		
-		JPanel shipStatusBtnPanel = new JPanel();
-		homeSideBar.add(shipStatusBtnPanel);
-		JButton shipBtn = new JButton("View Ship Status");
-        shipBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		shipStatusBtnPanel.add(shipBtn);
-		
-		JPanel inventoryBtnPanel = new JPanel();
-		homeSideBar.add(inventoryBtnPanel);
-		JButton inventoryBtn = new JButton("Inventory"); // Takes you to inventory of spaceoutpost
-        inventoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		inventoryBtnPanel.add(inventoryBtn);
-		
-		JPanel nextDayBtnPanel = new JPanel();
-		homeSideBar.add(nextDayBtnPanel);
-		JButton nextDayBtn = new JButton("Next Day");
-		nextDayBtnPanel.add(nextDayBtn);
-
 		JPanel homeContent = new JPanel();
 		homePanel.add(homeContent);
-		homeContent.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-		JButton exploreBtn = new JButton("Explore");
+		homeContent.setLayout(null);
+		
+		JButton crewDetailBtn = new JButton("View Crew Status");
+        crewDetailBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		crewDetailBtn.setBounds(10, 57, 165, 30);
+		homeContent.add(crewDetailBtn);
+		
+		JButton shipBtn = new JButton("View Ship Status");
+        shipBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        shipBtn.setBounds(10, 99, 165, 30);
+		homeContent.add(shipBtn);
+		
+		JButton inventoryBtn = new JButton("Inventory"); // Takes you to inventory of spaceoutpost
+        inventoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        inventoryBtn.setBounds(10, 142, 165, 30);
+		homeContent.add(inventoryBtn);
+
+        JButton exploreBtn = new JButton("Explore");
         exploreBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		homeContent.add(exploreBtn);
-		JButton shopBtn = new JButton("Shop");
+        exploreBtn.setBounds(509, 67, 165, 40);
+        homeContent.add(exploreBtn);
+        
+        JButton shopBtn = new JButton("Shop");
         shopBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		homeContent.add(shopBtn);
+        shopBtn.setBounds(350, 67, 165, 40);
+        homeContent.add(shopBtn);
+
+        JButton nextDayBtn = new JButton("Next Day");
+        nextDayBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        nextDayBtn.setBounds(509, 107, 165, 40);
+        homeContent.add(nextDayBtn);
+        
+        JButton pilotNewPlanetBtn = new JButton("New Planet");
+        pilotNewPlanetBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        pilotNewPlanetBtn.setBounds(350, 107, 165, 40);
+        homeContent.add(pilotNewPlanetBtn);
 
 		homeBtn.setEnabled(false);
 
 		nextDayBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
         		if (environment.isValidCurrentDay()) {
-					// Next day.....
 					environment.goToNextDay();
 
-					for (CrewMember member: crew.getMembers()) {
-						member.decrementTiredness(10);
-                        member.resetActions();
-                        // check if is sick and remove tiredness
-                        if (member.isSick()) {
-                            member.decrementCurrentHealth();
-                        }
-                    }
-
-					// Random event..
 					int randomEvent = environment.determineRandomEvent();
 		            if (randomEvent == 1) {
 		            	JOptionPane.showMessageDialog(null, "Random Event: Alien Pirates (");
 		            } else if (randomEvent == 2) {
 		                JOptionPane.showMessageDialog(null, "Random Event: Space Plague");
-                        // Check if member is dead.
-
+                        // Game could potentially be over in this case if we have no members left...
+                        if (!crew.hasMembers()) {
+                        	closeWindow(false, "All members are out of health");
+                        }
 		            } else {
 		                JOptionPane.showMessageDialog(null, "Random Event: Asteroid Belt");
 		            }
@@ -322,7 +296,7 @@ public class HomeScreen {
                 crewStatusPanel.refresh();
                 spaceOutPostPanel.refresh();
                 cardLayout.show(contentPanel, HOME);
-			    enableHomeButton();
+			    disableHomeButton();
             }
 		});
 
@@ -333,6 +307,17 @@ public class HomeScreen {
                 cardLayout.show(contentPanel, EXPLORE);
                 enableHomeButton();
                 refreshExplorePanel();
+            }
+        });
+
+        pilotNewPlanetBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(contentPanel, CREW_STATUS);
+                crewStatusPanel.refresh();
+                // We want to show pilot to new planet card
+                crewStatusPanel.showPilotNewPlanetCard();
+                spaceOutPostPanel.refresh();
+                enableHomeButton();
             }
         });
 
@@ -402,7 +387,7 @@ public class HomeScreen {
 
             JLabel memberImageLabel = new JLabel("");
             memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            memberImageLabel.setIcon(new ImageIcon(getClass().getResource(member.getIconPath())));
+            memberImageLabel.setIcon(new ImageIcon(Image.getCrewMemberImagePath(member)));
 
             memberButtonGroup.add(memberRadio);
             explorePanel.add(memberImageLabel);
@@ -425,6 +410,13 @@ public class HomeScreen {
                 }
 
                 String foundItem = environment.searchPlanetForParts();
+                if (spaceShip.allPartsFound()) {
+                    // Games over and won
+                    closeWindow(true, "");
+                }
+
+                refreshTopPanel();
+
                 JOptionPane.showMessageDialog(null, foundItem);
             }
         });

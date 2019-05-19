@@ -26,11 +26,24 @@ public class Game {
     	new SetUpScreen(this);
     }
 
-    //public void closeHomeScreen(HomeScreen screen) {
-    //	screen.finishedWindow();
-    //}
+    public void closeHomeScreen(HomeScreen screen, boolean isVictory, String response) {
+    	screen.finishedWindow();
+        if (isVictory) {
+            runVictoryScreen();
+        } else {
+            runDefeatScreen(response);
+        }
+    }
     
     private void runHomeScreen() {
     	new HomeScreen(this);
+    }
+
+    private void runVictoryScreen() {
+        new VictoryScreen(this);
+    }
+
+    private void runDefeatScreen(String response) {
+        new DefeatScreen(this, response);
     }
 }

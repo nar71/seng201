@@ -1,15 +1,34 @@
+/**
+ *
+ *
+ */
 public class Barter extends CrewMember {
-    public static final String TYPE = "Barter";
+    
+	/**
+     * A string representation of the type of Crew Member.
+     */
+	private static final String TYPE = "Barter";
 
-    public static final String SPECIALTY = "";
+    /**
+     * A string representation of the specialty of Crew Member.
+     */
+    private static final String SPECIALTY = "";
 
-    public static final String DESCRIPTION = "DESCRIPTION BARTER";
+    /**
+     * A string representation of the description of Crew Member.
+     */
+    private static final String DESCRIPTION = "DESCRIPTION BARTER";
 
-    public static final int HEALTH = 50;
+    /**
+     * An integer representation of the health of Crew Member.
+     */
+    private static final int HEALTH = 50;
 
-    public static final String ICON_PATH = "images/barter.jpg";
-
+    /**
+     * Constructor for the instance of Barter
+     * @param name The name of the Barter
+     */
     Barter(String name) {
-        super(name, TYPE, DESCRIPTION, HEALTH, SPECIALTY, ICON_PATH);
+        super(name, TYPE, DESCRIPTION, HEALTH, SPECIALTY);
     }
 }

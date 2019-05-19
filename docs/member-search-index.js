@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"<Unnamed>","c":"Tank","l":"DESCRIPTION"},{"p":"<Unnamed>","c":"Tank","l":"HEALTH"},{"p":"<Unnamed>","c":"Tank","l":"SPECIALTY"},{"p":"<Unnamed>","c":"Tank","l":"TYPE"}]

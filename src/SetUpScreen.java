@@ -278,7 +278,7 @@ public class SetUpScreen {
         JLabel memberImageLabel = new JLabel("");
         memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
         memberImageLabel.setBounds(577, 98, 150, 150);
-        memberImageLabel.setIcon(new ImageIcon(getClass().getResource(barter.getIconPath())));
+        memberImageLabel.setIcon(new ImageIcon(Image.getCrewMemberImagePath(barter)));
         chooseCharacterPanel.add(memberImageLabel);
 
 		JLabel descriptionLabel = new JLabel(barter.getDescription());
@@ -302,39 +302,39 @@ public class SetUpScreen {
 				String imagePath = "";
 				switch ((String)  type.getSelectedItem()) {
 		            case "Barter":
-		                Barter bart = new Barter("");
-		                label = bart.getDescription();
-		                healthLbl = "Max health: " + bart.getMaxHealth();
-		                specialtyLbl = "Specialty: " + bart.getSpecialty();
-		                imagePath = bart.getIconPath();
+		                Barter barter = new Barter("");
+		                label = barter.getDescription();
+		                healthLbl = "Max health: " + barter.getMaxHealth();
+		                specialtyLbl = "Specialty: " + barter.getSpecialty();
+		                imagePath = Image.getCrewMemberImagePath(barter);
 		            break;
 		            case "Mechanic":
 		                Mechanic mech = new Mechanic("");
 		                label = mech.getDescription();
 		          		healthLbl = "Max health: " + mech.getMaxHealth();
 		          		specialtyLbl = "Specialty: " + mech.getSpecialty();
-		                imagePath = mech.getIconPath();
+		                imagePath = Image.getCrewMemberImagePath(mech);
 		            break;
 		            case "Nerd":
 		                Nerd nerd = new Nerd("");
 		                label = nerd.getDescription();
 		                healthLbl = "Max health: " + nerd.getMaxHealth();
 		                specialtyLbl = "Specialty: " + nerd.getSpecialty();
-		                imagePath = nerd.getIconPath();
+		                imagePath = Image.getCrewMemberImagePath(nerd);
 		            break;
 		            case "Scout":
 		                Scout scout = new Scout("");
 		                label = scout.getDescription();
 		                healthLbl = "Max health: " + scout.getMaxHealth();
 		                specialtyLbl = "Specialty: " + scout.getSpecialty();
-		                imagePath = scout.getIconPath();
+		                imagePath = Image.getCrewMemberImagePath(scout);
 		            break;
 		            case "Tank":
 		                Tank tank = new Tank("");
 		                label = tank.getDescription();
 		                healthLbl = "Max health: " + tank.getMaxHealth();
 		                specialtyLbl = "Specialty: " + tank.getSpecialty();
-		                imagePath = tank.getIconPath();
+		                imagePath = Image.getCrewMemberImagePath(tank);
 		            break;
 				}
 				descriptionLabel.setText(label);
