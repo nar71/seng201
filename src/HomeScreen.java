@@ -12,9 +12,9 @@ public class HomeScreen {
 
 	private JFrame window;
 
-	private Game game;
+	public Game game;
 
-    private GameEnvironment environment;
+    public GameEnvironment environment;
 
     private Crew crew;
 
@@ -340,7 +340,7 @@ public class HomeScreen {
 	}
 
 	public void addCrewStatusPanel() {
-		this.crewStatusPanel = new CrewPanel(environment);
+		this.crewStatusPanel = new CrewPanel(this);
         contentPanel.add(crewStatusPanel, CREW_STATUS);
 	}
 

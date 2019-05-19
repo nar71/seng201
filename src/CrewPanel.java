@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
 public class CrewPanel extends JPanel {
+    private HomeScreen screen;
+
     private GameEnvironment environment;
 
     private Crew crew;;
@@ -59,13 +61,15 @@ public class CrewPanel extends JPanel {
 
     private static final String CREW_APPLY_MEDICAL_PANEL_STRING = "APPLY_MEDICAL";
 
-    CrewPanel(GameEnvironment game) {
+    CrewPanel(HomeScreen screen) {
         super();
         
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-        this.environment = game;
-        this.crew = game.getCrew();
+        this.screen = screen;
+
+        this.environment = screen.environment;
+        this.crew = environment.getCrew();
         this.spaceOutPost = environment.getSpaceOutPost();
 
         init();
@@ -100,6 +104,7 @@ public class CrewPanel extends JPanel {
         pilotNewShipBtn.setEnabled(true);
         applyMedItemBtn.setEnabled(true);
         crewMemberSleepBtn.setEnabled(true);
+        repairShipBtn.setEnabled(true);
     }
 
     public void refresh() {
@@ -256,7 +261,7 @@ public class CrewPanel extends JPanel {
             JLabel memberImageLabel = new JLabel("");
             memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
             memberImageLabel.setBounds(30, 13, 120, 120);
-            memberImageLabel.setIcon(new ImageIcon(getClass().getResource(member.getIconPath())));
+            memberImageLabel.setIcon(Funcs.getScaledIcon(member.getIconPath(), 120, 120));
             memberPanel.add(memberImageLabel);
             
             JLabel memberNameLabel = new JLabel(member.getName());
@@ -557,12 +562,78 @@ public class CrewPanel extends JPanel {
                     // Change current planet
                     environment.changeCurrentPlanet(planet);
                  
+                    planetButtonGroup.clearSelection();
+
+                    membersBtnGroupOne.clearSelection();
                     if (!selectedMemberOne.hasActionsLeft()) {
                         selectedMemberRadioOne.setEnabled(false);
                     }
 
+                    membersBtnGroupTwo.clearSelection();
                     if (!selectedMemberTwo.hasActionsLeft()) {
                         selectedMemberRadioTwo.setEnabled(false);
+                    }
+
+                    screen.refreshTopPanel();
+                    planetsPanel.removeAll();
+                    // We need to refresh the planets list
+                    for (int i = 0; i < allPlanets.length; i++) {
+                        if (!allPlanets[i].getName().equals(environment.getCurrentPlanet().getName())) {
+                            JLabel planetImageLabel = new JLabel("");
+                            planetImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+                            //memberImageLabel.setBounds(30, 13, 150, 150);
+                            planetImageLabel.setIcon(new ImageIcon(getClass().getResource(allPlanets[i].getIconPath())));
+                            JRadioButton planetRadioBtn = new JRadioButton(allPlanets[i].getName());
+                            planetRadioBtn.putClientProperty("Planet", allPlanets[i]);
+                            planetButtonGroup.add(planetRadioBtn);
+                            planetsPanel.add(planetRadioBtn);
+                            planetsPanel.add(planetImageLabel);
+                        }
+                    }
+
+                    membersPanelOne.removeAll();
+                    membersPanelTwo.removeAll();
+
+                    membersPanelOne.add(new JLabel("Member 1:"));
+
+                    for (CrewMember member: crew.getMembers()) {
+                        JRadioButton memberRadioOne = new JRadioButton(member.getName());
+                        memberRadioOne.putClientProperty("CrewMember", member);
+                        if (!member.hasActionsLeft()) {
+                            memberRadioOne.setEnabled(false);
+                        }
+
+                        JLabel memberOneImageLabel = new JLabel("");
+                        memberOneImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+
+                        // Rescale what we already have
+                        ImageIcon smallerImg = getScaledMemberIcon(member);
+                        memberOneImageLabel.setIcon(smallerImg);
+
+                        membersBtnGroupOne.add(memberRadioOne);
+                        membersPanelOne.add(memberRadioOne);
+                        membersPanelOne.add(memberOneImageLabel);
+                    }
+
+                    membersPanelTwo.add(new JLabel("Member 2:"));
+
+                    for (CrewMember member: crew.getMembers()) {
+                        JRadioButton memberRadioTwo = new JRadioButton(member.getName());
+                        memberRadioTwo.putClientProperty("CrewMember", member);
+                        if (!member.hasActionsLeft()) {
+                            memberRadioTwo.setEnabled(false);
+                        }
+
+                        JLabel memberTwoImageLabel = new JLabel("");
+                        memberTwoImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+
+                        // Rescale what we already have
+                        ImageIcon smallerImg = getScaledMemberIcon(member);
+                        memberTwoImageLabel.setIcon(smallerImg);
+
+                        membersBtnGroupTwo.add(memberRadioTwo);
+                        membersPanelTwo.add(memberRadioTwo);
+                        membersPanelTwo.add(memberTwoImageLabel);
                     }
 
                     JOptionPane.showMessageDialog(null, "You have successfully pioleted to: " + planet.getName());
@@ -579,15 +650,35 @@ public class CrewPanel extends JPanel {
     public void refreshCrewMemberSleepPanel() {
         this.crewMemberSleepPanel.removeAll();
 
-        JPanel membersPanel = getSelectMemberPanel();
-        membersPanel.setLayout(new BoxLayout(membersPanel, BoxLayout.Y_AXIS));
-        crewMemberSleepPanel.add(membersPanel);
+        JPanel memberPanel = new JPanel();
+        ButtonGroup selectedMemberBtnGroups = new ButtonGroup();
+
+        for (CrewMember member: crew.getMembers()) {
+            JRadioButton memberRadio = new JRadioButton(member.getName());
+            memberRadio.putClientProperty("CrewMember", member);
+            if (!member.hasActionsLeft()) {
+                memberRadio.setEnabled(false);
+            }
+
+            JLabel memberImageLabel = new JLabel("");
+            memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+
+            // Rescale what we already have
+            ImageIcon smallerImg = getScaledMemberIcon(member);
+            memberImageLabel.setIcon(smallerImg);
+
+            selectedMemberBtnGroups.add(memberRadio);
+            memberPanel.add(memberRadio);
+            memberPanel.add(memberImageLabel);
+        }
+        memberPanel.setLayout(new BoxLayout(memberPanel, BoxLayout.Y_AXIS));
+        crewMemberSleepPanel.add(memberPanel);
 
         JButton sleepBtn = new JButton("Sleep");
         crewMemberSleepPanel.add(sleepBtn);
         sleepBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JRadioButton selectedMemberRadio = Funcs.selectedButton(selectedMemberBtnGroup);
+                JRadioButton selectedMemberRadio = Funcs.selectedButton(selectedMemberBtnGroups);
                 CrewMember member = (CrewMember) selectedMemberRadio.getClientProperty("CrewMember");
                 String responseString = "Crew member has no actions left";
                 if (member.hasActionsLeft()) {
@@ -600,6 +691,7 @@ public class CrewPanel extends JPanel {
 
                     member.removeAction();
                 
+                    selectedMemberBtnGroups.clearSelection();
                     if (!member.hasActionsLeft()) {
                         selectedMemberRadio.setEnabled(false);
                     }
@@ -648,25 +740,46 @@ public class CrewPanel extends JPanel {
     public void refreshRepairShipPanel() {
         repairShieldsPanel.removeAll();
 
-        JPanel memberSelectPanel = getSelectMemberPanel();
-        repairShieldsPanel.add(memberSelectPanel);
+        JPanel memberPanel = new JPanel();
+        ButtonGroup selectedMemberBtnGroups = new ButtonGroup();
+
+        for (CrewMember member: crew.getMembers()) {
+            JRadioButton memberRadio = new JRadioButton(member.getName());
+            memberRadio.putClientProperty("CrewMember", member);
+            if (!member.hasActionsLeft()) {
+                memberRadio.setEnabled(false);
+            }
+
+            JLabel memberImageLabel = new JLabel("");
+            memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+
+            // Rescale what we already have
+            ImageIcon smallerImg = getScaledMemberIcon(member);
+            memberImageLabel.setIcon(smallerImg);
+
+            selectedMemberBtnGroups.add(memberRadio);
+            memberPanel.add(memberRadio);
+            memberPanel.add(memberImageLabel);
+        }
+
+        repairShieldsPanel.add(memberPanel);
 
         JButton repairBtn = new JButton("Repair Ship");
         repairShieldsPanel.add(repairBtn);
 
         repairBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JRadioButton selectedMemberRadio = Funcs.selectedButton(selectedMemberBtnGroup);
+                JRadioButton selectedMemberRadio = Funcs.selectedButton(selectedMemberBtnGroups);
                 CrewMember member = (CrewMember) selectedMemberRadio.getClientProperty("CrewMember");
 
                 // Repair Shields
                 environment.getSpaceShip().incrementShieldLevel(10);
                 member.removeAction();
+
+                selectedMemberBtnGroups.clearSelection();
                 if (!member.hasActionsLeft()) {
                     selectedMemberRadio.setEnabled(false);
                 }
-
-                selectedMemberBtnGroup.clearSelection();
 
                 JOptionPane.showMessageDialog(null, "Space Ship shield health is now: " + environment.getSpaceShip().getShieldHealth());
             }

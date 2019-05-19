@@ -223,6 +223,11 @@ public class SetUpScreen {
 		JLabel lblCharacterName = new JLabel("Character Name:");
 		lblCharacterName.setBounds(66, 100, 126, 27);
 		chooseCharacterPanel.add(lblCharacterName);
+
+		JLabel lblCharacterNameError = new JLabel("");
+		lblCharacterNameError.setBounds(66, 115, 126, 27);
+		chooseCharacterPanel.add(lblCharacterNameError);
+		lblCharacterNameError.setForeground(Color.red);
 		
 		JTextField characterNameTxt = new JTextField();
 		characterNameTxt.setBounds(267, 102, 200, 30);
@@ -244,18 +249,24 @@ public class SetUpScreen {
 		btnNext.setBounds(781, 676, 130, 40);
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				numAddBtnPressed++;
-				if (btnNext.getText() == "Continue") {
-					closeWindow();
-				}
-				if (numAddBtnPressed == game.getGameEnvironment().getCrew().getNumMembers()) {
-					type.setEnabled(false);
-					characterNameTxt.setEditable(false);
-					btnNext.setText("Continue");
+				String name = characterNameTxt.getText().trim();
+				if (name.length() < 4 || name.length() > 8) {
+					lblCharacterNameError.setText("Must be between 4 and 8 characters");
 				} else {
-					String typeStr = String.valueOf(type.getSelectedItem());
-					game.getGameEnvironment().getCrew().addCrewMember(typeStr, characterNameTxt.getText());
-					characterNameTxt.setText("");
+					lblCharacterNameError.setText("");
+					numAddBtnPressed++;
+					if (btnNext.getText() == "Continue") {
+						closeWindow();
+					}
+					if (numAddBtnPressed == game.getGameEnvironment().getCrew().getNumMembers()) {
+						type.setEnabled(false);
+						characterNameTxt.setEditable(false);
+						btnNext.setText("Continue");
+					} else {
+						String typeStr = String.valueOf(type.getSelectedItem());
+						game.getGameEnvironment().getCrew().addCrewMember(typeStr, name);
+						characterNameTxt.setText("");
+					}
 				}
 			}
 		});
@@ -327,7 +338,7 @@ public class SetUpScreen {
 		            break;
 				}
 				descriptionLabel.setText(label);
-				memberImageLabel.setIcon(new ImageIcon(getClass().getResource(imagePath)));
+				memberImageLabel.setIcon(Funcs.getScaledIcon(imagePath, 150,150));;
 			}
 		});
 	}
