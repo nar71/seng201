@@ -206,6 +206,7 @@ public class CrewPanel extends JPanel {
                 applyMedItemBtn.setEnabled(true);
                 crewMemberSleepBtn.setEnabled(true);
                 repairShipBtn.setEnabled(false);
+                refreshRepairShipPanel();
                 cardLayout.show(content, REPAIR_SHIP_PANEL_STRING);
             }
         });
@@ -369,14 +370,14 @@ public class CrewPanel extends JPanel {
                 foodRadioBtn.setEnabled(false);
             }
 
-            JLabel memberImageLabel = new JLabel("");
-            memberImageLabel.setBounds(22, 10, 100, 100);
-            memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            memberImageLabel.setIcon(Funcs.getScaledIcon(Image.getFoodImagePath(food), 100, 100));
+            JLabel foodImgLabel = new JLabel("");
+            foodImgLabel.setBounds(22, 10, 100, 100);
+            foodImgLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+            foodImgLabel.setIcon(Funcs.getScaledIcon(Image.getFoodImagePath(food), 100, 100));
 
             foodButtonGroup.add(foodRadioBtn);
             foodPanel.add(foodRadioBtn);
-            foodPanel.add(memberImageLabel);
+            foodPanel.add(foodImgLabel);
             foodBoxPanel.add(foodPanel);
         }
 
@@ -403,10 +404,12 @@ public class CrewPanel extends JPanel {
                     
                     member.removeAction();
                     selectedMemberBtnGroup.clearSelection();
+                    boolean isDefeated = false;
                     if (!member.hasActionsLeft()) {
                         selectedMemberRadio.setEnabled(false);
                         
                         if (isPlayerDefeated()) {
+                            isDefeated = true;
                         	screen.closeWindow(false, "You are out of actions");
                         }
                     }
@@ -417,7 +420,9 @@ public class CrewPanel extends JPanel {
                     }
                     selectedFoodRadio.setText(food.getType() + "(" + food.getCount() + ")");
 
-                    JOptionPane.showMessageDialog(null, food.getType() + " successfully applied");
+                    if (!isDefeated) {
+                        JOptionPane.showMessageDialog(null, food.getType() + " successfully applied");
+                    }
                 }
             }
         });
@@ -437,30 +442,29 @@ public class CrewPanel extends JPanel {
         newMedicalItemPanel.add(membersPanel);
 
         JPanel foodBoxPanel = new JPanel(new GridLayout(1, 6));
-        //foodBoxPanel.setLayout(new BoxLayout(foodBoxPanel, BoxLayout.Y_AXIS));
         newMedicalItemPanel.add(foodBoxPanel);
 
         ButtonGroup medicalRadioGroup = new ButtonGroup();
 
-        for (MedicalSupply food : spaceOutPost.getMedicalSupplies()) {
-            JPanel foodPanel = new JPanel();
-            foodPanel.setLayout(null);
-            JRadioButton foodRadioBtn = new JRadioButton(food.getType() + "(" + food.getCount() + ")");
-            foodRadioBtn.putClientProperty("Food", food);
-            foodRadioBtn.setBounds(20, 130, 150, 23);
-            if (!food.exists()) {
-                foodRadioBtn.setEnabled(false);
+        for (MedicalSupply medicalSupply : spaceOutPost.getMedicalSupplies()) {
+            JPanel medicalSupplyPanel = new JPanel();
+            medicalSupplyPanel.setLayout(null);
+            JRadioButton medicalRadioBtn = new JRadioButton(medicalSupply.getType() + "(" + medicalSupply.getCount() + ")");
+            medicalRadioBtn.putClientProperty("MedicalSupply", medicalSupply);
+            medicalRadioBtn.setBounds(20, 130, 150, 23);
+            if (!medicalSupply.exists()) {
+                medicalRadioBtn.setEnabled(false);
             }
 
-            JLabel memberImageLabel = new JLabel("");
-            memberImageLabel.setBounds(22, 10, 100, 100);
-            memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            memberImageLabel.setIcon(Funcs.getScaledIcon(Image.getMedicalSupplyImagePath(food), 100, 100));
+            JLabel medicalSupplyImgLabel = new JLabel("");
+            medicalSupplyImgLabel.setBounds(22, 10, 100, 100);
+            medicalSupplyImgLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+            medicalSupplyImgLabel.setIcon(Funcs.getScaledIcon(Image.getMedicalSupplyImagePath(medicalSupply), 100, 100));
 
-            medicalRadioGroup.add(foodRadioBtn);
-            foodPanel.add(foodRadioBtn);
-            foodPanel.add(memberImageLabel);
-            foodBoxPanel.add(foodPanel);
+            medicalRadioGroup.add(medicalRadioBtn);
+            medicalSupplyPanel.add(medicalRadioBtn);
+            medicalSupplyPanel.add(medicalSupplyImgLabel);
+            foodBoxPanel.add(medicalSupplyPanel);
         }
 
         JPanel applyFoodPanel = new JPanel();
@@ -494,11 +498,13 @@ public class CrewPanel extends JPanel {
 
                     member.removeAction();
                     selectedMemberBtnGroup.clearSelection();
+                    boolean isDefeated = false;
                     if (!member.hasActionsLeft()) {
                         selectedMemberRadio.setEnabled(false);
                         
                         if (isPlayerDefeated()) {
                         	screen.closeWindow(false, "You are out of actions");
+                            isDefeated = true;
                         }
                     }
 
@@ -508,7 +514,9 @@ public class CrewPanel extends JPanel {
                     }
                     selectedMedicalSupplyRadio.setText(medicalSupply.getType() + "(" + medicalSupply.getCount() + ")");
 
-                    JOptionPane.showMessageDialog(null, responseString);
+                    if (!isDefeated) {
+                        JOptionPane.showMessageDialog(null, responseString);
+                    }
                 }
             }
         });
@@ -569,8 +577,10 @@ public class CrewPanel extends JPanel {
                     } else {
                         selectedMemberOne.removeAction();
                         selectedMemberTwo.removeAction();
+                        boolean isDefeated = false;
                         if (!selectedMemberOne.hasActionsLeft() && !selectedMemberTwo.hasActionsLeft()) {
     	                    if (isPlayerDefeated()) {
+                                isDefeated = true;
     	                    	screen.closeWindow(false, "You are out of actions");
     	                    }
                     	}
@@ -599,7 +609,9 @@ public class CrewPanel extends JPanel {
                         membersPanelTwo.removeAll();
                         refillCrewPanelAndButtonGroup(membersPanelTwo, membersBtnGroupTwo, "");
 
-                        JOptionPane.showMessageDialog(null, "You have successfully pioleted to: " + planet.getName());
+                        if (!isDefeated) {
+                            JOptionPane.showMessageDialog(null, "You have successfully pioleted to: " + planet.getName());
+                        }
                     }
                 }
             }
@@ -633,6 +645,7 @@ public class CrewPanel extends JPanel {
                     JRadioButton selectedMemberRadio = Funcs.selectedButton(selectedMemberBtnGroup);
                     CrewMember member = (CrewMember) selectedMemberRadio.getClientProperty("CrewMember");
                     String responseString = "Crew member has no actions left";
+                    boolean isDefeated = false;
                     if (member.hasActionsLeft()) {
                         if (!member.canSleep()) {
                             responseString = "Crew member not tired but has still slept";
@@ -648,15 +661,15 @@ public class CrewPanel extends JPanel {
                             selectedMemberRadio.setEnabled(false);
                             
                             if (isPlayerDefeated()) {
+                                isDefeated = true;
                             	screen.closeWindow(false, "You are out of actions");
                             }
                         }
                     }
 
-                    membersPanel.removeAll();
-                    refillCrewPanelAndButtonGroup(membersPanel, selectedMemberBtnGroup, "tiredness");
-
-                    JOptionPane.showMessageDialog(null, responseString);
+                    if (!isDefeated) {
+                        JOptionPane.showMessageDialog(null, responseString);
+                    }
                 }
             }
         });
@@ -700,15 +713,19 @@ public class CrewPanel extends JPanel {
                     member.removeAction();
 
                     selectedMemberBtnGroup.clearSelection();
+                    boolean isDefeated = false;
                     if (!member.hasActionsLeft()) {
                         selectedMemberRadio.setEnabled(false);
                         
                         if (isPlayerDefeated()) {
+                            isDefeated = true;
                         	screen.closeWindow(false, "You are out of actions");
                         }
                     }
                     
-                    JOptionPane.showMessageDialog(null, "Space Ship shield health is now: " + environment.getSpaceShip().getShieldHealth());
+                    if (!isDefeated) {
+                        JOptionPane.showMessageDialog(null, "Space Ship shield health is now: " + environment.getSpaceShip().getShieldHealth());
+                    }
                 }
             }
         });

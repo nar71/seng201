@@ -41,60 +41,49 @@ public class WindowTests {
 		frame = new JFrame();
 		frame.setBounds(new Rectangle(0, 0, 1000, 700));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel titlePanel = new JPanel();
         
         JPanel mainPanel = new JPanel();
-        mainPanel.add(titlePanel);
+        mainPanel.setLayout(null);
 
         JLabel lblGameTitle = new JLabel("SPACE TRAVELLERS");
         lblGameTitle.setFont(new Font("Ringbearer", Font.PLAIN, 30));
         lblGameTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        lblGameTitle.setBounds(10, 30, 1000, 150);
-        titlePanel.add(lblGameTitle);
+        lblGameTitle.setBounds(-14, 0, 1000, 70);
+        mainPanel.add(lblGameTitle);
 
-        JPanel topPanel = new JPanel();
-        //topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-        topPanel.setLayout(null);
-
-        //JPanel homeBtnPanel = new JPanel();
-        //topPanel.add(homeBtnPanel);
-        JButton homeBtn = new JButton("Home");
-        homeBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        homeBtn.setBounds(10, 30, 150, 20);
-        homeBtn.setHorizontalAlignment(SwingConstants.CENTER);
-        topPanel.add(homeBtn);
-        //homeBtnPanel.add(homeBtn);
-
-        //JPanel dayLabelPanel = new JPanel();
-        //topPanel.add(dayLabelPanel);
-        JLabel dayLabel = new JLabel("");
-        dayLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        dayLabel.setBounds(10, 60, 150, 20);
-        dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        topPanel.add(dayLabel);
-       // dayLabelPanel.add(dayLabel);
-
-        //JPanel currentPlanetPanel = new JPanel();
-        //topPanel.add(currentPlanetPanel);
-        JLabel currentPlanetLabel = new JLabel("");
-        currentPlanetLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        currentPlanetLabel.setBounds(10, 90, 150, 20);
-        currentPlanetLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        topPanel.add(currentPlanetLabel);
-        //currentPlanetPanel.add(currentPlanetLabel);
-
-        //JPanel peicesRequiredPanel = new JPanel();
-        //topPanel.add(peicesRequiredPanel);
-        JLabel peicesRequiredLabel = new JLabel("");
-        peicesRequiredLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        peicesRequiredLabel.setBounds(10, 120, 150, 20);
-        peicesRequiredLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        topPanel.add(peicesRequiredLabel);
-        
-        mainPanel.add(topPanel);
         
         frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		frame.getContentPane().add(mainPanel);
+		
+		String gameInfoString = "Welcome to Space Travellers.";
+		gameInfoString += "You are stuck in our Solar System after having to perform an emergency landing on mercury which damaged your ship badly.";
+		gameInfoString += "To win you must find enough transporter parts to be able to fix your spaceship.";
+		gameInfoString += "Transporter parts can be found by exploring the planets, you can only find one transporter part per planet so you will have to travel to other planets to get all the parts.";
+		gameInfoString += "Gold and medical supplies can also be found whilst exploring.";
+		gameInfoString += "Use your gold at the shops to buy Food and medical supplies to keep your crew alive.";
+		gameInfoString += "Each crew member will get two actions per day which can be used to Explore, Repair the Ships shield, sleep, or pilot the ship to another planet.";
+		gameInfoString += "Good luck!";
+		
+		JTextArea textArea = new JTextArea(
+				 "You are stuck in our Solar System after having to perform an emergency landing on mercury which damaged your ship badly." + 
+				 "To win you must find enough transporter parts to be able to fix your spaceship." + 
+				 "Transporter parts can be found by exploring the planets, you can only find one transporter part per planet so you will have to travel to other planets to get all the parts." + 
+				 "Gold and medical supplies can also be found whilst exploring." + 
+				 "Use your gold at the shops to buy Food and medical supplies to keep your crew alive." + 
+				 "Each crew member will get two actions per day which can be used to Explore, Repair the Ships shield, sleep, or pilot the ship to another planet." + 
+				 "Good luck!"
+				, 
+                6, 
+                20);
+		textArea.setSize(800, 225);
+		textArea.setLocation(31, 114);
+        textArea.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setOpaque(false);
+        textArea.setEditable(false);
+        mainPanel.add(textArea);
+        
 		frame.setVisible(true);
 	}
 }

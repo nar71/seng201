@@ -56,6 +56,7 @@ public class SetUpScreen {
 		addStartGamePanel();
 		addGameDataPanel();
 		addChooseCharacterPanel();
+		addGameInformationPanel();
 
 		cardLayout.show(contentPanel, "START_GAME_PANEL");
 	}
@@ -72,12 +73,6 @@ public class SetUpScreen {
 		JPanel startGamePanel = new JPanel();
 		startGamePanel.setLayout(null);
 		contentPanel.add(startGamePanel, "START_GAME_PANEL");
-		
-		/**JLabel lblGameTitle = new JLabel("GAME NAME");
-		lblGameTitle.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblGameTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameTitle.setBounds(12, 43, 974, 58);
-		startGamePanel.add(lblGameTitle);**/
 
 		startGamePanel.add(getBigTitle());
 
@@ -261,7 +256,7 @@ public class SetUpScreen {
 		type.setBounds(267, 240, 200, 30);
 		chooseCharacterPanel.add(type);
 		
-		JButton btnNext = new JButton("Add");
+		JButton btnNext = new JButton("Add Member");
 		btnNext.setBounds(781, 676, 130, 40);
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -272,7 +267,7 @@ public class SetUpScreen {
 					lblCharacterNameError.setText("");
 					numAddBtnPressed++;
 					if (btnNext.getText() == "Continue") {
-						closeWindow();
+						cardLayout.show(contentPanel, "GAME_INFO_PANEL");
 					}
 					if (numAddBtnPressed == game.getGameEnvironment().getCrew().getNumMembers()) {
 						type.setEnabled(false);
@@ -358,6 +353,48 @@ public class SetUpScreen {
 				}
 				descriptionLabel.setText(label);
 				memberImageLabel.setIcon(Funcs.getScaledIcon(imagePath, 150,150));;
+			}
+		});
+	}
+
+	public void addGameInformationPanel() {
+		JPanel gameInfoPanel =  new JPanel();
+		gameInfoPanel.setLayout(null);
+		contentPanel.add(gameInfoPanel, "GAME_INFO_PANEL");
+
+		gameInfoPanel.add(getBigTitle());
+
+        JLabel lblWelcome = new JLabel("Welcome");
+        lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
+        lblWelcome.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lblWelcome.setBounds(37, 180, 949, 57);
+        gameInfoPanel.add(lblWelcome);
+
+		JTextArea textArea = new JTextArea(
+				 "You are stuck in our Solar System after having to perform an emergency landing on mercury which damaged your ship badly. " + 
+				 "To win you must find enough transporter parts to be able to fix your spaceship. " + 
+				 "Transporter parts can be found by exploring the planets, you can only find one transporter part per planet so you will have to travel to other planets to get all the parts. " + 
+				 "Gold and medical supplies can also be found whilst exploring. " + 
+				 "Use your gold at the shops to buy Food and medical supplies to keep your crew alive. " + 
+				 "Each crew member will get two actions per day which can be used to Explore, Repair the Ships shield, sleep, or pilot the ship to another planet. " + 
+				 "Good luck!", 6, 20);
+		textArea.setSize(800, 225);
+		textArea.setLocation(100, 250);
+        textArea.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setOpaque(false);
+        textArea.setEditable(false);
+
+		gameInfoPanel.add(textArea);
+
+		JButton startGameBtn = new JButton("Start Game");
+		startGameBtn.setBounds(781, 676, 130, 40);
+		gameInfoPanel.add(startGameBtn);
+
+		startGameBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				closeWindow();
 			}
 		});
 	}

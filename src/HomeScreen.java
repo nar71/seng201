@@ -232,6 +232,10 @@ public class HomeScreen {
         JButton nextDayBtn = new JButton("Next Day");
         nextDayBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
         nextDayBtn.setBounds(509, 107, 165, 40);
+        if (environment.getCurrentDay() == environment.getNumDays()) {
+            nextDayBtn.setEnabled(false);
+        }
+
         homeContent.add(nextDayBtn);
         
         JButton pilotNewPlanetBtn = new JButton("New Planet");
@@ -261,6 +265,10 @@ public class HomeScreen {
 				} else {
 					nextDayBtn.setEnabled(false);
 				}
+
+                if (environment.getCurrentDay() == environment.getNumDays()) {
+                    nextDayBtn.setEnabled(false);
+                }
                 
 				refresh();
 
