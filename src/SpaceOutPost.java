@@ -28,6 +28,26 @@ public class SpaceOutPost {
 		currentFoods.add(new Pasta());
 	}
 	
+	public boolean hasNoFoods() {
+		boolean isEmpty = true;
+		for (Food f: currentFoods) {
+			if (f.getCount() > 0) {
+				isEmpty = false;
+			}
+		}
+		return isEmpty;
+	}
+
+	public boolean hasNoMedicalSupplies() {
+		boolean isEmpty = true;
+		for (MedicalSupply m: currentMedicalSupplies) {
+			if (m.getCount() > 0) {
+				isEmpty = false;
+			}
+		}
+		return isEmpty;
+	}
+
 	public boolean isInventoryEmpty() {
 		boolean isEmpty = true;
 		for (MedicalSupply m: currentMedicalSupplies) {

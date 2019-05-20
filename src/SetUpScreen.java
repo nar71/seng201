@@ -60,33 +60,45 @@ public class SetUpScreen {
 		cardLayout.show(contentPanel, "START_GAME_PANEL");
 	}
 
+	private JLabel getBigTitle() {
+		JLabel lblGameTitle = new JLabel("SPACE TRAVELLERS");
+		lblGameTitle.setFont(new Font("Ringbearer", Font.PLAIN, 70));
+		lblGameTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGameTitle.setBounds(10, 11, 1000, 150);
+		return lblGameTitle;
+	}
+
 	public void addStartGamePanel() {
 		JPanel startGamePanel = new JPanel();
 		startGamePanel.setLayout(null);
 		contentPanel.add(startGamePanel, "START_GAME_PANEL");
 		
-		JLabel lblGameTitle = new JLabel("GAME NAME");
-		lblGameTitle.setFont(new Font("Dialog", Font.BOLD, 24));
+		/**JLabel lblGameTitle = new JLabel("GAME NAME");
+		lblGameTitle.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblGameTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGameTitle.setBounds(12, 43, 974, 58);
-		startGamePanel.add(lblGameTitle);
-		
+		startGamePanel.add(lblGameTitle);**/
+
+		startGamePanel.add(getBigTitle());
+
 		JButton newGameBtn = new JButton("New Game");
+		newGameBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		newGameBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cardLayout.show(contentPanel, "GAME_DATA_PANEL");
 			}
 		});
-		newGameBtn.setBounds(425, 194, 150, 60);
+		newGameBtn.setBounds(425, 300, 150, 60);
 		startGamePanel.add(newGameBtn);
 		
 		JButton exitBtn = new JButton("Exit");
+		exitBtn.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		exitBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
 			}
 		});
-		exitBtn.setBounds(425, 259, 150, 60);
+		exitBtn.setBounds(425, 380, 150, 60);
 		startGamePanel.add(exitBtn);
 	}
 
@@ -95,45 +107,49 @@ public class SetUpScreen {
 		gameDataPanel.setLayout(null);
 		contentPanel.add(gameDataPanel, "GAME_DATA_PANEL");
 
-		JLabel gameNameLabel = new JLabel("Game Name");
-		gameNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		gameNameLabel.setBounds(12, 0, 974, 69);
-		gameDataPanel.add(gameNameLabel);
+		gameDataPanel.add(getBigTitle());
 		
-		JLabel teamNameLabel = new JLabel("Team name");
-		teamNameLabel.setBounds(40, 90, 276, 29);
+		JLabel teamNameLabel = new JLabel("What do you want to call your team?");
+		teamNameLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        teamNameLabel.setBounds(160, 200, 300, 29);
 		gameDataPanel.add(teamNameLabel);
 
 		JLabel teamNameErrorLabel = new JLabel("");
-		teamNameErrorLabel.setBounds(40, 110, 276, 29);
+		teamNameErrorLabel.setBounds(80, 220, 276, 29);
+		teamNameErrorLabel.setBounds(160, 220, 300, 29);
+		teamNameErrorLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		teamNameErrorLabel.setForeground(Color.red);
 		gameDataPanel.add(teamNameErrorLabel);
 		
 		JTextField teamNameTxt = new JTextField();
 		teamNameTxt.setColumns(10);
-		teamNameTxt.setBounds(444, 90, 200, 30);
+		teamNameTxt.setBounds(520, 200, 200, 30);
 		gameDataPanel.add(teamNameTxt);
 
-		JLabel lblRocketShipName = new JLabel("Rocket ship name");
-		lblRocketShipName.setBounds(40, 140, 276, 29);
+		JLabel lblRocketShipName = new JLabel("What do you want to call your rocket?");
+		lblRocketShipName.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblRocketShipName.setBounds(156, 259, 304, 29);
 		gameDataPanel.add(lblRocketShipName);
 		
 		JLabel rocketShipNameErrorLabel = new JLabel("");
-		rocketShipNameErrorLabel.setBounds(40, 160, 276, 29);
+		rocketShipNameErrorLabel.setBounds(40, 280, 276, 29);
+		rocketShipNameErrorLabel.setBounds(156, 280, 304, 29);
 		rocketShipNameErrorLabel.setForeground(Color.red);
+		rocketShipNameErrorLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		gameDataPanel.add(rocketShipNameErrorLabel);
 
 		JTextField rocketShipTxtField = new JTextField();
 		rocketShipTxtField.setColumns(10);
-		rocketShipTxtField.setBounds(444, 140, 200, 30);
+		rocketShipTxtField.setBounds(520, 260, 200, 30);
 		gameDataPanel.add(rocketShipTxtField);
 		
 		JLabel lblNumDays = new JLabel("How many days do you want to play?");
-		lblNumDays.setBounds(40, 190, 276, 29);
+		lblNumDays.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNumDays.setBounds(160, 325, 300, 29);
 		gameDataPanel.add(lblNumDays);
 
 		JLabel numDaysErrorLabel = new JLabel("");
-		numDaysErrorLabel.setBounds(40, 210, 276, 29);
+		numDaysErrorLabel.setBounds(40, 330, 276, 29);
 		numDaysErrorLabel.setForeground(Color.red);
 		gameDataPanel.add(numDaysErrorLabel);
 
@@ -144,15 +160,16 @@ public class SetUpScreen {
 		sliderDaysAmount.setMinimum(3);
 		sliderDaysAmount.setMaximum(10);
 		sliderDaysAmount.setMajorTickSpacing(1);
-		sliderDaysAmount.setBounds(444, 190, 264, 45);
+		sliderDaysAmount.setBounds(520, 320, 264, 45);
 		sliderDaysAmount.setValue(1);
 
 		JLabel lblNumCharacters = new JLabel("How many characters do you want to play?");
-		lblNumCharacters.setBounds(40, 240, 325, 29);
+		lblNumCharacters.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNumCharacters.setBounds(120, 400, 350, 29);
 		gameDataPanel.add(lblNumCharacters);
 
 		JLabel numCharactersErrorLabel = new JLabel("");
-		numCharactersErrorLabel.setBounds(40, 260, 276, 29);
+		numCharactersErrorLabel.setBounds(40, 410, 276, 29);
 		numCharactersErrorLabel.setForeground(Color.red);
 		gameDataPanel.add(numCharactersErrorLabel);
 
@@ -164,7 +181,7 @@ public class SetUpScreen {
 		sliderCharactersAmount.setMinimum(2);
 		sliderCharactersAmount.setSnapToTicks(true);
 		sliderCharactersAmount.setMinorTickSpacing(1);
-		sliderCharactersAmount.setBounds(444, 240, 264, 35);
+		sliderCharactersAmount.setBounds(520, 400, 264, 35);
 		gameDataPanel.add(sliderCharactersAmount);
 		
 		JButton btnContinue = new JButton("Continue");
@@ -215,34 +232,33 @@ public class SetUpScreen {
 		chooseCharacterPanel.setLayout(null);
 		contentPanel.add(chooseCharacterPanel, "CHOOSE_CHARACTER_PANEL");
 
-		JLabel lblGameName = new JLabel("Game Name");
-		lblGameName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameName.setBounds(12, 0, 974, 69);
-		chooseCharacterPanel.add(lblGameName);
+		chooseCharacterPanel.add(getBigTitle());
 
-		JLabel lblCharacterName = new JLabel("Character Name:");
-		lblCharacterName.setBounds(66, 100, 126, 27);
+		JLabel lblCharacterName = new JLabel("Character Name");
+		lblCharacterName.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblCharacterName.setBounds(66, 200, 140, 27);
 		chooseCharacterPanel.add(lblCharacterName);
 
 		JLabel lblCharacterNameError = new JLabel("");
-		lblCharacterNameError.setBounds(66, 115, 126, 27);
+		lblCharacterNameError.setBounds(66, 215, 126, 27);
 		chooseCharacterPanel.add(lblCharacterNameError);
 		lblCharacterNameError.setForeground(Color.red);
 		
 		JTextField characterNameTxt = new JTextField();
-		characterNameTxt.setBounds(267, 102, 200, 30);
+		characterNameTxt.setBounds(267, 200, 200, 30);
 		chooseCharacterPanel.add(characterNameTxt);
 		characterNameTxt.setColumns(10);
 		
-		JLabel lblCharacterType = new JLabel("Character Type:");
-		lblCharacterType.setBounds(66, 140, 126, 27);
+		JLabel lblCharacterType = new JLabel("Character Type");
+		lblCharacterType.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblCharacterType.setBounds(66, 240, 140, 27);
 		chooseCharacterPanel.add(lblCharacterType);
 		
 		CrewMember crewMember = new CrewMember();
 		String[] types = crewMember.getAllTypes();
 		JComboBox type = new JComboBox(types);
 
-		type.setBounds(267, 141, 200, 30);
+		type.setBounds(267, 240, 200, 30);
 		chooseCharacterPanel.add(type);
 		
 		JButton btnNext = new JButton("Add");
@@ -277,20 +293,23 @@ public class SetUpScreen {
 		Barter barter = new Barter("");
         JLabel memberImageLabel = new JLabel("");
         memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-        memberImageLabel.setBounds(577, 98, 150, 150);
+        memberImageLabel.setBounds(577, 200, 150, 150);
         memberImageLabel.setIcon(new ImageIcon(Image.getCrewMemberImagePath(barter)));
         chooseCharacterPanel.add(memberImageLabel);
 
 		JLabel descriptionLabel = new JLabel(barter.getDescription());
-		descriptionLabel.setBounds(577, 204, 300, 150);
+		descriptionLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		descriptionLabel.setBounds(577, 300, 300, 150);
 		chooseCharacterPanel.add(descriptionLabel);
 
 		JLabel healthLbl = new JLabel("Max Health: " + barter.getMaxHealth());
-		healthLbl.setBounds(577, 240, 150, 150);
+		healthLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		healthLbl.setBounds(577, 340, 150, 150);
 		chooseCharacterPanel.add(healthLbl);
 
 		JLabel specialtyLbl = new JLabel("Specialty: " + barter.getSpecialty());
-		specialtyLbl.setBounds(577, 260, 150, 150);
+		specialtyLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		specialtyLbl.setBounds(577, 360, 150, 150);
 		chooseCharacterPanel.add(specialtyLbl);
 
 		type.addActionListener(new ActionListener() {

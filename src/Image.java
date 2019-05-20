@@ -12,7 +12,7 @@ public class Image {
     }
 
     public static String getFoodImagePath(Food food) {
-        return String.format("images/%s.png", food.getType());
+        return String.format("images/%s.png", food.getType().toLowerCase());
     }
 
     public static String getMedicalSupplyImagePath(MedicalSupply medicalSupply) {

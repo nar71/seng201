@@ -41,55 +41,60 @@ public class WindowTests {
 		frame = new JFrame();
 		frame.setBounds(new Rectangle(0, 0, 1000, 700));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		JPanel explorePanel = new JPanel();
-		explorePanel.setLayout(new BoxLayout(explorePanel, BoxLayout.Y_AXIS));
+        JPanel titlePanel = new JPanel();
+        
+        JPanel mainPanel = new JPanel();
+        mainPanel.add(titlePanel);
 
-		JPanel planetPanel = new JPanel();
-		planetPanel.setLayout(null);
-        JLabel planetImageLabel = new JLabel("");
-        planetImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-        planetImageLabel.setIcon(Funcs.getScaledIcon("barter.jpg", 150, 150));
+        JLabel lblGameTitle = new JLabel("SPACE TRAVELLERS");
+        lblGameTitle.setFont(new Font("Ringbearer", Font.PLAIN, 30));
+        lblGameTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblGameTitle.setBounds(10, 30, 1000, 150);
+        titlePanel.add(lblGameTitle);
 
-        planetPanel.add(planetImageLabel);
-        explorePanel.add(planetPanel);
-        
-        JLabel lblAsadsad = new JLabel("asadsad");
-        lblAsadsad.setHorizontalAlignment(SwingConstants.CENTER);
-        lblAsadsad.setBounds(391, 174, 150, 15);
-        planetPanel.add(lblAsadsad);
-        
-        JLabel lblNewLabel = new JLabel("New label");
-        lblNewLabel.setBounds(391, 12, 150, 150);
-        planetPanel.add(lblNewLabel);
-        
-        JPanel crewMemberPanel = new JPanel();
-        crewMemberPanel.setLayout(new GridLayout(0, 2, 0, 0));
-        explorePanel.add(crewMemberPanel);
+        JPanel topPanel = new JPanel();
+        //topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topPanel.setLayout(null);
 
-        JPanel memberPanel = new JPanel();
-        memberPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-        memberPanel.setLayout(null);
-        
-        JLabel memberImageLabel = new JLabel("");
-        memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-        memberImageLabel.setBounds(185, 12, 120, 120);
-        memberImageLabel.setIcon(Funcs.getScaledIcon("barter.jpg", 150, 150));
-        memberPanel.add(memberImageLabel);
+        //JPanel homeBtnPanel = new JPanel();
+        //topPanel.add(homeBtnPanel);
+        JButton homeBtn = new JButton("Home");
+        homeBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        homeBtn.setBounds(10, 30, 150, 20);
+        homeBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        topPanel.add(homeBtn);
+        //homeBtnPanel.add(homeBtn);
 
-        crewMemberPanel.add(memberPanel);
-        
-        JRadioButton rdbtnCrewMember = new JRadioButton("Crew Member");
-        rdbtnCrewMember.setBounds(176, 147, 144, 23);
-        memberPanel.add(rdbtnCrewMember);
+        //JPanel dayLabelPanel = new JPanel();
+        //topPanel.add(dayLabelPanel);
+        JLabel dayLabel = new JLabel("");
+        dayLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        dayLabel.setBounds(10, 60, 150, 20);
+        dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        topPanel.add(dayLabel);
+       // dayLabelPanel.add(dayLabel);
 
-        JPanel exploreBtnPanel = new JPanel();
-        JButton exploreBtn = new JButton("Go exploring!");
-        exploreBtnPanel.add(exploreBtn);
-        explorePanel.add(exploreBtnPanel);
+        //JPanel currentPlanetPanel = new JPanel();
+        //topPanel.add(currentPlanetPanel);
+        JLabel currentPlanetLabel = new JLabel("");
+        currentPlanetLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        currentPlanetLabel.setBounds(10, 90, 150, 20);
+        currentPlanetLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        topPanel.add(currentPlanetLabel);
+        //currentPlanetPanel.add(currentPlanetLabel);
+
+        //JPanel peicesRequiredPanel = new JPanel();
+        //topPanel.add(peicesRequiredPanel);
+        JLabel peicesRequiredLabel = new JLabel("");
+        peicesRequiredLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        peicesRequiredLabel.setBounds(10, 120, 150, 20);
+        peicesRequiredLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        topPanel.add(peicesRequiredLabel);
         
-		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
-		frame.getContentPane().add(explorePanel);
+        mainPanel.add(topPanel);
+        
+        frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
+		frame.getContentPane().add(mainPanel);
 		frame.setVisible(true);
 	}
 }

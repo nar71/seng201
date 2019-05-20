@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
+import javax.swing.border.EmptyBorder;
 
 import java.time.LocalTime;
 
@@ -137,46 +138,61 @@ public class HomeScreen {
 
 	public void addTopPanel() {
         JPanel titlePanel = new JPanel();
+        titlePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         mainPanel.add(titlePanel);
-        
-        JLabel title = new JLabel("Game Name");
-        title.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        titlePanel.add(title);
+
+        JLabel lblGameTitle = new JLabel("SPACE TRAVELLERS");
+        lblGameTitle.setFont(new Font("Ringbearer", Font.PLAIN, 30));
+        lblGameTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblGameTitle.setBounds(10, 30, 1000, 150);
+        titlePanel.add(lblGameTitle);
 
         JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+        mainPanel.add(topPanel);
 
         JPanel homeBtnPanel = new JPanel();
         topPanel.add(homeBtnPanel);
         this.homeBtn = new JButton("Home");
         homeBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        homeBtn.setBounds(10, 30, 150, 20);
+        homeBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        topPanel.add(homeBtn);
         homeBtnPanel.add(homeBtn);
 
         JPanel dayLabelPanel = new JPanel();
         topPanel.add(dayLabelPanel);
         this.dayLabel = new JLabel("");
         dayLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        dayLabel.setBounds(10, 60, 150, 20);
+        dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        //topPanel.add(dayLabel);
         dayLabelPanel.add(dayLabel);
 
         JPanel currentPlanetPanel = new JPanel();
         topPanel.add(currentPlanetPanel);
         this.currentPlanetLabel = new JLabel("");
         currentPlanetLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        currentPlanetLabel.setBounds(10, 90, 150, 20);
+        currentPlanetLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        //topPanel.add(currentPlanetLabel);
         currentPlanetPanel.add(currentPlanetLabel);
 
         JPanel peicesRequiredPanel = new JPanel();
         topPanel.add(peicesRequiredPanel);
         this.peicesRequiredLabel = new JLabel("");
         peicesRequiredLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        peicesRequiredLabel.setBounds(10, 120, 150, 20);
+        peicesRequiredLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        //topPanel.add(peicesRequiredLabel);
         peicesRequiredPanel.add(peicesRequiredLabel);
         
         refreshTopPanel();
-
-        mainPanel.add(topPanel);
     }
 
 	public void refreshTopPanel() {
 		dayLabel.setText("Day: " +  environment.getCurrentDay() + "/" + environment.getNumDays());
-		currentPlanetLabel.setText("Current Planet: " + environment.getCurrentPlanet());
+		currentPlanetLabel.setText("Current Planet: " + environment.getCurrentPlanet().getName());
         peicesRequiredLabel.setText("Peices: " + spaceShip.getPeicesFound() + "/" + spaceShip.getPeicesRequired());
 	}
 
@@ -187,20 +203,20 @@ public class HomeScreen {
 		homePanel.add(homeContent);
 
 		homeContent.setLayout(null);
-		
+
 		JButton crewDetailBtn = new JButton("View Crew Status");
         crewDetailBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		crewDetailBtn.setBounds(10, 57, 165, 30);
+		crewDetailBtn.setBounds(60, 57, 165, 30);
 		homeContent.add(crewDetailBtn);
 		
 		JButton shipBtn = new JButton("View Ship Status");
         shipBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        shipBtn.setBounds(10, 99, 165, 30);
+        shipBtn.setBounds(60, 99, 165, 30);
 		homeContent.add(shipBtn);
 		
 		JButton inventoryBtn = new JButton("Inventory"); // Takes you to inventory of spaceoutpost
         inventoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        inventoryBtn.setBounds(10, 142, 165, 30);
+        inventoryBtn.setBounds(60, 142, 165, 30);
 		homeContent.add(inventoryBtn);
 
         JButton exploreBtn = new JButton("Explore");
@@ -391,28 +407,27 @@ public class HomeScreen {
         planetPanel.add(planetImageLabel);
 
         JPanel crewMemberPanel = new JPanel();
-        crewMemberPanel.setLayout(new GridLayout(0, 2, 0, 0));
+        crewMemberPanel.setLayout(new GridLayout(0, 4, 0, 0));
         explorePanel.add(crewMemberPanel);
 
         ButtonGroup memberButtonGroup = new ButtonGroup();
 
         for (CrewMember member: crew.getMembers()) {
             JPanel memberPanel = new JPanel();
-            memberPanel.setBorder(new LineBorder(new Color(119, 119, 119)));
             memberPanel.setLayout(null);
 
             JRadioButton memberRadio = new JRadioButton(member.getName());
             //memberRadio.setBounds(176, 147, 144, 23);
-            memberRadio.setBounds(195, 170, 150, 23);
+            memberRadio.setBounds(20, 140, 150, 23);
             if (!member.hasActionsLeft()) {
                 memberRadio.setEnabled(false);
             }
             memberRadio.putClientProperty("CrewMember", member);
 
             JLabel memberImageLabel = new JLabel("");
-            memberImageLabel.setBounds(185, 12, 150, 150);
+            memberImageLabel.setBounds(22, 10, 120, 120);
             memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            memberImageLabel.setIcon(new ImageIcon(Image.getCrewMemberImagePath(member)));
+            memberImageLabel.setIcon(Funcs.getScaledIcon(Image.getCrewMemberImagePath(member), 120, 120));;
 
             memberButtonGroup.add(memberRadio);
             memberPanel.add(memberImageLabel);
