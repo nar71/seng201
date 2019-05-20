@@ -76,13 +76,18 @@ public class WindowTests {
                 6, 
                 20);
 		textArea.setSize(800, 225);
-		textArea.setLocation(31, 114);
+		textArea.setLocation(100, 200);
         textArea.setFont(new Font("Tahoma", Font.PLAIN, 16));
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setOpaque(false);
         textArea.setEditable(false);
         mainPanel.add(textArea);
+        
+        JLabel lblWelcome = new JLabel("Welcome");
+        lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
+        lblWelcome.setBounds(37, 109, 949, 57);
+        mainPanel.add(lblWelcome);
         
 		frame.setVisible(true);
 	}

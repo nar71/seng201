@@ -420,6 +420,8 @@ public class CrewPanel extends JPanel {
                     }
                     selectedFoodRadio.setText(food.getType() + "(" + food.getCount() + ")");
 
+                    refillCrewPanelAndButtonGroup(membersPanel, selectedMemberBtnGroup, "hunger");
+
                     if (!isDefeated) {
                         JOptionPane.showMessageDialog(null, food.getType() + " successfully applied");
                     }
@@ -441,8 +443,8 @@ public class CrewPanel extends JPanel {
         JPanel membersPanel = getGridSelectMembers(selectedMemberBtnGroup, "health");
         newMedicalItemPanel.add(membersPanel);
 
-        JPanel foodBoxPanel = new JPanel(new GridLayout(1, 6));
-        newMedicalItemPanel.add(foodBoxPanel);
+        JPanel medicalBoxPanel = new JPanel(new GridLayout(1, 6));
+        newMedicalItemPanel.add(medicalBoxPanel);
 
         ButtonGroup medicalRadioGroup = new ButtonGroup();
 
@@ -464,7 +466,7 @@ public class CrewPanel extends JPanel {
             medicalRadioGroup.add(medicalRadioBtn);
             medicalSupplyPanel.add(medicalRadioBtn);
             medicalSupplyPanel.add(medicalSupplyImgLabel);
-            foodBoxPanel.add(medicalSupplyPanel);
+            medicalBoxPanel.add(medicalSupplyPanel);
         }
 
         JPanel applyFoodPanel = new JPanel();
@@ -513,6 +515,8 @@ public class CrewPanel extends JPanel {
                         selectedMedicalSupplyRadio.setEnabled(false);
                     }
                     selectedMedicalSupplyRadio.setText(medicalSupply.getType() + "(" + medicalSupply.getCount() + ")");
+
+                    refillCrewPanelAndButtonGroup(membersPanel, selectedMemberBtnGroup, "health");
 
                     if (!isDefeated) {
                         JOptionPane.showMessageDialog(null, responseString);
@@ -659,13 +663,14 @@ public class CrewPanel extends JPanel {
                         selectedMemberBtnGroup.clearSelection();
                         if (!member.hasActionsLeft()) {
                             selectedMemberRadio.setEnabled(false);
-                            
                             if (isPlayerDefeated()) {
                                 isDefeated = true;
                             	screen.closeWindow(false, "You are out of actions");
                             }
                         }
                     }
+
+                    refillCrewPanelAndButtonGroup(membersPanel, selectedMemberBtnGroup, "tiredness");
 
                     if (!isDefeated) {
                         JOptionPane.showMessageDialog(null, responseString);
@@ -790,16 +795,14 @@ public class CrewPanel extends JPanel {
                 JLabel tirednessLabel = new JLabel("Tiredness: " + member.getTiredness());
                 tirednessLabel.setBounds(22, 170, 150, 23);
                 insidePanel.add(tirednessLabel);
-            }
-            if (labelToShow == "health") {
+            } else if (labelToShow == "health") {
                 JLabel healthLabel = new JLabel("Current Health: " + member.getCurrentHealth());
                 healthLabel.setBounds(22, 170, 150, 23);
                 insidePanel.add(healthLabel);
                 if (spaceOutPost.hasNoMedicalSupplies()) {
                     memberRadio.setEnabled(false);
                 }
-            }
-            if (labelToShow == "hunger") {
+            } else if (labelToShow == "hunger") {
                 JLabel hungerLabel = new JLabel("Hunger Level: " + member.getHungerLevel());
                 hungerLabel.setBounds(22, 170, 150, 23);
                 insidePanel.add(hungerLabel);
