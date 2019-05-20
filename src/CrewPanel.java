@@ -573,6 +573,7 @@ public class CrewPanel extends JPanel {
 
     public void addCrewMemberSleepPanel() {
         this.crewMemberSleepPanel = new JPanel();
+        crewMemberSleepPanel.setLayout(new BoxLayout(crewMemberSleepPanel, BoxLayout.Y_AXIS));
         content.add(crewMemberSleepPanel, CREW_SLEEP_PANEL_STRING);
     }
 
@@ -580,13 +581,22 @@ public class CrewPanel extends JPanel {
         this.crewMemberSleepPanel.removeAll();
 
         ButtonGroup selectedMemberBtnGroup = new ButtonGroup();
-        JPanel memberPanel = getCrewSelectPanel(selectedMemberBtnGroup);
+        //JPanel memberPanel = getCrewSelectPanel(selectedMemberBtnGroup);
+        JPanel memberPanel = new JPanel();
+        memberPanel.setLayout(new GridLayout(1, 4));
+        for (CrewMember member: crew.getMembers()) {
+            JPanel testPanel = getTestCrewPanel(selectedMemberBtnGroup, member);
+            memberPanel.add(testPanel);
+        }
 
-        memberPanel.setLayout(new BoxLayout(memberPanel, BoxLayout.Y_AXIS));
+        //memberPanel.setLayout(new BoxLayout(memberPanel, BoxLayout.Y_AXIS));
         crewMemberSleepPanel.add(memberPanel);
 
+        JPanel sleepBtnPanel = new JPanel();
+        crewMemberSleepPanel.add(sleepBtnPanel);
         JButton sleepBtn = new JButton("Sleep");
-        crewMemberSleepPanel.add(sleepBtn);
+        sleepBtnPanel.add(sleepBtn);
+
         sleepBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (selectedMemberBtnGroup.getSelection() == null) {
@@ -725,6 +735,30 @@ public class CrewPanel extends JPanel {
             }
         }
         return planetsPanel;
+    }
+
+    private JPanel getTestCrewPanel(ButtonGroup memberButtonGroup, CrewMember member) {
+        JPanel memberPanel = new JPanel();
+        memberPanel.setBorder(new LineBorder(new Color(119, 119, 119)));
+        memberPanel.setLayout(null);
+
+        JRadioButton memberRadio = new JRadioButton(member.getName());
+        //memberRadio.setBounds(176, 147, 144, 23);
+        memberRadio.setBounds(20, 170, 150, 23);
+        if (!member.hasActionsLeft()) {
+            memberRadio.setEnabled(false);
+        }
+        memberRadio.putClientProperty("CrewMember", member);
+
+        JLabel memberImageLabel = new JLabel("");
+        memberImageLabel.setBounds(0, 0, 150, 150);
+        memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+        memberImageLabel.setIcon(new ImageIcon(Image.getCrewMemberImagePath(member)));
+
+        memberButtonGroup.add(memberRadio);
+        memberPanel.add(memberImageLabel);
+        memberPanel.add(memberRadio);
+        return memberPanel;
     }
 
     private void refreshPlanetsOntoPanel(ButtonGroup buttonGroup, JPanel planetsPanel) {

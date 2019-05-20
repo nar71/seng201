@@ -42,63 +42,54 @@ public class WindowTests {
 		frame.setBounds(new Rectangle(0, 0, 1000, 700));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel mainPanel = new JPanel();
-		JPanel contentPanel = new JPanel();
+		JPanel explorePanel = new JPanel();
+		explorePanel.setLayout(new BoxLayout(explorePanel, BoxLayout.Y_AXIS));
 
-		CardLayout cardLayout = new CardLayout();
-		
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        contentPanel.setLayout(cardLayout);
+		JPanel planetPanel = new JPanel();
+		planetPanel.setLayout(null);
+        JLabel planetImageLabel = new JLabel("");
+        planetImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+        planetImageLabel.setIcon(Funcs.getScaledIcon("barter.jpg", 150, 150));
 
-		JPanel homePanel = new JPanel();
-		contentPanel.add(homePanel, "HOME");
+        planetPanel.add(planetImageLabel);
+        explorePanel.add(planetPanel);
+        
+        JLabel lblAsadsad = new JLabel("asadsad");
+        lblAsadsad.setHorizontalAlignment(SwingConstants.CENTER);
+        lblAsadsad.setBounds(391, 174, 150, 15);
+        planetPanel.add(lblAsadsad);
+        
+        JLabel lblNewLabel = new JLabel("New label");
+        lblNewLabel.setBounds(391, 12, 150, 150);
+        planetPanel.add(lblNewLabel);
+        
+        JPanel crewMemberPanel = new JPanel();
+        crewMemberPanel.setLayout(new GridLayout(0, 2, 0, 0));
+        explorePanel.add(crewMemberPanel);
 
-		homePanel.setLayout(new BoxLayout(homePanel, BoxLayout.X_AXIS));
-		JPanel homeSideBar = new JPanel();
-		homePanel.add(homeSideBar);
-		
-		//homeSideBar.setLayout(new BoxLayout(homeSideBar, BoxLayout.Y_AXIS));
-		homeSideBar.setLayout(null);
-		
-		//JPanel crewStatusBtnPanel = new JPanel();
-		//homeSideBar.add(crewStatusBtnPanel);
-		JButton crewDetailBtn = new JButton("View Crew Status");
-        crewDetailBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		crewDetailBtn.setBounds(26, 30, 165, 30);
-		homeSideBar.add(crewDetailBtn);
-		//crewStatusBtnPanel.add(crewDetailBtn);
-		
-		//JPanel shipStatusBtnPanel = new JPanel();
-		//homeSideBar.add(shipStatusBtnPanel);
-		JButton shipBtn = new JButton("View Ship Status");
-        shipBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        shipBtn.setBounds(26, 69, 165, 30);
-		homeSideBar.add(shipBtn);
-		//shipStatusBtnPanel.add(shipBtn);
-		
-		//JPanel inventoryBtnPanel = new JPanel();
-		//homeSideBar.add(inventoryBtnPanel);
-		JButton inventoryBtn = new JButton("Inventory"); // Takes you to inventory of spaceoutpost
-        inventoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        inventoryBtn.setBounds(26, 108, 165, 30);
-		homeSideBar.add(inventoryBtn);
-		//inventoryBtnPanel.add(inventoryBtn);
-		
-		JButton shopBtn = new JButton("Shop");
-        shopBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        shopBtn.setBounds(12, 67, 165, 30);
-        homeSideBar.add(shopBtn);
+        JPanel memberPanel = new JPanel();
+        memberPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+        memberPanel.setLayout(null);
         
-		JButton exploreBtn = new JButton("Explore");
-        exploreBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        exploreBtn.setBounds(235, 69, 165, 30);
-        homeSideBar.add(exploreBtn);
+        JLabel memberImageLabel = new JLabel("");
+        memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+        memberImageLabel.setBounds(185, 12, 120, 120);
+        memberImageLabel.setIcon(Funcs.getScaledIcon("barter.jpg", 150, 150));
+        memberPanel.add(memberImageLabel);
+
+        crewMemberPanel.add(memberPanel);
         
-        
-		cardLayout.show(contentPanel, "HOME");
+        JRadioButton rdbtnCrewMember = new JRadioButton("Crew Member");
+        rdbtnCrewMember.setBounds(176, 147, 144, 23);
+        memberPanel.add(rdbtnCrewMember);
+
+        JPanel exploreBtnPanel = new JPanel();
+        JButton exploreBtn = new JButton("Go exploring!");
+        exploreBtnPanel.add(exploreBtn);
+        explorePanel.add(exploreBtnPanel);
         
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
-		frame.getContentPane().add(mainPanel);
+		frame.getContentPane().add(explorePanel);
 		frame.setVisible(true);
 	}
 }

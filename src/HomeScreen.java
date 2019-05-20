@@ -372,31 +372,58 @@ public class HomeScreen {
     public void refreshExplorePanel() {
         // Get crew member select...
         explorePanel.removeAll();
+        explorePanel.setLayout(new BoxLayout(explorePanel, BoxLayout.Y_AXIS));
 
-        JLabel titleLabel = new JLabel("Choose a member and go explore: " + environment.getCurrentPlanet());
-        explorePanel.add(titleLabel);
+        JPanel planetPanel = new JPanel();
+        planetPanel.setLayout(null);
+        explorePanel.add(planetPanel);
+
+        JLabel planetImageLabel = new JLabel("");
+        planetImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+        planetImageLabel.setBounds(420, 20, 150, 150);
+        planetImageLabel.setIcon(new ImageIcon(Image.getPlanetImagePath(environment.getCurrentPlanet())));
+
+        JLabel lblPlanetTitle = new JLabel(environment.getCurrentPlanet().getName());
+        lblPlanetTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblPlanetTitle.setBounds(420, 182, 150, 15);
+        
+        planetPanel.add(lblPlanetTitle);
+        planetPanel.add(planetImageLabel);
+
+        JPanel crewMemberPanel = new JPanel();
+        crewMemberPanel.setLayout(new GridLayout(0, 2, 0, 0));
+        explorePanel.add(crewMemberPanel);
 
         ButtonGroup memberButtonGroup = new ButtonGroup();
 
         for (CrewMember member: crew.getMembers()) {
+            JPanel memberPanel = new JPanel();
+            memberPanel.setBorder(new LineBorder(new Color(119, 119, 119)));
+            memberPanel.setLayout(null);
+
             JRadioButton memberRadio = new JRadioButton(member.getName());
+            //memberRadio.setBounds(176, 147, 144, 23);
+            memberRadio.setBounds(195, 170, 150, 23);
             if (!member.hasActionsLeft()) {
                 memberRadio.setEnabled(false);
             }
             memberRadio.putClientProperty("CrewMember", member);
 
             JLabel memberImageLabel = new JLabel("");
+            memberImageLabel.setBounds(185, 12, 150, 150);
             memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
             memberImageLabel.setIcon(new ImageIcon(Image.getCrewMemberImagePath(member)));
 
             memberButtonGroup.add(memberRadio);
-            explorePanel.add(memberImageLabel);
-            explorePanel.add(memberRadio);
+            memberPanel.add(memberImageLabel);
+            memberPanel.add(memberRadio);
+            crewMemberPanel.add(memberPanel);
         }
 
-
+        JPanel exploreBtnPanel = new JPanel();
         JButton exploreBtn = new JButton("Go exploring!");
-        explorePanel.add(exploreBtn);
+        exploreBtnPanel.add(exploreBtn);
+        explorePanel.add(exploreBtnPanel);
 
         exploreBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
