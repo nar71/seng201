@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
+import javax.swing.border.EmptyBorder;
 
 public class SpaceOutPostPanel extends JPanel {
     private static final String INVENTORY_PANEL_STRING = "INVENTORY_PANEL";
@@ -17,21 +18,19 @@ public class SpaceOutPostPanel extends JPanel {
 
     private JPanel content;
 
-    private JPanel sideBar;
-
     private JPanel inventoryPanel;
 
     private JPanel medicalSuppliesPanel;
 
     private JPanel foodsPanel;
 
-    private JLabel coinsLabel;
+    private JLabel lblCoins;
 
     private JButton inventoryBtn;
 
     private JButton medicalSuppliesBtn;
 
-    private JButton foodBtns;
+    private JButton foodBtn;
 
 	SpaceOutPostPanel(SpaceOutPost spaceOutPost) {
 		super();
@@ -39,54 +38,55 @@ public class SpaceOutPostPanel extends JPanel {
         this.spaceOutPost = spaceOutPost;
 
 		JPanel sideBar = new JPanel();
+		
 		this.content = new JPanel();
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		setBorder(new EmptyBorder(30,0,0,0));
 		add(sideBar);
 		add(content);
 		
 		this.cardLayout = new CardLayout();
 		content.setLayout(cardLayout);
         sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));
-		
-        JPanel panel = new JPanel();
-        sideBar.add(panel);
         
-        this.coinsLabel = new JLabel("Current coins: " + spaceOutPost.getCurrentMoney());
-        panel.add(coinsLabel);
+        JPanel sideBarGrid = new JPanel(new GridLayout(4,1));
+        sideBarGrid.setBorder(new EmptyBorder(0,10,0,0));
+        sideBar.add(sideBarGrid);
         
-        JPanel panel_1 = new JPanel();
-        sideBar.add(panel_1);
+        JPanel currentCoinsPanel = new JPanel();
+        sideBarGrid.add(currentCoinsPanel);
+        this.lblCoins = new JLabel("Current $" + spaceOutPost.getCurrentMoney());
+        lblCoins.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        currentCoinsPanel.add(lblCoins);
         
-        // SideBar
+        JPanel inventoryBtnPanel = new JPanel();
+        sideBarGrid.add(inventoryBtnPanel);
         this.inventoryBtn = new JButton("Inventory");
-        panel_1.add(inventoryBtn);
+        inventoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        inventoryBtnPanel.add(inventoryBtn);
         
-        JPanel panel_2 = new JPanel();
-        sideBar.add(panel_2);
-        this.medicalSuppliesBtn = new JButton("Medical Supplies");
-        panel_2.add(medicalSuppliesBtn);
+        JPanel medicalSuppliesBtnPanel = new JPanel();
+        sideBarGrid.add(medicalSuppliesBtnPanel);
+        this.medicalSuppliesBtn = new JButton("Purchase Medical Supplies");
+        medicalSuppliesBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        medicalSuppliesBtnPanel.add(medicalSuppliesBtn);
         
-        JPanel panel_3 = new JPanel();
-        sideBar.add(panel_3);
-        this.foodBtns = new JButton("Foods");
-        panel_3.add(foodBtns);
+        JPanel foodBtnPanel = new JPanel();
+        sideBarGrid.add(foodBtnPanel);
+        this.foodBtn = new JButton("Purchase Food Items");
+        foodBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        foodBtnPanel.add(foodBtn);
 
-		// Inventory
+        sideBar.add(new JPanel());
+        
         addInventoryPanel();
         refreshInventoryPanel();
-		
-		// Medical Supplies
         addMedicalSuppliesPanel();
-		
-		// Foods
         addFoodsPanel();
 	
-        // SHOW inventory By default
         cardLayout.show(content, INVENTORY_PANEL_STRING);
 
-        // Action handlers
         inventoryBtn.setEnabled(false);
-
         addActionListeners();
 	}
 
@@ -98,21 +98,21 @@ public class SpaceOutPostPanel extends JPanel {
         refreshFoodsPanel();
         inventoryBtn.setEnabled(false);
         medicalSuppliesBtn.setEnabled(true);
-        foodBtns.setEnabled(true);
+        foodBtn.setEnabled(true);
     }
 
     public void refreshCoinLabel() {
-        this.coinsLabel.setText("Current coins: " + spaceOutPost.getCurrentMoney());
+        this.lblCoins.setText("Current coins: " + spaceOutPost.getCurrentMoney());
     }
 
     public void addActionListeners() {
-        foodBtns.addActionListener(new ActionListener() {
+    	foodBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg1) {
                 refreshFoodsPanel();
                 cardLayout.show(content, FOODS_PANEL_STRING);
                 inventoryBtn.setEnabled(true);
                 medicalSuppliesBtn.setEnabled(true);
-                foodBtns.setEnabled(false);
+                foodBtn.setEnabled(false);
             }
         });
         
@@ -121,7 +121,7 @@ public class SpaceOutPostPanel extends JPanel {
                 refreshMedicalSuppliesPanel();
                 cardLayout.show(content, MEDICAL_SUPPLIES_PANEL_STRING);
                 inventoryBtn.setEnabled(true);
-                foodBtns.setEnabled(true);
+                foodBtn.setEnabled(true);
                 medicalSuppliesBtn.setEnabled(false);
             }
         });
@@ -132,7 +132,7 @@ public class SpaceOutPostPanel extends JPanel {
                 cardLayout.show(content, INVENTORY_PANEL_STRING);
                 inventoryBtn.setEnabled(false);
                 medicalSuppliesBtn.setEnabled(true);
-                foodBtns.setEnabled(true);
+                foodBtn.setEnabled(true);
             }
         });
     }
@@ -146,148 +146,155 @@ public class SpaceOutPostPanel extends JPanel {
     private void refreshInventoryPanel() {
         inventoryPanel.removeAll();
         
-        JLabel lblInventory = new JLabel("Inventory");
-        lblInventory.setFont(new Font("Tahoma", Font.PLAIN, 30));
-        lblInventory.setHorizontalAlignment(SwingConstants.CENTER);
-        lblInventory.setBounds(10, 11, 800, 51);
-        inventoryPanel.add(lblInventory);
+        JLabel lblInventoryTitle = new JLabel("Inventory");
+        lblInventoryTitle.setFont(new Font("Tahoma", Font.PLAIN, 30));
+        lblInventoryTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblInventoryTitle.setBounds(10, 0, 700, 50);
+        inventoryPanel.add(lblInventoryTitle);
         
-        JLabel lblPowerUps = new JLabel("Food");
-        lblPowerUps.setFont(new Font("Tahoma", Font.PLAIN, 24));
-        lblPowerUps.setBounds(100, 73, 181, 30);
-        inventoryPanel.add(lblPowerUps);
+        JLabel lblFoodTitle = new JLabel("Food");
+        lblFoodTitle.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        lblFoodTitle.setBounds(100, 74, 181, 30);
+        inventoryPanel.add(lblFoodTitle);
         
-        int yCoord = 124;
-        for (Food powerUp: spaceOutPost.getFoods()) {
-            JLabel lblPowerUpIcon = new JLabel("");
-            lblPowerUpIcon.setFont(new Font("Tahoma", Font.PLAIN, 16));
-            lblPowerUpIcon.setIcon(Funcs.getScaledIcon(Image.getFoodImagePath(powerUp), 38, 38));   
-            lblPowerUpIcon.setBorder(new LineBorder(new Color(0, 0, 0)));
-            lblPowerUpIcon.setBounds(100, yCoord, 38, 38);
-            inventoryPanel.add(lblPowerUpIcon);
+        int y = 124;
+        for (Food food: spaceOutPost.getFoods()) {
+            JLabel lblFoodImage = new JLabel("");
+            lblFoodImage.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            lblFoodImage.setIcon(Funcs.getScaledIcon(Image.getFoodImagePath(food), 38, 38));   
+            lblFoodImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+            lblFoodImage.setBounds(100, y, 38, 38);
+            inventoryPanel.add(lblFoodImage);
             
-            JLabel lblPowerUpNumOwned = new JLabel(powerUp.getType() + "(" + powerUp.getCount() + ")");
-            lblPowerUpNumOwned.setFont(new Font("Tahoma", Font.PLAIN, 16));
-            lblPowerUpNumOwned.setBounds(156, yCoord, 187, 38);
-            inventoryPanel.add(lblPowerUpNumOwned);
+            JLabel lblFoodType = new JLabel(food.getType() + "(" + food.getCount() + ")");
+            lblFoodType.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            lblFoodType.setBounds(156, y, 187, 38);
+            inventoryPanel.add(lblFoodType);
             
-            yCoord += 50;
+            y += 50;
         }
         
-        JLabel lblHealingItems = new JLabel("Medical Supplies");
-        lblHealingItems.setFont(new Font("Tahoma", Font.PLAIN, 24));
-        lblHealingItems.setBounds(439, 73, 250, 30);
-        inventoryPanel.add(lblHealingItems);
+        JLabel lblMedicalSupplyTitle = new JLabel("Medical Supplies");
+        lblMedicalSupplyTitle.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        lblMedicalSupplyTitle.setBounds(439, 73, 250, 30);
+        inventoryPanel.add(lblMedicalSupplyTitle);
         
-        yCoord = 124;
-        for (MedicalSupply healingItem: spaceOutPost.getMedicalSupplies()) {
-            JLabel lblHealingItemIcon = new JLabel("");
-            lblHealingItemIcon.setFont(new Font("Tahoma", Font.PLAIN, 16));
-            lblHealingItemIcon.setIcon(Funcs.getScaledIcon(Image.getMedicalSupplyImagePath(healingItem), 38, 38));   
-            lblHealingItemIcon.setBorder(new LineBorder(new Color(0, 0, 0)));
-            lblHealingItemIcon.setBounds(439, yCoord, 38, 38);
-            inventoryPanel.add(lblHealingItemIcon);
+        y = 124;
+        for (MedicalSupply medicalSupply: spaceOutPost.getMedicalSupplies()) {
+            JLabel lblMedicalSupplyImage = new JLabel("");
+            lblMedicalSupplyImage.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            lblMedicalSupplyImage.setIcon(Funcs.getScaledIcon(Image.getMedicalSupplyImagePath(medicalSupply), 38, 38));   
+            lblMedicalSupplyImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+            lblMedicalSupplyImage.setBounds(439, y, 38, 38);
+            inventoryPanel.add(lblMedicalSupplyImage);
             
-            JLabel lblHealingItemNumOwned = new JLabel(healingItem.getType() + "(" + healingItem.getCount() + ")");
-            lblHealingItemNumOwned.setFont(new Font("Tahoma", Font.PLAIN, 16));
-            lblHealingItemNumOwned.setBounds(487, yCoord, 187, 38);
-            inventoryPanel.add(lblHealingItemNumOwned);
+            JLabel lblMedicalSupplyType = new JLabel(medicalSupply.getType() + "(" + medicalSupply.getCount() + ")");
+            lblMedicalSupplyType.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            lblMedicalSupplyType.setBounds(487, y, 187, 38);
+            inventoryPanel.add(lblMedicalSupplyType);
             
-            yCoord += 50;
+            y += 50;
         }
     }
 
     private void addMedicalSuppliesPanel() {
         this.medicalSuppliesPanel = new JPanel();
-        medicalSuppliesPanel.setLayout(new BoxLayout(medicalSuppliesPanel, BoxLayout.Y_AXIS));
+        medicalSuppliesPanel.setLayout(new GridLayout(2, 2, 0, 0));
         content.add(medicalSuppliesPanel, MEDICAL_SUPPLIES_PANEL_STRING);
     }
 
     private void refreshMedicalSuppliesPanel() {
         medicalSuppliesPanel.removeAll();
 
-        JPanel medicalBoxPanel = new JPanel(new GridLayout(1, 4));
-        medicalSuppliesPanel.add(medicalBoxPanel);
+        for (MedicalSupply medicalSupply: spaceOutPost.getMedicalSupplies()) {
+            JPanel panel = new JPanel();
+            panel.setLayout(null);
+            
+            JLabel lblMedicalSupply = new JLabel(medicalSupply.getType() + "(" + medicalSupply.getCount() + ") $" + medicalSupply.getCost());
+            lblMedicalSupply.setBounds(80, 0, 250, 30);
+            lblMedicalSupply.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            panel.add(lblMedicalSupply);
 
-        for (MedicalSupply medicalSupply : spaceOutPost.getMedicalSupplies()) {
-            JPanel medicalSupplyPanel = new JPanel();
-            medicalSupplyPanel.setLayout(null);
-            JLabel medicalSupplyLabel = new JLabel(medicalSupply.getType() + "(" + medicalSupply.getCount() + ")");
-            medicalSupplyLabel.setBounds(20, 130, 150, 23);
-
-            JLabel medicalSupplyImgLabel = new JLabel("");
-            medicalSupplyImgLabel.setBounds(22, 10, 100, 100);
-            medicalSupplyImgLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            medicalSupplyImgLabel.setIcon(Funcs.getScaledIcon(Image.getMedicalSupplyImagePath(medicalSupply), 100, 100));
-
+            JLabel lblMedicalSupplyImage = new JLabel("");
+            lblMedicalSupplyImage.setIcon(Funcs.getScaledIcon(Image.getMedicalSupplyImagePath(medicalSupply), 150, 150));
+            lblMedicalSupplyImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+            lblMedicalSupplyImage.setBounds(83, 33, 150, 150);
+            panel.add(lblMedicalSupplyImage);
+            
             JButton purchaseBtn = new JButton("Purchase");
-            purchaseBtn.setBounds(20, 150, 150, 23);
-            medicalSupplyPanel.add(purchaseBtn);
-
-            medicalSupplyPanel.add(medicalSupplyLabel);
-            medicalSupplyPanel.add(medicalSupplyImgLabel);
-            medicalBoxPanel.add(medicalSupplyPanel);
-
-            if (medicalSupply.getCost() > spaceOutPost.getCurrentMoney()) {
-                purchaseBtn.setEnabled(false);
+            purchaseBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            purchaseBtn.setBounds(83, 194, 150, 30);
+            if (!spaceOutPost.canAffordItem(medicalSupply.getCost())) {
+            	purchaseBtn.setEnabled(false);
             }
+            
+            JLabel lblHealth = new JLabel("Gives " + medicalSupply.getHealth() + " health");
+            lblHealth.setFont(new Font("Tahoma", Font.PLAIN, 14));
+            lblHealth.setBounds(83, 230, 250, 15);
+            panel.add(lblHealth);
 
             purchaseBtn.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg5) {
                     if (spaceOutPost.canAffordItem(medicalSupply.getCost())) {
                         spaceOutPost.purchaseMedicalSupply(medicalSupply);
-                        coinsLabel.setText("Current coins: " + spaceOutPost.getCurrentMoney());
+                        lblCoins.setText("Current coins: " + spaceOutPost.getCurrentMoney());
                         refreshMedicalSuppliesPanel();
                     }
                 }
             });
+            panel.add(purchaseBtn);
+            medicalSuppliesPanel.add(panel);
         }
     }
 
     private void addFoodsPanel() {
         this.foodsPanel = new JPanel();
-        foodsPanel.setLayout(new BoxLayout(foodsPanel, BoxLayout.Y_AXIS));
+        foodsPanel.setLayout(new GridLayout(2, 3, 0, 0));
         content.add(foodsPanel, FOODS_PANEL_STRING);
     }
 
     private void refreshFoodsPanel() {
         foodsPanel.removeAll();
 
-        JPanel medicalBoxPanel = new JPanel(new GridLayout(2, 3));
-        foodsPanel.add(medicalBoxPanel);
+        for (Food food: spaceOutPost.getFoods()) {
+            JPanel panel = new JPanel();
+            panel.setLayout(null);
+            
+            JLabel lblFood = new JLabel(food.getType() + "(" + food.getCount() + ") $" + food.getCost());
+            lblFood.setBounds(80, 0, 180, 30);
+            lblFood.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            panel.add(lblFood);
 
-        for (Food food : spaceOutPost.getFoods()) {
-            JPanel foodPanel = new JPanel();
-            foodPanel.setLayout(null);
-            JLabel foodLabel = new JLabel(food.getType() + "(" + food.getCount() + ")");
-            foodLabel.setBounds(20, 130, 150, 23);
-
-            JLabel foodImageLabel = new JLabel("");
-            foodImageLabel.setBounds(22, 10, 100, 100);
-            foodImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            foodImageLabel.setIcon(Funcs.getScaledIcon(Image.getFoodImagePath(food), 100, 100));
-
+            JLabel lblFoodImage = new JLabel("");
+            lblFoodImage.setIcon(Funcs.getScaledIcon(Image.getFoodImagePath(food), 150, 150));
+            lblFoodImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+            lblFoodImage.setBounds(83, 33, 150, 150);
+            panel.add(lblFoodImage);
+            
             JButton purchaseBtn = new JButton("Purchase");
-            purchaseBtn.setBounds(20, 150, 150, 23);
-            foodPanel.add(purchaseBtn);
+            purchaseBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            purchaseBtn.setBounds(83, 194, 150, 30);
 
-            foodPanel.add(foodLabel);
-            foodPanel.add(foodImageLabel);
-            medicalBoxPanel.add(foodPanel);
-
-            if (food.getCost() > spaceOutPost.getCurrentMoney()) {
-                purchaseBtn.setEnabled(false);
+            if (!spaceOutPost.canAffordItem(food.getCost())) {
+            	purchaseBtn.setEnabled(false);
             }
+            
+            JLabel lblHunger = new JLabel("Gives " + food.getHungerLevel() + " hunger");
+            lblHunger.setFont(new Font("Tahoma", Font.PLAIN, 14));
+            lblHunger.setBounds(83, 230, 250, 15);
+            panel.add(lblHunger);
 
             purchaseBtn.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg5) {
                     if (spaceOutPost.canAffordItem(food.getCost())) {
                         spaceOutPost.purchaseFood(food);
-                        coinsLabel.setText("Current coins: " + spaceOutPost.getCurrentMoney());
+                        lblCoins.setText("Current coins: " + spaceOutPost.getCurrentMoney());
                         refreshFoodsPanel();
                     }
                 }
             });
+            panel.add(purchaseBtn);
+            foodsPanel.add(panel);
         }
     }
 }

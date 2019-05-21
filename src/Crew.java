@@ -3,17 +3,17 @@ import java.util.ArrayList;
 public class Crew {
 
     /**
-     *
+     * A string representation of the name of the crew
      */
     private String name;
     
     /**
-     *
+     * An integer representation of the number of crew members
      */
     private int numMembers;
 
     /**
-     *
+     * An array list of CrewMember instances
      */
     private ArrayList<CrewMember> members = new ArrayList<CrewMember>();
 
@@ -67,6 +67,11 @@ public class Crew {
      */
     public void makeMemberSick(CrewMember member) {
         member.makeSick();
+    }
+
+    public void makeMemberSleep(CrewMember member) {
+        member.sleep();
+        member.removeAction();
     }
 
     public boolean hasMembers() {

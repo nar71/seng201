@@ -13,6 +13,9 @@ public class CrewMember {
         new Tank("")
     };
 
+    private ArrayList<Food> appliedFoods;
+    private ArrayList<MedicalSupply> appliedMedicalSupplies;
+
     /**
      * A String representation for the name of the crew member
      */
@@ -82,6 +85,8 @@ public class CrewMember {
         this.tiredness = 100;
         this.hungerLevel = 100;
         this.isSick = false;
+        this.appliedMedicalSupplies = new ArrayList<MedicalSupply>();
+        this.appliedFoods = new ArrayList<Food>();
     }
 
     /**
@@ -134,6 +139,10 @@ public class CrewMember {
         if (hungerLevel > 100) {
             hungerLevel = 100;
         }
+
+        if (!appliedFoods.contains(food)) {
+            appliedFoods.add(food);
+        }
     }
 
     /**
@@ -144,6 +153,10 @@ public class CrewMember {
         currentHealth += medicalSupply.getHealth();
         if (currentHealth > maximumHealth) {
             currentHealth = maximumHealth;
+        }
+
+        if (!appliedMedicalSupplies.contains(medicalSupply)) {
+            appliedMedicalSupplies.add(medicalSupply);
         }
     }
 
@@ -314,6 +327,30 @@ public class CrewMember {
         return hungerLevel;
     }
 
+    /**
+     * Sets hunger level of a crew member
+     * @param level Integer of desired new hunger level
+     */
+    public void setHungerLevel(int level) {
+        hungerLevel = level;
+    }
+
+    /**
+     * Gets array list of all medical supplies that member has used - no duplicates can be in the list
+     * @return appliedMedicalSupplies Array List of Medical Supply instances
+     */
+    public ArrayList<MedicalSupply> getAppliedMedicalSupplies() {
+        return appliedMedicalSupplies;
+    }
+
+    /**
+     * Gets array list of all foods that member has used - no duplicates can be in the list
+     * @return appliedFoods Array List of Food instances
+     */
+    public ArrayList<Food> getAppliedFoods() {
+        return appliedFoods;
+    }
+    
     /** 
      * toString method which displays all the crew data
      * @return String data All the data of the crew member

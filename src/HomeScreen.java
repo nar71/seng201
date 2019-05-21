@@ -43,11 +43,11 @@ public class HomeScreen {
 
 	public CardLayout cardLayout;
 
-	public JLabel dayLabel;
+	public JLabel lblCurrentDay;
 
-	public JLabel currentPlanetLabel;
+	public JLabel lblCurrentPlanet;
 
-    public JLabel peicesRequiredLabel;
+    public JLabel lblPeicesRequired;
 
 	public JButton homeBtn;
 
@@ -96,6 +96,7 @@ public class HomeScreen {
 	public void initialize() {
 		window = new JFrame();
 		window.setBounds(new Rectangle(0, 0, 1000, 810));
+        window.setResizable(false);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.cardLayout = new CardLayout();
@@ -157,43 +158,43 @@ public class HomeScreen {
         homeBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
         homeBtn.setBounds(10, 30, 150, 20);
         homeBtn.setHorizontalAlignment(SwingConstants.CENTER);
-        topPanel.add(homeBtn);
+        //topPanel.add(homeBtn);
         homeBtnPanel.add(homeBtn);
 
         JPanel dayLabelPanel = new JPanel();
         topPanel.add(dayLabelPanel);
-        this.dayLabel = new JLabel("");
-        dayLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        dayLabel.setBounds(10, 60, 150, 20);
-        dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        this.lblCurrentDay = new JLabel("");
+        lblCurrentDay.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblCurrentDay.setBounds(10, 60, 150, 20);
+        lblCurrentDay.setHorizontalAlignment(SwingConstants.CENTER);
         //topPanel.add(dayLabel);
-        dayLabelPanel.add(dayLabel);
+        dayLabelPanel.add(lblCurrentDay);
 
         JPanel currentPlanetPanel = new JPanel();
         topPanel.add(currentPlanetPanel);
-        this.currentPlanetLabel = new JLabel("");
-        currentPlanetLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        currentPlanetLabel.setBounds(10, 90, 150, 20);
-        currentPlanetLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        this.lblCurrentPlanet = new JLabel("");
+        lblCurrentPlanet.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblCurrentPlanet.setBounds(10, 90, 150, 20);
+        lblCurrentPlanet.setHorizontalAlignment(SwingConstants.CENTER);
         //topPanel.add(currentPlanetLabel);
-        currentPlanetPanel.add(currentPlanetLabel);
+        currentPlanetPanel.add(lblCurrentPlanet);
 
         JPanel peicesRequiredPanel = new JPanel();
         topPanel.add(peicesRequiredPanel);
-        this.peicesRequiredLabel = new JLabel("");
-        peicesRequiredLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        peicesRequiredLabel.setBounds(10, 120, 150, 20);
-        peicesRequiredLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        this.lblPeicesRequired = new JLabel("");
+        lblPeicesRequired.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblPeicesRequired.setBounds(10, 120, 150, 20);
+        lblPeicesRequired.setHorizontalAlignment(SwingConstants.CENTER);
         //topPanel.add(peicesRequiredLabel);
-        peicesRequiredPanel.add(peicesRequiredLabel);
+        peicesRequiredPanel.add(lblPeicesRequired);
         
         refreshTopPanel();
     }
 
 	public void refreshTopPanel() {
-		dayLabel.setText("Day: " +  environment.getCurrentDay() + "/" + environment.getNumDays());
-		currentPlanetLabel.setText("Current Planet: " + environment.getCurrentPlanet().getName());
-        peicesRequiredLabel.setText("Peices: " + spaceShip.getPeicesFound() + "/" + spaceShip.getPeicesRequired());
+		lblCurrentDay.setText("Day: " +  environment.getCurrentDay() + "/" + environment.getNumDays());
+		lblCurrentPlanet.setText("Current Planet: " + environment.getCurrentPlanet().getName());
+        lblPeicesRequired.setText("Peices: " + spaceShip.getPeicesFound() + "/" + spaceShip.getPeicesRequired());
 	}
 
 	public void addHomePanel() {
@@ -214,7 +215,7 @@ public class HomeScreen {
         shipBtn.setBounds(60, 99, 165, 30);
 		homeContent.add(shipBtn);
 		
-		JButton inventoryBtn = new JButton("Inventory"); // Takes you to inventory of spaceoutpost
+		JButton inventoryBtn = new JButton("Inventory"); 
         inventoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
         inventoryBtn.setBounds(60, 142, 165, 30);
 		homeContent.add(inventoryBtn);
@@ -252,7 +253,7 @@ public class HomeScreen {
 
 					int randomEvent = environment.determineRandomEvent();
 		            if (randomEvent == 1) {
-		            	JOptionPane.showMessageDialog(null, "Random Event: Alien Pirates (");
+		            	JOptionPane.showMessageDialog(null, "Random Event: Alien Pirates");
 		            } else if (randomEvent == 2) {
 		                JOptionPane.showMessageDialog(null, "Random Event: Space Plague");
                         // Game could potentially be over in this case if we have no members left...
@@ -261,6 +262,9 @@ public class HomeScreen {
                         }
 		            } else {
 		                JOptionPane.showMessageDialog(null, "Random Event: Asteroid Belt");
+                        if (spaceShip.getShieldHealth() <= 0) {
+                            closeWindow(false, "Your spaceship ran out of shield health");
+                        }
 		            }
 				} else {
 					nextDayBtn.setEnabled(false);
@@ -362,57 +366,60 @@ public class HomeScreen {
     	shipStatusPanel.removeAll();
 		shipStatusPanel.setLayout(null);
 
-        JLabel spaceShipImageLabel = new JLabel("");
-        spaceShipImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-        spaceShipImageLabel.setBounds(100, 50, 200, 200);
-        spaceShipImageLabel.setIcon(new ImageIcon(getClass().getResource(spaceShip.getImagePath())));
-        shipStatusPanel.add(spaceShipImageLabel);
+        JLabel lblSpaceShipImage = new JLabel("");
+        lblSpaceShipImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lblSpaceShipImage.setBounds(100, 50, 200, 200);
+        lblSpaceShipImage.setIcon(new ImageIcon(getClass().getResource(spaceShip.getImagePath())));
+        shipStatusPanel.add(lblSpaceShipImage);
 
-        JLabel spaceShipName = new JLabel(spaceShip.getName());
-        spaceShipName.setFont(new Font("Dialog", Font.BOLD, 18));
-        spaceShipName.setHorizontalAlignment(SwingConstants.CENTER);
-        spaceShipName.setBounds(100, 250, 200, 50);
+        JLabel lblSpaceShipName = new JLabel(spaceShip.getName());
+        lblSpaceShipName.setFont(new Font("Tahoma", Font.BOLD, 22));
+        lblSpaceShipName.setHorizontalAlignment(SwingConstants.CENTER);
+        lblSpaceShipName.setBounds(100, 250, 200, 50);
 
-		JLabel spaceShipHealth = new JLabel("Shield Health: " + spaceShip.getShieldHealth());
-        spaceShipHealth.setBounds(350, 50, 250, 50);
+		JLabel lblSpaceShipHealth = new JLabel("Shield Health: " + spaceShip.getShieldHealth());
+        lblSpaceShipHealth.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblSpaceShipHealth.setBounds(350, 50, 250, 50);
 
-		JLabel peicesRequired = new JLabel("Peices Required: " + spaceShip.getPeicesRequired());
-        peicesRequired.setBounds(350, 80, 250, 50);
+		JLabel lblPeicesRequired = new JLabel("Peices Required: " + spaceShip.getPeicesRequired());
+        lblPeicesRequired.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblPeicesRequired.setBounds(350, 80, 250, 50);
 
-        JLabel partsFound = new JLabel("Peices found: " + spaceShip.getPeicesFound());
-        partsFound.setBounds(350, 110, 250, 50);
+        JLabel lblPartsFound = new JLabel("Peices found: " + spaceShip.getPeicesFound());
+        lblPartsFound.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblPartsFound.setBounds(350, 110, 250, 50);
 
-		shipStatusPanel.add(spaceShipName);
-		shipStatusPanel.add(spaceShipHealth);
-		shipStatusPanel.add(peicesRequired);
-		shipStatusPanel.add(partsFound);
+		shipStatusPanel.add(lblSpaceShipName);
+		shipStatusPanel.add(lblSpaceShipHealth);
+		shipStatusPanel.add(lblPeicesRequired);
+		shipStatusPanel.add(lblPartsFound);
     }
 
     public void addExplorePanel() {
         this.explorePanel = new JPanel();
+        explorePanel.setLayout(new BoxLayout(explorePanel, BoxLayout.Y_AXIS));
         contentPanel.add(explorePanel, EXPLORE);
     }
 
     public void refreshExplorePanel() {
-        // Get crew member select...
         explorePanel.removeAll();
-        explorePanel.setLayout(new BoxLayout(explorePanel, BoxLayout.Y_AXIS));
 
         JPanel planetPanel = new JPanel();
         planetPanel.setLayout(null);
         explorePanel.add(planetPanel);
 
-        JLabel planetImageLabel = new JLabel("");
-        planetImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-        planetImageLabel.setBounds(420, 20, 150, 150);
-        planetImageLabel.setIcon(new ImageIcon(Image.getPlanetImagePath(environment.getCurrentPlanet())));
+        JLabel lblChooseAMember = new JLabel("Choose a member and go explore " + environment.getCurrentPlanet().getName() + "!");
+        lblChooseAMember.setBounds(0, 49, 585, 74);
+        lblChooseAMember.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        lblChooseAMember.setHorizontalAlignment(SwingConstants.CENTER);
+        planetPanel.add(lblChooseAMember);
 
-        JLabel lblPlanetTitle = new JLabel(environment.getCurrentPlanet().getName());
-        lblPlanetTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        lblPlanetTitle.setBounds(420, 182, 150, 15);
+        JLabel lblPlanetImage = new JLabel("");
+        lblPlanetImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lblPlanetImage.setBounds(600, 20, 150, 150);
+        lblPlanetImage.setIcon(new ImageIcon(Image.getPlanetImagePath(environment.getCurrentPlanet())));
         
-        planetPanel.add(lblPlanetTitle);
-        planetPanel.add(planetImageLabel);
+        planetPanel.add(lblPlanetImage);
 
         JPanel crewMemberPanel = new JPanel();
         crewMemberPanel.setLayout(new GridLayout(0, 4, 0, 0));
@@ -421,26 +428,26 @@ public class HomeScreen {
         ButtonGroup memberButtonGroup = new ButtonGroup();
 
         for (CrewMember member: crew.getMembers()) {
-            JPanel memberPanel = new JPanel();
-            memberPanel.setLayout(null);
+            JPanel panel = new JPanel();
+            panel.setLayout(null);
 
             JRadioButton memberRadio = new JRadioButton(member.getName());
-            //memberRadio.setBounds(176, 147, 144, 23);
-            memberRadio.setBounds(20, 140, 150, 23);
+            memberRadio.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            memberRadio.setBounds(70, 155, 110, 23);
             if (!member.hasActionsLeft()) {
                 memberRadio.setEnabled(false);
             }
             memberRadio.putClientProperty("CrewMember", member);
 
-            JLabel memberImageLabel = new JLabel("");
-            memberImageLabel.setBounds(22, 10, 120, 120);
-            memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            memberImageLabel.setIcon(Funcs.getScaledIcon(Image.getCrewMemberImagePath(member), 120, 120));;
+            JLabel lblMemberImage = new JLabel("");
+            lblMemberImage.setBounds(60, 27, 120, 120);
+            lblMemberImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+            lblMemberImage.setIcon(Funcs.getScaledIcon(Image.getCrewMemberImagePath(member), 120, 120));;
 
             memberButtonGroup.add(memberRadio);
-            memberPanel.add(memberImageLabel);
-            memberPanel.add(memberRadio);
-            crewMemberPanel.add(memberPanel);
+            panel.add(lblMemberImage);
+            panel.add(memberRadio);
+            crewMemberPanel.add(panel);
         }
 
         JPanel exploreBtnPanel = new JPanel();
@@ -460,14 +467,24 @@ public class HomeScreen {
                 }
 
                 String foundItem = environment.searchPlanetForParts();
+                boolean showMessageDialog = true;
                 if (spaceShip.allPartsFound()) {
                     // Games over and won
+                    showMessageDialog = false;
                     closeWindow(true, "");
+                } else {
+                    // All actions could be used here
+                    if (environment.isDefeated()) {
+                        showMessageDialog = false;
+                        closeWindow(false, "Players are out of actions");
+                    }
                 }
 
                 refreshTopPanel();
 
-                JOptionPane.showMessageDialog(null, foundItem);
+                if (showMessageDialog) {
+                    JOptionPane.showMessageDialog(null, foundItem);
+                }
             }
         });
     }

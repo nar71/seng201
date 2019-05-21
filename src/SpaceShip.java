@@ -45,20 +45,16 @@ public class SpaceShip {
 	}
 	
 	public void decreaseShieldLevel(int decrement) {
-		if (shieldHealth > decrement) {
-			shieldHealth -= decrement;
-			if (shieldHealth < 0) {
-				shieldHealth = 0;
-			}
+		shieldHealth -= decrement;
+		if (shieldHealth < 0) {
+			shieldHealth = 0;
 		}
 	}
 
 	public void incrementShieldLevel(int increment) {
-		if (shieldHealth < increment) {
-			shieldHealth += increment;
-			if (shieldHealth > 100) {
-				shieldHealth = 100;
-			}
+		shieldHealth += increment;
+		if (shieldHealth > 100) {
+			shieldHealth = 100;
 		}
 	}
 	

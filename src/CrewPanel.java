@@ -262,74 +262,96 @@ public class CrewPanel extends JPanel {
 
         for (CrewMember member: crew.getMembers()) {
             JPanel memberPanel = new JPanel();
-            memberPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+            memberPanel.setBorder(new LineBorder(new Color(190, 190, 190)));
             memberPanel.setLayout(null);
             crewDetailsPanel.add(memberPanel);
             
-            JLabel memberImageLabel = new JLabel("");
-            memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            memberImageLabel.setBounds(30, 13, 120, 120);
-            memberImageLabel.setIcon(Funcs.getScaledIcon(Image.getCrewMemberImagePath(member), 120, 120));
-            memberPanel.add(memberImageLabel);
+            JLabel lblMemberImage = new JLabel("");
+            lblMemberImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+            lblMemberImage.setBounds(30, 13, 120, 120);
+            lblMemberImage.setIcon(Funcs.getScaledIcon(Image.getCrewMemberImagePath(member), 120, 120));
+            memberPanel.add(lblMemberImage);
             
-            JLabel memberNameLabel = new JLabel(member.getName());
-            memberNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            memberNameLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-            memberNameLabel.setBounds(10, 150, 160, 25);
-            memberPanel.add(memberNameLabel);
+            JLabel lblMemberName = new JLabel(member.getName());
+            lblMemberName.setHorizontalAlignment(SwingConstants.CENTER);
+            lblMemberName.setFont(new Font("Tahoma", Font.PLAIN, 18));
+            lblMemberName.setBounds(10, 150, 160, 25);
+            memberPanel.add(lblMemberName);
 
-            JLabel memberTypeLabel = new JLabel(String.format("%s", member.getType()));
-            memberTypeLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-            memberTypeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            memberTypeLabel.setBounds(10, 170, 160, 25);
-            memberPanel.add(memberTypeLabel);
+            JLabel lblMemberType = new JLabel(String.format("%s", member.getType()));
+            lblMemberType.setFont(new Font("Tahoma", Font.PLAIN, 18));
+            lblMemberType.setHorizontalAlignment(SwingConstants.CENTER);
+            lblMemberType.setBounds(10, 170, 160, 25);
+            memberPanel.add(lblMemberType);
 
-            JLabel memberSpecialtyLabel = new JLabel("Specialty:" + member.getSpecialty());
-            memberSpecialtyLabel.setHorizontalAlignment(SwingConstants.LEFT);
-            memberSpecialtyLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberSpecialtyLabel.setBounds(10, 200, 190, 24);
-            memberPanel.add(memberSpecialtyLabel);
+            JLabel lblMemberSpecialty = new JLabel("Specialty:" + member.getSpecialty());
+            lblMemberSpecialty.setHorizontalAlignment(SwingConstants.LEFT);
+            lblMemberSpecialty.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            lblMemberSpecialty.setBounds(10, 200, 190, 24);
+            memberPanel.add(lblMemberSpecialty);
             
-            JLabel memberHealthLabel = new JLabel("Health:" + member.getCurrentHealth() + "/" + member.getMaxHealth());
-            memberHealthLabel.setHorizontalAlignment(SwingConstants.LEFT);
-            memberHealthLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberHealthLabel.setBounds(10, 230, 190, 24);
-            memberPanel.add(memberHealthLabel);
+            JLabel lblMemberHealth = new JLabel("Health:" + member.getCurrentHealth() + "/" + member.getMaxHealth());
+            lblMemberHealth.setHorizontalAlignment(SwingConstants.LEFT);
+            lblMemberHealth.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            lblMemberHealth.setBounds(10, 230, 190, 24);
+            memberPanel.add(lblMemberHealth);
 
-            JLabel memberHungerLabel = new JLabel("Hunger level:" + member.getHungerLevel());
-            memberHungerLabel.setHorizontalAlignment(SwingConstants.LEFT);
-            memberHungerLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberHungerLabel.setBounds(10, 260, 190, 24);
-            memberPanel.add(memberHungerLabel);
+            JLabel lblMemberHunger = new JLabel("Hunger level:" + member.getHungerLevel());
+            lblMemberHunger.setHorizontalAlignment(SwingConstants.LEFT);
+            lblMemberHunger.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            lblMemberHunger.setBounds(10, 260, 190, 24);
+            memberPanel.add(lblMemberHunger);
 
-            JLabel memberTirednessLabel = new JLabel("Tiredness:" + member.getTiredness());
-            memberTirednessLabel.setHorizontalAlignment(SwingConstants.LEFT);
-            memberTirednessLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberTirednessLabel.setBounds(10, 290, 190, 24);
-            memberPanel.add(memberTirednessLabel);
+            JLabel lblMemberTiredness = new JLabel("Tiredness:" + member.getTiredness());
+            lblMemberTiredness.setHorizontalAlignment(SwingConstants.LEFT);
+            lblMemberTiredness.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            lblMemberTiredness.setBounds(10, 290, 190, 24);
+            memberPanel.add(lblMemberTiredness);
 
-            JLabel actionsLeftLabel = new JLabel("Actions left:" + member.getActions());
-            actionsLeftLabel.setHorizontalAlignment(SwingConstants.LEFT);
-            actionsLeftLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            actionsLeftLabel.setBounds(10, 320, 190, 24);
-            memberPanel.add(actionsLeftLabel);
+            JLabel lblActions = new JLabel("Actions left:" + member.getActions());
+            lblActions.setHorizontalAlignment(SwingConstants.LEFT);
+            lblActions.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            lblActions.setBounds(10, 320, 190, 24);
+            memberPanel.add(lblActions);
 
             String isSickString = "no";
             if (member.isSick()) {
                 isSickString = "yes";
             }
-            JLabel isSickLabel = new JLabel("Is sick: " + isSickString);
-            isSickLabel.setHorizontalAlignment(SwingConstants.LEFT);
-            isSickLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            isSickLabel.setBounds(10, 350, 190, 24);
+            JLabel lblSick = new JLabel("Is sick: " + isSickString);
+            lblSick.setHorizontalAlignment(SwingConstants.LEFT);
+            lblSick.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            lblSick.setBounds(10, 350, 190, 24);
 
-            JLabel memberDescLabel = new JLabel("Description:" + member.getDescription());
-            memberDescLabel.setHorizontalAlignment(SwingConstants.LEFT);
-            memberDescLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-            memberDescLabel.setBounds(10, 380, 200, 100);
-            memberPanel.add(memberDescLabel);
+            JLabel lblAppliedMeds = new JLabel("Applied Meds:");
+            lblAppliedMeds.setHorizontalAlignment(SwingConstants.LEFT);
+            lblAppliedMeds.setBounds(10, 370, 200, 100);
+            lblAppliedMeds.setFont(new Font("Tahoma", Font.BOLD, 15));
+            memberPanel.add(lblAppliedMeds);
 
-            memberPanel.add(isSickLabel);
+            int ycord = 390;
+            for (MedicalSupply medicalSupply: member.getAppliedMedicalSupplies()) {
+                JLabel lblMedicalSupply = new JLabel(medicalSupply.getType());
+                memberPanel.add(lblMedicalSupply);
+                lblMedicalSupply.setBounds(20, ycord, 200, 100);
+                ycord+=12;
+            }
+
+            JLabel lblAppliedFoods = new JLabel("Applied Foods:");
+            lblAppliedFoods.setHorizontalAlignment(SwingConstants.LEFT);
+            lblAppliedFoods.setBounds(10, 460, 200, 100);
+            lblAppliedFoods.setFont(new Font("Tahoma", Font.BOLD, 15));
+            memberPanel.add(lblAppliedFoods);
+
+            ycord = 480;
+            for (Food food: member.getAppliedFoods()) {
+                JLabel lblFood = new JLabel(food.getType());
+                memberPanel.add(lblFood);
+                lblFood.setBounds(20, ycord, 200, 100);
+                ycord+=12;
+            }
+
+            memberPanel.add(lblSick);
         }
 
         if ((4 - crew.getNumMembers()) > 0) {
@@ -341,6 +363,52 @@ public class CrewPanel extends JPanel {
         }
     }
 
+    public void addCrewMemberSleepPanel() {
+        this.crewMemberSleepPanel = new JPanel();
+        crewMemberSleepPanel.setLayout(new BoxLayout(crewMemberSleepPanel, BoxLayout.Y_AXIS));
+        content.add(crewMemberSleepPanel, CREW_SLEEP_PANEL_STRING);
+    }
+
+    public void refreshCrewMemberSleepPanel() {
+        crewMemberSleepPanel.removeAll();
+
+        for (CrewMember member: crew.getMembers()) {
+            JPanel panel = new JPanel();
+            panel.setLayout(null);
+            
+            JLabel lblMember = new JLabel(member.getName() + " (Tiredness: " + member.getTiredness() + ")");
+            lblMember.setBounds(80, 0, 250, 30);
+            lblMember.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            panel.add(lblMember);
+
+            JLabel lblMemberImage = new JLabel("");
+            lblMemberImage.setIcon(Funcs.getScaledIcon(Image.getCrewMemberImagePath(member), 150, 150));
+            lblMemberImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+            lblMemberImage.setBounds(83, 33, 150, 150);
+            panel.add(lblMemberImage);
+            
+            JButton sleepBtn = new JButton("Sleep");
+            sleepBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+            sleepBtn.setBounds(83, 194, 150, 30);
+            if (!member.hasActionsLeft()) {
+                sleepBtn.setEnabled(false);
+            }
+
+            sleepBtn.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg5) {
+                    if (member.getTiredness() < 100) {
+                        crew.makeMemberSleep(member);
+                        lblMember.setText(member.getName() + " (Tiredness: " + member.getTiredness() + ")");
+                        if (!member.hasActionsLeft()) {
+                            sleepBtn.setEnabled(false);
+                        }
+                    }
+                }
+            });
+            panel.add(sleepBtn);
+            crewMemberSleepPanel.add(panel);
+        }
+    }
 
     private void addNewFoodPanel() {
         this.newFoodPanel = new JPanel();
@@ -364,20 +432,21 @@ public class CrewPanel extends JPanel {
             JPanel foodPanel = new JPanel();
             foodPanel.setLayout(null);
             JRadioButton foodRadioBtn = new JRadioButton(food.getType() + "(" + food.getCount() + ")");
+            foodRadioBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
             foodRadioBtn.putClientProperty("Food", food);
             foodRadioBtn.setBounds(20, 130, 150, 23);
             if (!food.exists()) {
                 foodRadioBtn.setEnabled(false);
             }
 
-            JLabel foodImgLabel = new JLabel("");
-            foodImgLabel.setBounds(22, 10, 100, 100);
-            foodImgLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            foodImgLabel.setIcon(Funcs.getScaledIcon(Image.getFoodImagePath(food), 100, 100));
+            JLabel lblFoodImage = new JLabel("");
+            lblFoodImage.setBounds(22, 10, 100, 100);
+            lblFoodImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+            lblFoodImage.setIcon(Funcs.getScaledIcon(Image.getFoodImagePath(food), 100, 100));
 
             foodButtonGroup.add(foodRadioBtn);
             foodPanel.add(foodRadioBtn);
-            foodPanel.add(foodImgLabel);
+            foodPanel.add(lblFoodImage);
             foodBoxPanel.add(foodPanel);
         }
 
@@ -452,20 +521,21 @@ public class CrewPanel extends JPanel {
             JPanel medicalSupplyPanel = new JPanel();
             medicalSupplyPanel.setLayout(null);
             JRadioButton medicalRadioBtn = new JRadioButton(medicalSupply.getType() + "(" + medicalSupply.getCount() + ")");
+            medicalRadioBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
             medicalRadioBtn.putClientProperty("MedicalSupply", medicalSupply);
-            medicalRadioBtn.setBounds(20, 130, 150, 23);
+            medicalRadioBtn.setBounds(10, 130, 200, 23);
             if (!medicalSupply.exists()) {
                 medicalRadioBtn.setEnabled(false);
             }
 
-            JLabel medicalSupplyImgLabel = new JLabel("");
-            medicalSupplyImgLabel.setBounds(22, 10, 100, 100);
-            medicalSupplyImgLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            medicalSupplyImgLabel.setIcon(Funcs.getScaledIcon(Image.getMedicalSupplyImagePath(medicalSupply), 100, 100));
+            JLabel lblMedicalSupplyImage = new JLabel("");
+            lblMedicalSupplyImage.setBounds(22, 10, 100, 100);
+            lblMedicalSupplyImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+            lblMedicalSupplyImage.setIcon(Funcs.getScaledIcon(Image.getMedicalSupplyImagePath(medicalSupply), 100, 100));
 
             medicalRadioGroup.add(medicalRadioBtn);
             medicalSupplyPanel.add(medicalRadioBtn);
-            medicalSupplyPanel.add(medicalSupplyImgLabel);
+            medicalSupplyPanel.add(lblMedicalSupplyImage);
             medicalBoxPanel.add(medicalSupplyPanel);
         }
 
@@ -535,7 +605,17 @@ public class CrewPanel extends JPanel {
     private void refreshNewPlanetPanel() {
         newPlanetPanel.removeAll();
 
+        JPanel lblChoosePlanetPanel = new JPanel();
+        newPlanetPanel.add(lblChoosePlanetPanel);
+        lblChoosePlanetPanel.setLayout(null);
+        
+        JLabel lblChooseAPlanet = new JLabel("Choose a Planet ");
+        lblChooseAPlanet.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblChooseAPlanet.setBounds(24, 12, 300, 15);
+        lblChoosePlanetPanel.add(lblChooseAPlanet);
+
         JPanel planets = new JPanel(new GridLayout(1,3));
+        planets.setPreferredSize(new Dimension(1000, 120));
         newPlanetPanel.add(planets);
 
         ButtonGroup planetButtonGroup = new ButtonGroup();
@@ -550,15 +630,36 @@ public class CrewPanel extends JPanel {
             }
         }
 
+        JPanel lblChooseMemberOnePanel = new JPanel();
+        newPlanetPanel.add(lblChooseMemberOnePanel);
+        lblChooseMemberOnePanel.setLayout(null);
+        
+        JLabel lblChooseMemberTwo = new JLabel("Choose Member One");
+        lblChooseMemberTwo.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblChooseMemberTwo.setBounds(12, 12, 300, 15);
+        lblChooseMemberOnePanel.add(lblChooseMemberTwo);
+
         ButtonGroup membersBtnGroupOne = new ButtonGroup();
         JPanel membersPanelOne = getGridSelectMembers(membersBtnGroupOne, "");
+        membersPanelOne.setPreferredSize(new Dimension(1000, 120));
         newPlanetPanel.add(membersPanelOne);
+
+        JPanel lblChooseMemberTwoPanel = new JPanel();
+        newPlanetPanel.add(lblChooseMemberTwoPanel);
+        lblChooseMemberTwoPanel.setLayout(null);
+        
+        JLabel lblChooseMemberOne = new JLabel("Choose Member Two");
+        lblChooseMemberOne.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblChooseMemberOne.setBounds(12, 12, 300, 15);
+        lblChooseMemberTwoPanel.add(lblChooseMemberOne);
 
         ButtonGroup membersBtnGroupTwo = new ButtonGroup();
         JPanel membersPanelTwo = getGridSelectMembers(membersBtnGroupTwo, "");
+        membersPanelTwo.setPreferredSize(new Dimension(1000, 120));
         newPlanetPanel.add(membersPanelTwo);
 
         JPanel goBtnPanel = new JPanel();
+        goBtnPanel.setPreferredSize(new Dimension(1000, 20));
         JButton doActionBtn = new JButton("Go");
         goBtnPanel.add(doActionBtn);
         newPlanetPanel.add(goBtnPanel);
@@ -622,64 +723,6 @@ public class CrewPanel extends JPanel {
         });
     }
 
-    public void addCrewMemberSleepPanel() {
-        this.crewMemberSleepPanel = new JPanel();
-        crewMemberSleepPanel.setLayout(new BoxLayout(crewMemberSleepPanel, BoxLayout.Y_AXIS));
-        content.add(crewMemberSleepPanel, CREW_SLEEP_PANEL_STRING);
-    }
-
-    public void refreshCrewMemberSleepPanel() {
-        this.crewMemberSleepPanel.removeAll();
-
-        ButtonGroup selectedMemberBtnGroup = new ButtonGroup();
-        JPanel membersPanel = getGridSelectMembers(selectedMemberBtnGroup, "tiredness");
-        crewMemberSleepPanel.add(membersPanel);
-
-        JPanel sleepBtnPanel = new JPanel();
-        sleepBtnPanel.setLayout(null);
-        crewMemberSleepPanel.add(sleepBtnPanel);
-        JButton sleepBtn = getActionButton("Sleep");
-        sleepBtnPanel.add(sleepBtn);
-
-        sleepBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (selectedMemberBtnGroup.getSelection() == null) {
-                    JOptionPane.showMessageDialog(null, "Please select a crew member");
-                } else {
-                    JRadioButton selectedMemberRadio = Funcs.selectedButton(selectedMemberBtnGroup);
-                    CrewMember member = (CrewMember) selectedMemberRadio.getClientProperty("CrewMember");
-                    String responseString = "Crew member has no actions left";
-                    boolean isDefeated = false;
-                    if (member.hasActionsLeft()) {
-                        if (!member.canSleep()) {
-                            responseString = "Crew member not tired but has still slept";
-                        } else {
-                            member.sleep();
-                            responseString = "Crew member's tiredness has decreased by 10 points";
-                        }
-
-                        member.removeAction();
-
-                        selectedMemberBtnGroup.clearSelection();
-                        if (!member.hasActionsLeft()) {
-                            selectedMemberRadio.setEnabled(false);
-                            if (isPlayerDefeated()) {
-                                isDefeated = true;
-                            	screen.closeWindow(false, "You are out of actions");
-                            }
-                        }
-                    }
-
-                    refillCrewPanelAndButtonGroup(membersPanel, selectedMemberBtnGroup, "tiredness");
-
-                    if (!isDefeated) {
-                        JOptionPane.showMessageDialog(null, responseString);
-                    }
-                }
-            }
-        });
-    }
-
     public void addRepairShipPanel() {
         this.repairShieldsPanel = new JPanel();
         repairShieldsPanel.setLayout(new BoxLayout(repairShieldsPanel, BoxLayout.Y_AXIS));
@@ -689,21 +732,35 @@ public class CrewPanel extends JPanel {
     public void refreshRepairShipPanel() {
         repairShieldsPanel.removeAll();
 
+        JPanel lblShieldHealthPanel = new JPanel();
+        repairShieldsPanel.add(lblShieldHealthPanel);
+        lblShieldHealthPanel.setLayout(null);
+
+        JLabel lblShieldHealth = new JLabel("Shield Health: " + environment.getSpaceShip().getShieldHealth());
+        lblShieldHealth.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblShieldHealth.setBounds(20, 20, 300, 15);
+        lblShieldHealthPanel.add(lblShieldHealth);
+
+        JPanel lblChooseMemberPanel = new JPanel();
+        repairShieldsPanel.add(lblChooseMemberPanel);
+        lblChooseMemberPanel.setLayout(null);
+
+        JLabel lblChooseMember = new JLabel("Choose Member to repair ship");
+        lblChooseMember.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        lblChooseMember.setBounds(20, 20, 300, 15);
+        lblChooseMemberPanel.add(lblChooseMember);
+
         ButtonGroup selectedMemberBtnGroup = new ButtonGroup();
         JPanel membersPanel = getGridSelectMembers(selectedMemberBtnGroup, "");
+        membersPanel.setPreferredSize(new Dimension(1000, 300));
         repairShieldsPanel.add(membersPanel);
 
         JPanel bottomPanel = new JPanel();
         repairShieldsPanel.add(bottomPanel);
         bottomPanel.setLayout(null);
+        bottomPanel.setPreferredSize(new Dimension(1000, 100));
         JButton repairBtn = getActionButton("Repair Ship");
         bottomPanel.add(repairBtn);
-
-        JPanel sleepBtnPanel = new JPanel();
-        sleepBtnPanel.setLayout(null);
-        crewMemberSleepPanel.add(sleepBtnPanel);
-        JButton sleepBtn = getActionButton("Sleep");
-        sleepBtnPanel.add(sleepBtn);
 
         repairBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -716,6 +773,8 @@ public class CrewPanel extends JPanel {
                     // Repair Shields
                     environment.getSpaceShip().incrementShieldLevel(10);
                     member.removeAction();
+
+                    lblShieldHealth.setText("Shield Health: " + environment.getSpaceShip().getShieldHealth());
 
                     selectedMemberBtnGroup.clearSelection();
                     boolean isDefeated = false;
@@ -754,16 +813,17 @@ public class CrewPanel extends JPanel {
         insidePanel.setLayout(null);
 
         JRadioButton planetRadioBtn = new JRadioButton(planet.getName() + "    ");
+        planetRadioBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
         planetRadioBtn.putClientProperty("Planet", planet);
         planetRadioBtn.setBounds(20, 140, 150, 23);
 
-        JLabel planetImageLabel = new JLabel("");
-        planetImageLabel.setBounds(22, 10, 120, 120);
-        planetImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-        planetImageLabel.setIcon(Funcs.getScaledIcon(Image.getPlanetImagePath(planet), 120, 120));
+        JLabel lblPlanetImage = new JLabel("");
+        lblPlanetImage.setBounds(22, 10, 120, 120);
+        lblPlanetImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lblPlanetImage.setIcon(Funcs.getScaledIcon(Image.getPlanetImagePath(planet), 120, 120));
 
         buttonGroup.add(planetRadioBtn);
-        insidePanel.add(planetImageLabel);
+        insidePanel.add(lblPlanetImage);
         insidePanel.add(planetRadioBtn);
         return insidePanel;
     }
@@ -781,48 +841,47 @@ public class CrewPanel extends JPanel {
             insidePanel.setLayout(null);
 
             JRadioButton memberRadio = new JRadioButton(member.getName());
+            memberRadio.setFont(new Font("Tahoma", Font.PLAIN, 16));
             memberRadio.setBounds(20, 140, 150, 23);
+            memberRadio.putClientProperty("CrewMember", member);
             if (!member.hasActionsLeft()) {
                 memberRadio.setEnabled(false);
             }
 
-            JLabel memberImageLabel = new JLabel("");
-            memberImageLabel.setBounds(22, 10, 120, 120);
-            memberImageLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
-            memberImageLabel.setIcon(Funcs.getScaledIcon(Image.getCrewMemberImagePath(member), 120, 120));
+            JLabel lblMemberImage = new JLabel("");
+            lblMemberImage.setBounds(22, 10, 120, 120);
+            lblMemberImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+            lblMemberImage.setIcon(Funcs.getScaledIcon(Image.getCrewMemberImagePath(member), 120, 120));
 
-            if (labelToShow == "tiredness") {
-                JLabel tirednessLabel = new JLabel("Tiredness: " + member.getTiredness());
-                tirednessLabel.setBounds(22, 170, 150, 23);
-                insidePanel.add(tirednessLabel);
-            } else if (labelToShow == "health") {
-                JLabel healthLabel = new JLabel("Current Health: " + member.getCurrentHealth());
-                healthLabel.setBounds(22, 170, 150, 23);
-                insidePanel.add(healthLabel);
+            if (labelToShow == "health") {
+                JLabel lblHealth = new JLabel("Current Health: " + member.getCurrentHealth());
+                lblHealth.setBounds(22, 170, 150, 23);
+                lblHealth.setFont(new Font("Tahoma", Font.PLAIN, 16));
+                insidePanel.add(lblHealth);
                 if (spaceOutPost.hasNoMedicalSupplies()) {
                     memberRadio.setEnabled(false);
                 }
             } else if (labelToShow == "hunger") {
-                JLabel hungerLabel = new JLabel("Hunger Level: " + member.getHungerLevel());
-                hungerLabel.setBounds(22, 170, 150, 23);
-                insidePanel.add(hungerLabel);
+                JLabel lblHunger = new JLabel("Hunger Level: " + member.getHungerLevel());
+                lblHunger.setBounds(22, 170, 150, 23);
+                lblHunger.setFont(new Font("Tahoma", Font.PLAIN, 16));
+                insidePanel.add(lblHunger);
                 if (spaceOutPost.hasNoFoods()) {
                     memberRadio.setEnabled(false);
                 }
             }
 
-            memberRadio.putClientProperty("CrewMember", member);
             btnGroup.add(memberRadio);
-            insidePanel.add(memberImageLabel);
+            insidePanel.add(lblMemberImage);
             insidePanel.add(memberRadio);
             panel.add(insidePanel);
         }
 
         if ((4 - crew.getNumMembers()) > 0) {
             for (int i = 0; i < (4 - crew.getNumMembers()); i++) {
-                JPanel others = new JPanel();
-                others.setLayout(null);
-                panel.add(others);
+                JPanel otherMemberPanel = new JPanel();
+                otherMemberPanel.setLayout(null);
+                panel.add(otherMemberPanel);
             }
         }
     }
@@ -838,16 +897,6 @@ public class CrewPanel extends JPanel {
     } 
 
     private boolean isPlayerDefeated() {
-    	if (environment.hasDaysLeft()) {
-    		return false;
-    	}
-    	
-        boolean isDefeated = true;
-        for (CrewMember m: crew.getMembers()) {
-            if (m.hasActionsLeft()) {
-            	isDefeated = false;
-            }
-        }
-        return isDefeated;
+        return environment.isDefeated();
     }
 }

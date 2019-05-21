@@ -58,6 +58,20 @@ public class GameEnvironment {
         }
     }
 
+    public boolean isDefeated() {
+        if (hasDaysLeft()) {
+            return false;
+        }
+        
+        boolean isDefeated = true;
+        for (CrewMember member: crew.getMembers()) {
+            if (member.hasActionsLeft()) {
+                isDefeated = false;
+            }
+        }
+        return isDefeated;
+    }
+
     public String searchPlanetForParts() {
         Random random = new Random();
 

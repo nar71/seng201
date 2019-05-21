@@ -30,6 +30,7 @@ public class VictoryScreen {
     private void initialize() {
         window = new JFrame();
         window.setBounds(new Rectangle(0, 0, 1000,810));
+        window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.getContentPane().setLayout(new BoxLayout(window.getContentPane(), BoxLayout.X_AXIS));
         
