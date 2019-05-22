@@ -10,7 +10,8 @@ public class CrewMember {
         new Mechanic(""),
         new Nerd(""),
         new Scout(""),
-        new Tank("")
+        new Soldier(""),
+        new Medic("")
     };
 
     private ArrayList<Food> appliedFoods;
@@ -66,6 +67,9 @@ public class CrewMember {
      */
     private int hungerLevel;
 
+    private int decrement;
+    private int shieldIncrement;
+
     /**
      * Crew Member constructor
      * @param name A string for the name of the crew member
@@ -74,7 +78,7 @@ public class CrewMember {
      * @param health An integer for the maximum health a crew member can have
      * @param specialty A string representation for the specialty of the crew member 
      */
-    CrewMember(String name, String type, String description, int health, String specialty) {
+    CrewMember(String name, String type, String description, int health, String specialty, int decrement, int increment) {
         this.name = name;
         this.type = type;
         this.description = description;
@@ -85,6 +89,8 @@ public class CrewMember {
         this.tiredness = 100;
         this.hungerLevel = 100;
         this.isSick = false;
+        this.decrement = decrement;
+        this.shieldIncrement = increment;
         this.appliedMedicalSupplies = new ArrayList<MedicalSupply>();
         this.appliedFoods = new ArrayList<Food>();
     }
@@ -122,10 +128,10 @@ public class CrewMember {
      */
     public void sleep() {
     	if (tiredness < 100) {
-    		if (tiredness > 90) {
+    		if (tiredness > 50) {
     			tiredness = 100;
     		} else {
-    			tiredness += 10;
+    			tiredness += 50;
     		}
     	}
     }
@@ -299,16 +305,24 @@ public class CrewMember {
         currentHealth = health;
     }
 
+    public void decrementCurrentHealth(int number) {
+        currentHealth -= number;
+    }
+
     /** 
      * Decrements the current health level by 10 and checks if members dead (meaning current health < 0)
      * @return boolean
      */
-    public boolean decrementCurrentHealthAndCheckIfDead() {
+    public boolean decrementCurrentHealthForSpacePlague() {
         currentHealth -= 10;
-        if (currentHealth < 0) {
+        if (currentHealth <= 0) {
             return true;
         }
         return false;
+    }
+
+    public int getShieldIncrement() {
+        return shieldIncrement;
     }
 
     /**
@@ -333,6 +347,14 @@ public class CrewMember {
      */
     public void setHungerLevel(int level) {
         hungerLevel = level;
+    }
+
+    public void decrementHungerLevel(int level) {
+        hungerLevel -= level;
+    }
+
+    public int getDecrement() {
+        return decrement;
     }
 
     /**

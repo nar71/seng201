@@ -640,7 +640,7 @@ public class CrewPanel extends JPanel {
         lblChooseMemberOnePanel.add(lblChooseMemberTwo);
 
         ButtonGroup membersBtnGroupOne = new ButtonGroup();
-        JPanel membersPanelOne = getGridSelectMembers(membersBtnGroupOne, "");
+        JPanel membersPanelOne = getGridSelectMembers(membersBtnGroupOne, "planet");
         membersPanelOne.setPreferredSize(new Dimension(1000, 120));
         newPlanetPanel.add(membersPanelOne);
 
@@ -654,7 +654,7 @@ public class CrewPanel extends JPanel {
         lblChooseMemberTwoPanel.add(lblChooseMemberOne);
 
         ButtonGroup membersBtnGroupTwo = new ButtonGroup();
-        JPanel membersPanelTwo = getGridSelectMembers(membersBtnGroupTwo, "");
+        JPanel membersPanelTwo = getGridSelectMembers(membersBtnGroupTwo, "planet");
         membersPanelTwo.setPreferredSize(new Dimension(1000, 120));
         newPlanetPanel.add(membersPanelTwo);
 
@@ -709,10 +709,10 @@ public class CrewPanel extends JPanel {
                         refreshPlanetsOntoPanel(planetButtonGroup, planets);
 
                         membersPanelOne.removeAll();
-                        refillCrewPanelAndButtonGroup(membersPanelOne, membersBtnGroupOne, "");
+                        refillCrewPanelAndButtonGroup(membersPanelOne, membersBtnGroupOne, "planet");
 
                         membersPanelTwo.removeAll();
-                        refillCrewPanelAndButtonGroup(membersPanelTwo, membersBtnGroupTwo, "");
+                        refillCrewPanelAndButtonGroup(membersPanelTwo, membersBtnGroupTwo, "planet");
 
                         if (!isDefeated) {
                             JOptionPane.showMessageDialog(null, "You have successfully pioleted to: " + planet.getName());
@@ -751,7 +751,7 @@ public class CrewPanel extends JPanel {
         lblChooseMemberPanel.add(lblChooseMember);
 
         ButtonGroup selectedMemberBtnGroup = new ButtonGroup();
-        JPanel membersPanel = getGridSelectMembers(selectedMemberBtnGroup, "");
+        JPanel membersPanel = getGridSelectMembers(selectedMemberBtnGroup, "shield");
         membersPanel.setPreferredSize(new Dimension(1000, 300));
         repairShieldsPanel.add(membersPanel);
 
@@ -771,14 +771,15 @@ public class CrewPanel extends JPanel {
                     CrewMember member = (CrewMember) selectedMemberRadio.getClientProperty("CrewMember");
 
                     // Repair Shields
-                    environment.getSpaceShip().incrementShieldLevel(10);
+                    //environment.getSpaceShip().incrementShieldLevel(10);
+                    environment.getSpaceShip().repair(member);
                     member.removeAction();
 
                     lblShieldHealth.setText("Shield Health: " + environment.getSpaceShip().getShieldHealth());
 
                     selectedMemberBtnGroup.clearSelection();
                     boolean isDefeated = false;
-                    if (!member.hasActionsLeft()) {
+                    if (!member.hasActionsLeft() || environment.getSpaceShip().isFullHealth()) {
                         selectedMemberRadio.setEnabled(false);
                         
                         if (isPlayerDefeated()) {
@@ -786,6 +787,8 @@ public class CrewPanel extends JPanel {
                         	screen.closeWindow(false, "You are out of actions");
                         }
                     }
+
+                    refillCrewPanelAndButtonGroup(membersPanel, selectedMemberBtnGroup, "shield");
                     
                     if (!isDefeated) {
                         JOptionPane.showMessageDialog(null, "Space Ship shield health is now: " + environment.getSpaceShip().getShieldHealth());
@@ -816,6 +819,10 @@ public class CrewPanel extends JPanel {
         planetRadioBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
         planetRadioBtn.putClientProperty("Planet", planet);
         planetRadioBtn.setBounds(20, 140, 150, 23);
+
+        if (!environment.getSpaceShip().canTravel()) {
+            planetRadioBtn.setEnabled(false);
+        }
 
         JLabel lblPlanetImage = new JLabel("");
         lblPlanetImage.setBounds(22, 10, 120, 120);
@@ -869,6 +876,14 @@ public class CrewPanel extends JPanel {
                 if (spaceOutPost.hasNoFoods()) {
                     memberRadio.setEnabled(false);
                 }
+            } else if (labelToShow == "shield") {
+                if (environment.getSpaceShip().isFullHealth()) {
+                    memberRadio.setEnabled(false);
+                }
+            } else if (labelToShow == "planet") {
+                if (!environment.getSpaceShip().canTravel()) {
+                    memberRadio.setEnabled(false);
+                }
             }
 
             btnGroup.add(memberRadio);
@@ -887,9 +902,9 @@ public class CrewPanel extends JPanel {
     }
 
     private JButton getActionButton(String name) {
-        JButton button = new JButton(name);
-        button.setBounds(600, 50, 150, 30);
-        return button;
+        JButton btn = new JButton(name);
+        btn.setBounds(600, 50, 150, 30);
+        return btn;
     }
 
     public ImageIcon getScaledMemberIcon(CrewMember member) {

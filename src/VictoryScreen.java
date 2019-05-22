@@ -43,7 +43,19 @@ public class VictoryScreen {
         lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel.setBounds(12, 12, 974, 81);
         panel.add(lblNewLabel);
-        
+
+        // Produce score
+        int dayScore = (environment.getNumDays() - environment.getCurrentDay()) * 10;
+        int victory = 100;
+
+        int totalScore = dayScore + victory + environment.getGoldFound();
+
+        JLabel lblScore = new JLabel("Score: " + totalScore);
+        lblScore.setFont(new Font("Dialog", Font.BOLD, 24));
+        lblScore.setHorizontalAlignment(SwingConstants.CENTER);
+        lblScore.setBounds(12, 150, 974, 81);
+        panel.add(lblScore);
+
         JButton btnNewButton = new JButton("Play Again");
         btnNewButton.setBounds(200, 635, 115, 40);
         panel.add(btnNewButton);

@@ -320,12 +320,19 @@ public class SetUpScreen {
 		                specialtyLbl = "Specialty: " + scout.getSpecialty();
 		                imagePath = Image.getCrewMemberImagePath(scout);
 		            break;
-		            case "Tank":
-		                Tank tank = new Tank("");
-		                label = tank.getDescription();
-		                healthLbl = "Max health: " + tank.getMaxHealth();
-		                specialtyLbl = "Specialty: " + tank.getSpecialty();
-		                imagePath = Image.getCrewMemberImagePath(tank);
+		            case "Soldier":
+		                Soldier soldier = new Soldier("");
+		                label = soldier.getDescription();
+		                healthLbl = "Max health: " + soldier.getMaxHealth();
+		                specialtyLbl = "Specialty: " + soldier.getSpecialty();
+		                imagePath = Image.getCrewMemberImagePath(soldier);
+		            break;
+		            case "Medic":
+		                Medic medic = new Medic("");
+		                label = medic.getDescription();
+		                healthLbl = "Max health: " + medic.getMaxHealth();
+		                specialtyLbl = "Specialty: " + medic.getSpecialty();
+		                imagePath = Image.getCrewMemberImagePath(medic);
 		            break;
 				}
 				lblDescription.setText(label);

@@ -16,6 +16,8 @@ public class GameEnvironment {
 
     private int currentDay;
     private int maxDays;
+
+    private int goldFound;
 	
     GameEnvironment(String teamName, int numMembers, int numDays, String shipName) {
     	this.crew = new Crew(teamName, numMembers);
@@ -110,10 +112,11 @@ public class GameEnvironment {
 
         if (randomAction == 3) {
             // Increment money randomly
-            int randIncrement = random.nextInt(20);
+            int randIncrement = random.nextInt(50);
             if (randIncrement == 0) {
                 randIncrement = 1;
             }
+            goldFound += randIncrement;
             spaceOutPost.incrementMoney(randIncrement);
             returnStr = "You have found money: $" + randIncrement;
         }
@@ -201,7 +204,7 @@ public class GameEnvironment {
 
                 if (!infectedMember.isSick()) {
                     infectedMember.makeSick();
-                    if (infectedMember.decrementCurrentHealthAndCheckIfDead()) {
+                    if (infectedMember.decrementCurrentHealthForSpacePlague()) {
                         crew.removeCrewMember(infectedMember);
                         returnString += "You have lost a crew member\n";
                     }
@@ -214,8 +217,8 @@ public class GameEnvironment {
 
     private String asteroidBelt() {
         // Decrease damage to the ship..
-        int decrement = Math.round(spaceShip.getShieldHealth() / 2);
-        spaceShip.decreaseShieldLevel(decrement);
+        //int decrement = Math.round(spaceShip.getShieldHealth() / 2);
+        spaceShip.decreaseShieldLevel(50);
         int shieldLevel = spaceShip.getShieldHealth();
         return "Shield Health: " + shieldLevel;
     }
@@ -223,14 +226,28 @@ public class GameEnvironment {
     public void goToNextDay() {
         currentDay++;
         for (CrewMember member: crew.getMembers()) {
-            if (member.getTiredness() > 10) {
-                member.decrementTiredness(10);
+            if (member.getTiredness() > member.getDecrement()) {
+                member.decrementTiredness(member.getDecrement());
             } else {
                 member.setTiredness(0);
             }
+
+            if (member.getHungerLevel() > member.getDecrement()) {
+                member.decrementHungerLevel(member.getDecrement());
+            } else {
+                member.setHungerLevel(0);
+            }
+
+            if (member.getCurrentHealth() > member.getDecrement()) {
+                member.decrementCurrentHealth(member.getDecrement());
+            } else {
+                // Dead if we removed the increment..
+                crew.removeCrewMember(member);
+            }
+
             member.resetActions();
             if (member.isSick()) {   
-                if (member.decrementCurrentHealthAndCheckIfDead()) {
+                if (member.decrementCurrentHealthForSpacePlague()) {
                     crew.removeCrewMember(member);
                 }
             }
@@ -282,5 +299,9 @@ public class GameEnvironment {
 
     public LocalTime getTime() {
         return time;
+    }
+
+    public int getGoldFound() {
+        return goldFound;
     }
 }

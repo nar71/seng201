@@ -57,11 +57,29 @@ public class SpaceShip {
 			shieldHealth = 100;
 		}
 	}
+
+	public void repair(CrewMember member) {
+		incrementShieldLevel(member.getShieldIncrement());
+	}
 	
 	public int getShieldHealth() {
 		return shieldHealth;
 	}
 	
+	public boolean isFullHealth() {
+		if (shieldHealth >= 100) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean canTravel() {
+		if (shieldHealth <= 0) {
+			return false;
+		}
+		return true;
+	}
+
 	public int getPeicesRequired() {
 		return peicesRequired;
 	}

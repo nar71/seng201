@@ -3,18 +3,17 @@ public class Planet {
 		new Mars(),
 		new Venus(),
 		new Earth(),
-		new Mercury()
+		new Mercury(),
+        new Jupiter(),
+        new Saturn()
 	};
 	
     private String name;
     
     private boolean transporterPartFound;
 
-    private String imagePath;
-
-    Planet(String name, String imagePath) {
+    Planet(String name) {
     	this.name = name;
-        this.imagePath = imagePath;
         this.transporterPartFound = false;
     }
     
@@ -47,9 +46,5 @@ public class Planet {
 
     public String toString() {
         return "Planet: " + this.getName();
-    }
-
-    public String getIconPath() {
-        return imagePath;
     }
 }

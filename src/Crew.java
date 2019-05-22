@@ -46,8 +46,11 @@ public class Crew {
             case "Scout":
                 members.add(new Scout(name));
             break;
-            case "Tank":
-                members.add(new Tank(name));
+            case "Soldier":
+                members.add(new Soldier(name));
+            break;
+            case "Medic":
+                members.add(new Medic(name));
             break;
             default:
                 throw new RuntimeException("Invalid member type");

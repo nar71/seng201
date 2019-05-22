@@ -214,34 +214,63 @@ public class HomeScreen {
         shipBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
         shipBtn.setBounds(60, 99, 165, 30);
 		homeContent.add(shipBtn);
-		
+
 		JButton inventoryBtn = new JButton("Inventory"); 
         inventoryBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        inventoryBtn.setBounds(60, 142, 165, 30);
+        inventoryBtn.setBounds(60, 142, 155, 30);
 		homeContent.add(inventoryBtn);
+
+
+        JLabel lblExploreImage = new JLabel("");
+        lblExploreImage.setIcon(Funcs.getScaledIcon("images/explore.jpg", 150, 150));
+        lblExploreImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lblExploreImage.setBounds(700, 20, 150, 150);
+        homeContent.add(lblExploreImage);
 
         JButton exploreBtn = new JButton("Explore");
         exploreBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        exploreBtn.setBounds(509, 67, 165, 40);
+        exploreBtn.setBounds(700, 170, 150, 30);
         homeContent.add(exploreBtn);
         
+
+        JLabel lblShopImage = new JLabel("");
+        lblShopImage.setIcon(Funcs.getScaledIcon("images/store.jpg", 150, 150));
+        lblShopImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lblShopImage.setBounds(350, 20, 150, 150);
+        homeContent.add(lblShopImage);
+
         JButton shopBtn = new JButton("Shop");
         shopBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        shopBtn.setBounds(350, 67, 165, 40);
+        shopBtn.setBounds(350, 170, 150, 30);
         homeContent.add(shopBtn);
+
+
+        JLabel lblNextDayImage = new JLabel("");
+        lblNextDayImage.setIcon(Funcs.getScaledIcon("images/next_day.jpg", 150, 150));
+        lblNextDayImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lblNextDayImage.setBounds(700, 250, 150, 150);
+        homeContent.add(lblNextDayImage);
+
+
 
         JButton nextDayBtn = new JButton("Next Day");
         nextDayBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        nextDayBtn.setBounds(509, 107, 165, 40);
+        nextDayBtn.setBounds(700, 400, 150, 30);
         if (environment.getCurrentDay() == environment.getNumDays()) {
             nextDayBtn.setEnabled(false);
         }
 
         homeContent.add(nextDayBtn);
         
+        JLabel lblNewPlanetImage = new JLabel("");
+        lblNewPlanetImage.setIcon(Funcs.getScaledIcon("images/explore.jpg", 150, 150));
+        lblNewPlanetImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+        lblNewPlanetImage.setBounds(350, 250, 150, 150);
+        homeContent.add(lblNewPlanetImage);
+
         JButton pilotNewPlanetBtn = new JButton("New Planet");
         pilotNewPlanetBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        pilotNewPlanetBtn.setBounds(350, 107, 165, 40);
+        pilotNewPlanetBtn.setBounds(350, 400, 150, 30);
         homeContent.add(pilotNewPlanetBtn);
 
 		homeBtn.setEnabled(false);
@@ -261,9 +290,11 @@ public class HomeScreen {
                         	closeWindow(false, "All members are out of health");
                         }
 		            } else {
-		                JOptionPane.showMessageDialog(null, "Random Event: Asteroid Belt");
                         if (spaceShip.getShieldHealth() <= 0) {
-                            closeWindow(false, "Your spaceship ran out of shield health");
+                            //closeWindow(false, "Your spaceship ran out of shield health");
+                            JOptionPane.showMessageDialog(null, "Random Event: Asteroid Belt (You cannot travel until you repair your ship!)");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Random Event: Asteroid Belt");
                         }
 		            }
 				} else {
@@ -366,28 +397,36 @@ public class HomeScreen {
     	shipStatusPanel.removeAll();
 		shipStatusPanel.setLayout(null);
 
+        if (!environment.getSpaceShip().canTravel()) {
+            JLabel lblSpaceShipNotice = new JLabel("You cannot travel until you repair you're spaceship");
+            lblSpaceShipNotice.setFont(new Font("Tahoma", Font.BOLD, 22));
+            lblSpaceShipNotice.setHorizontalAlignment(SwingConstants.CENTER);
+            lblSpaceShipNotice.setBounds(100, 50, 800, 50);
+            shipStatusPanel.add(lblSpaceShipNotice);
+        }
+
         JLabel lblSpaceShipImage = new JLabel("");
         lblSpaceShipImage.setBorder(new LineBorder(new Color(0, 0, 0)));
-        lblSpaceShipImage.setBounds(100, 50, 200, 200);
+        lblSpaceShipImage.setBounds(100, 100, 200, 200);
         lblSpaceShipImage.setIcon(new ImageIcon(getClass().getResource(spaceShip.getImagePath())));
         shipStatusPanel.add(lblSpaceShipImage);
 
         JLabel lblSpaceShipName = new JLabel(spaceShip.getName());
         lblSpaceShipName.setFont(new Font("Tahoma", Font.BOLD, 22));
         lblSpaceShipName.setHorizontalAlignment(SwingConstants.CENTER);
-        lblSpaceShipName.setBounds(100, 250, 200, 50);
+        lblSpaceShipName.setBounds(100, 300, 200, 50);
 
 		JLabel lblSpaceShipHealth = new JLabel("Shield Health: " + spaceShip.getShieldHealth());
         lblSpaceShipHealth.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblSpaceShipHealth.setBounds(350, 50, 250, 50);
+		lblSpaceShipHealth.setBounds(350, 100, 250, 50);
 
 		JLabel lblPeicesRequired = new JLabel("Peices Required: " + spaceShip.getPeicesRequired());
         lblPeicesRequired.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblPeicesRequired.setBounds(350, 80, 250, 50);
+		lblPeicesRequired.setBounds(350, 130, 250, 50);
 
         JLabel lblPartsFound = new JLabel("Peices found: " + spaceShip.getPeicesFound());
         lblPartsFound.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        lblPartsFound.setBounds(350, 110, 250, 50);
+        lblPartsFound.setBounds(350, 160, 250, 50);
 
 		shipStatusPanel.add(lblSpaceShipName);
 		shipStatusPanel.add(lblSpaceShipHealth);
