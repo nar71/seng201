@@ -51,17 +51,17 @@ public class HomeScreen {
 
 	public JButton homeBtn;
 
-	private static final String HOME = "HOME";
+	private static final String HOME_PANEL_STRING = "HOME_PANEL";
 
-	private static final String CREW_STATUS = "CREW_STATUS";
+	private static final String CREW_STATUS_PANEL_STRING = "CREW_STATUS_PANEL";
 
-	private static final String SHIP_STATUS = "SHIP_STATUS";
+	private static final String SHIP_STATUS_PANEL_STRING = "SHIP_STATUS_PANEL";
 
-	private static final String INVENTORY = "INVENTORY";
+	private static final String INVENTORY_PANEL_STRING = "INVENTORY_PANEL";
 
-	private static final String HOSPITAL = "HOSPITAL";
+	private static final String HOSPITAL_PANEL_STRING = "HOSPITAL_PANEL";
 
-    private static final String EXPLORE = "EXPLORE";
+    private static final String EXPLORE_PANEL_STRING = "EXPLORE_PANEL";
 
     private LocalTime previousTime;
 
@@ -126,8 +126,15 @@ public class HomeScreen {
 	public void refresh() {
 		refreshTopPanel();
 		refreshShipStatusPanel();
-        spaceOutPostPanel.refresh();
-	}
+    }
+
+    private void refreshSpaceOutPostPanel() {
+        spaceOutPostPanel.showInventoryCard();
+    }
+
+    private void refreshCrewStatusPanel() {
+        crewStatusPanel.showCrewStatusCard();
+    }
 
     private void enableHomeButton() {
         homeBtn.setEnabled(true);
@@ -220,9 +227,8 @@ public class HomeScreen {
         inventoryBtn.setBounds(60, 142, 155, 30);
 		homeContent.add(inventoryBtn);
 
-
         JLabel lblExploreImage = new JLabel("");
-        lblExploreImage.setIcon(Funcs.getScaledIcon("images/explore.jpg", 150, 150));
+        lblExploreImage.setIcon(Funcs.getScaledIcon(Image.EXPLORE_IMAGE_PATH, 150, 150));
         lblExploreImage.setBorder(new LineBorder(new Color(0, 0, 0)));
         lblExploreImage.setBounds(700, 20, 150, 150);
         homeContent.add(lblExploreImage);
@@ -232,9 +238,8 @@ public class HomeScreen {
         exploreBtn.setBounds(700, 170, 150, 30);
         homeContent.add(exploreBtn);
         
-
         JLabel lblShopImage = new JLabel("");
-        lblShopImage.setIcon(Funcs.getScaledIcon("images/store.jpg", 150, 150));
+        lblShopImage.setIcon(Funcs.getScaledIcon(Image.SHOP_IMAGE_PATH, 150, 150));
         lblShopImage.setBorder(new LineBorder(new Color(0, 0, 0)));
         lblShopImage.setBounds(350, 20, 150, 150);
         homeContent.add(lblShopImage);
@@ -244,14 +249,11 @@ public class HomeScreen {
         shopBtn.setBounds(350, 170, 150, 30);
         homeContent.add(shopBtn);
 
-
         JLabel lblNextDayImage = new JLabel("");
-        lblNextDayImage.setIcon(Funcs.getScaledIcon("images/next_day.jpg", 150, 150));
+        lblNextDayImage.setIcon(Funcs.getScaledIcon(Image.NEXT_DAY_IMAGE_PATH, 150, 150));
         lblNextDayImage.setBorder(new LineBorder(new Color(0, 0, 0)));
         lblNextDayImage.setBounds(700, 250, 150, 150);
         homeContent.add(lblNextDayImage);
-
-
 
         JButton nextDayBtn = new JButton("Next Day");
         nextDayBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -263,7 +265,7 @@ public class HomeScreen {
         homeContent.add(nextDayBtn);
         
         JLabel lblNewPlanetImage = new JLabel("");
-        lblNewPlanetImage.setIcon(Funcs.getScaledIcon("images/explore.jpg", 150, 150));
+        lblNewPlanetImage.setIcon(Funcs.getScaledIcon(Image.NEW_PLANET_IMAGE_PATH, 150, 150));
         lblNewPlanetImage.setBorder(new LineBorder(new Color(0, 0, 0)));
         lblNewPlanetImage.setBounds(350, 250, 150, 150);
         homeContent.add(lblNewPlanetImage);
@@ -279,6 +281,10 @@ public class HomeScreen {
 			public void actionPerformed(ActionEvent e) {
         		if (environment.isValidCurrentDay()) {
 					environment.goToNextDay();
+
+                    if (environment.getCurrentDay() == environment.getNumDays()) {
+                        nextDayBtn.setEnabled(false);
+                    }
 
 					int randomEvent = environment.determineRandomEvent();
 		            if (randomEvent == 1) {
@@ -300,51 +306,39 @@ public class HomeScreen {
 				} else {
 					nextDayBtn.setEnabled(false);
 				}
-
-                if (environment.getCurrentDay() == environment.getNumDays()) {
-                    nextDayBtn.setEnabled(false);
-                }
                 
 				refresh();
-
-                spaceOutPostPanel.refresh();
-                crewStatusPanel.refresh();
 			}
 		});
 
 		shopBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "SHOP");
+				cardLayout.show(contentPanel, INVENTORY_PANEL_STRING);
+                refreshSpaceOutPostPanel();
 				enableHomeButton();
-                crewStatusPanel.refresh();
-                spaceOutPostPanel.refresh();
             }
 		});
 
 		inventoryBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cardLayout.show(contentPanel, "SHOP");
+				cardLayout.show(contentPanel, INVENTORY_PANEL_STRING);
+                refreshSpaceOutPostPanel();
                 enableHomeButton();
-                crewStatusPanel.refresh();
-                spaceOutPostPanel.refresh();
 			}
 		});
 		
 		shipBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				refreshShipStatusPanel();
-				cardLayout.show(contentPanel, SHIP_STATUS);
+				cardLayout.show(contentPanel, SHIP_STATUS_PANEL_STRING);
 				enableHomeButton();
-                crewStatusPanel.refresh();
-                spaceOutPostPanel.refresh();
 			}
 		});
 		
 		crewDetailBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-                cardLayout.show(contentPanel, CREW_STATUS);
-                crewStatusPanel.refresh();
-                spaceOutPostPanel.refresh();
+                cardLayout.show(contentPanel, CREW_STATUS_PANEL_STRING);
+                refreshCrewStatusPanel();
 				enableHomeButton();
 			}
 		});
@@ -352,18 +346,14 @@ public class HomeScreen {
 		homeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
                 refresh();
-                crewStatusPanel.refresh();
-                spaceOutPostPanel.refresh();
-                cardLayout.show(contentPanel, HOME);
+                cardLayout.show(contentPanel, HOME_PANEL_STRING);
 			    disableHomeButton();
             }
 		});
 
         exploreBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                crewStatusPanel.refresh();
-                spaceOutPostPanel.refresh();
-                cardLayout.show(contentPanel, EXPLORE);
+                cardLayout.show(contentPanel, EXPLORE_PANEL_STRING);
                 enableHomeButton();
                 refreshExplorePanel();
             }
@@ -371,26 +361,24 @@ public class HomeScreen {
 
         pilotNewPlanetBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(contentPanel, CREW_STATUS);
-                crewStatusPanel.refresh();
+                cardLayout.show(contentPanel, CREW_STATUS_PANEL_STRING);
                 // We want to show pilot to new planet card
                 crewStatusPanel.showPilotNewPlanetCard();
-                spaceOutPostPanel.refresh();
                 enableHomeButton();
             }
         });
 
-		contentPanel.add(homePanel, HOME);
+		contentPanel.add(homePanel, HOME_PANEL_STRING);
 	}
 
 	public void addCrewStatusPanel() {
 		this.crewStatusPanel = new CrewPanel(this);
-        contentPanel.add(crewStatusPanel, CREW_STATUS);
+        contentPanel.add(crewStatusPanel, CREW_STATUS_PANEL_STRING);
 	}
 
     public void addShipStatusPanel() {
 		this.shipStatusPanel = new JPanel();
-		contentPanel.add(shipStatusPanel, "SHIP_STATUS");
+		contentPanel.add(shipStatusPanel, SHIP_STATUS_PANEL_STRING);
     }
 
     public void refreshShipStatusPanel() {
@@ -437,7 +425,7 @@ public class HomeScreen {
     public void addExplorePanel() {
         this.explorePanel = new JPanel();
         explorePanel.setLayout(new BoxLayout(explorePanel, BoxLayout.Y_AXIS));
-        contentPanel.add(explorePanel, EXPLORE);
+        contentPanel.add(explorePanel, EXPLORE_PANEL_STRING);
     }
 
     public void refreshExplorePanel() {
@@ -530,6 +518,6 @@ public class HomeScreen {
 
     public void addSpaceOutPostPanel() {
         this.spaceOutPostPanel = new SpaceOutPostPanel(spaceOutPost);
-        contentPanel.add(spaceOutPostPanel, "SHOP");
+        contentPanel.add(spaceOutPostPanel, INVENTORY_PANEL_STRING);
     }
 }

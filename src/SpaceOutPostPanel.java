@@ -34,19 +34,40 @@ public class SpaceOutPostPanel extends JPanel {
 
 	SpaceOutPostPanel(SpaceOutPost spaceOutPost) {
 		super();
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setBorder(new EmptyBorder(30,0,0,0));
 
         this.spaceOutPost = spaceOutPost;
 
-		JPanel sideBar = new JPanel();
-		
+	
 		this.content = new JPanel();
-		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		setBorder(new EmptyBorder(30,0,0,0));
-		add(sideBar);
+        this.cardLayout = new CardLayout();
+        content.setLayout(cardLayout);
+
+		addSideBar();
 		add(content);
-		
-		this.cardLayout = new CardLayout();
-		content.setLayout(cardLayout);
+        addInventoryPanel();
+        refreshInventoryPanel();
+        addMedicalSuppliesPanel();
+        addFoodsPanel();
+	
+        cardLayout.show(content, INVENTORY_PANEL_STRING);
+
+        inventoryBtn.setEnabled(false);
+        addActionListeners();
+	}
+
+    public void showInventoryCard() {
+        cardLayout.show(content, INVENTORY_PANEL_STRING);
+        refreshInventoryPanel();
+    }
+
+    public void refreshCoinLabel() {
+        this.lblCoins.setText("Current coins: " + spaceOutPost.getCurrentMoney());
+    }
+
+    public void addSideBar() {
+        JPanel sideBar = new JPanel();
         sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));
         
         JPanel sideBarGrid = new JPanel(new GridLayout(4,1));
@@ -78,31 +99,7 @@ public class SpaceOutPostPanel extends JPanel {
         foodBtnPanel.add(foodBtn);
 
         sideBar.add(new JPanel());
-        
-        addInventoryPanel();
-        refreshInventoryPanel();
-        addMedicalSuppliesPanel();
-        addFoodsPanel();
-	
-        cardLayout.show(content, INVENTORY_PANEL_STRING);
-
-        inventoryBtn.setEnabled(false);
-        addActionListeners();
-	}
-
-    public void refresh() {
-        cardLayout.show(content, INVENTORY_PANEL_STRING);
-        refreshCoinLabel();
-        refreshInventoryPanel();
-        refreshMedicalSuppliesPanel();
-        refreshFoodsPanel();
-        inventoryBtn.setEnabled(false);
-        medicalSuppliesBtn.setEnabled(true);
-        foodBtn.setEnabled(true);
-    }
-
-    public void refreshCoinLabel() {
-        this.lblCoins.setText("Current coins: " + spaceOutPost.getCurrentMoney());
+        add(sideBar);
     }
 
     public void addActionListeners() {

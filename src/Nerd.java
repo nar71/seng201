@@ -13,7 +13,7 @@ public class Nerd extends CrewMember {
     /**
      * A string representation of the description of Crew Member.
      */
-    public static final String DESCRIPTION = "Although he would much rather be play Runescape, \n but he can never turn down a space adventure.";
+    public static final String DESCRIPTION = "Although he would much rather be play Runescape, but he can never turn down a space adventure.";
 
     /**
      * An integer representation of the health of Crew Member.

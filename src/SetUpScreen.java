@@ -12,7 +12,7 @@ public class SetUpScreen {
 	
 	private Game game;
 	
-	private int numAddBtnPressed = 0;
+	private int numAddBtnPressed;
 	
 	private JTextField name;
 
@@ -20,11 +20,20 @@ public class SetUpScreen {
 
 	private JPanel contentPanel;
 
+	private static final String START_GAME_PANEL_STRING = "START_GAME_PANEL";
+
+	private static final String GAME_DATA_PANEL_STRING = "GAME_DATA_PANEL";
+
+	private static final String CHOOSE_CHARACTER_PANEL_STRING = "CHOOSE_CHARACTER_PANEL";
+
+	private static final String GAME_INSTRUCTIONS_PANEL_STRING = "GAME_INSTRUCTIONS_PANEL";
+
 	/**
 	 * Create the application.
 	 */
 	public SetUpScreen(Game game) {
 		this.game = game;
+		this.numAddBtnPressed = 0;
 		initialize();
 		window.setVisible(true);
 	}
@@ -59,7 +68,7 @@ public class SetUpScreen {
 		addChooseCharacterPanel();
 		addGameInformationPanel();
 
-		cardLayout.show(contentPanel, "START_GAME_PANEL");
+		cardLayout.show(contentPanel, START_GAME_PANEL_STRING);
 	}
 
 	private JLabel getBigTitle() {
@@ -73,7 +82,7 @@ public class SetUpScreen {
 	public void addStartGamePanel() {
 		JPanel startGamePanel = new JPanel();
 		startGamePanel.setLayout(null);
-		contentPanel.add(startGamePanel, "START_GAME_PANEL");
+		contentPanel.add(startGamePanel, START_GAME_PANEL_STRING);
 
 		startGamePanel.add(getBigTitle());
 
@@ -101,7 +110,7 @@ public class SetUpScreen {
 	public void addGameDataPanel() {
 		JPanel gameDataPanel = new JPanel();
 		gameDataPanel.setLayout(null);
-		contentPanel.add(gameDataPanel, "GAME_DATA_PANEL");
+		contentPanel.add(gameDataPanel, GAME_DATA_PANEL_STRING);
 
 		gameDataPanel.add(getBigTitle());
 		
@@ -216,7 +225,7 @@ public class SetUpScreen {
 							sliderNumDays.getValue(), 
 							rocketShipName
 					));
-					cardLayout.show(contentPanel, "CHOOSE_CHARACTER_PANEL");
+					cardLayout.show(contentPanel, CHOOSE_CHARACTER_PANEL_STRING);
 				}
 			}
 		});
@@ -226,7 +235,7 @@ public class SetUpScreen {
 	public void addChooseCharacterPanel() {
 		JPanel chooseCharacterPanel =  new JPanel();
 		chooseCharacterPanel.setLayout(null);
-		contentPanel.add(chooseCharacterPanel, "CHOOSE_CHARACTER_PANEL");
+		contentPanel.add(chooseCharacterPanel, CHOOSE_CHARACTER_PANEL_STRING);
 
 		chooseCharacterPanel.add(getBigTitle());
 
@@ -269,76 +278,126 @@ public class SetUpScreen {
         lblMemberImage.setIcon(new ImageIcon(Image.getCrewMemberImagePath(barter)));
         chooseCharacterPanel.add(lblMemberImage);
 
-		JLabel lblDescription = new JLabel(barter.getDescription());
+		/*JLabel lblDescription = new JLabel(barter.getDescription());
 		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblDescription.setBounds(577, 300, 300, 150);
-		chooseCharacterPanel.add(lblDescription);
+		chooseCharacterPanel.add(lblDescription);*/
+		JTextArea textAreaDescription = new JTextArea("Description: " + barter.getDescription(), 6, 20);
+		textAreaDescription.setSize(300, 100);
+		textAreaDescription.setLocation(577, 360);
+        textAreaDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        textAreaDescription.setLineWrap(true);
+        textAreaDescription.setWrapStyleWord(true);
+        textAreaDescription.setOpaque(false);
+        textAreaDescription.setEditable(false);
+        chooseCharacterPanel.add(textAreaDescription);
+
+		/*JLabel lblSpecialty = new JLabel("Specialty: " + barter.getSpecialty());
+		lblSpecialty.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblSpecialty.setBounds(577, 400, 150, 150);
+		chooseCharacterPanel.add(lblSpecialty);*/
+
+		JTextArea textAreaSpecialty = new JTextArea("Specialty: " + barter.getSpecialty(), 6, 20);
+		textAreaSpecialty.setSize(300, 100);
+		textAreaSpecialty.setLocation(577,440);
+        textAreaSpecialty.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        textAreaSpecialty.setLineWrap(true);
+        textAreaSpecialty.setWrapStyleWord(true);
+        textAreaSpecialty.setOpaque(false);
+        textAreaSpecialty.setEditable(false);
+        chooseCharacterPanel.add(textAreaSpecialty);
 
 		JLabel lblHealth = new JLabel("Max Health: " + barter.getMaxHealth());
 		lblHealth.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblHealth.setBounds(577, 340, 150, 150);
+		lblHealth.setBounds(577, 430, 150, 150);
 		chooseCharacterPanel.add(lblHealth);
 
-		JLabel lblSpecialty = new JLabel("Specialty: " + barter.getSpecialty());
-		lblSpecialty.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSpecialty.setBounds(577, 360, 150, 150);
-		chooseCharacterPanel.add(lblSpecialty);
+		JLabel lblShieldHealth = new JLabel("Increments shield health by: " + barter.getShieldIncrement());
+		lblShieldHealth.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblShieldHealth.setBounds(577, 455, 300, 150);
+		chooseCharacterPanel.add(lblShieldHealth);
+
+		JTextArea textAreaDecrement = new JTextArea("Health, hunger and tiredness decrease by: " + barter.getDecrement() + " every day", 6, 20);
+		textAreaDecrement.setSize(300, 100);
+		textAreaDecrement.setLocation(577, 547);
+        textAreaDecrement.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        textAreaDecrement.setLineWrap(true);
+        textAreaDecrement.setWrapStyleWord(true);
+        textAreaDecrement.setOpaque(false);
+        textAreaDecrement.setEditable(false);
+        chooseCharacterPanel.add(textAreaDecrement);
 
 		type.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Run a switch: and get the descriptions....update a local label to it...
-				String label = "";
-				String healthLbl = "";
-				String specialtyLbl = "";
+				String description = "";
+				int maxHealth = 0;
+				String specialty = "";
 				String imagePath = "";
+				int shieldIncrement = 0;
+				int decrement = 0;
 				switch ((String)  type.getSelectedItem()) {
 		            case "Barter":
 		                Barter barter = new Barter("");
-		                label = barter.getDescription();
-		                healthLbl = "Max health: " + barter.getMaxHealth();
-		                specialtyLbl = "Specialty: " + barter.getSpecialty();
+		                description = barter.getDescription();
+		                maxHealth = barter.getMaxHealth();
+		                specialty = barter.getSpecialty();
 		                imagePath = Image.getCrewMemberImagePath(barter);
+		                decrement = barter.getDecrement();
+		                shieldIncrement = barter.getShieldIncrement();
 		            break;
 		            case "Mechanic":
 		                Mechanic mech = new Mechanic("");
-		                label = mech.getDescription();
-		          		healthLbl = "Max health: " + mech.getMaxHealth();
-		          		specialtyLbl = "Specialty: " + mech.getSpecialty();
+		                description = mech.getDescription();
+		          		maxHealth = mech.getMaxHealth();
+		          		specialty = mech.getSpecialty();
 		                imagePath = Image.getCrewMemberImagePath(mech);
+		                decrement = mech.getDecrement();
+		                shieldIncrement = mech.getShieldIncrement();
 		            break;
 		            case "Nerd":
 		                Nerd nerd = new Nerd("");
-		                label = nerd.getDescription();
-		                healthLbl = "Max health: " + nerd.getMaxHealth();
-		                specialtyLbl = "Specialty: " + nerd.getSpecialty();
+		                description = nerd.getDescription();
+		                maxHealth = nerd.getMaxHealth();
+		                specialty = nerd.getSpecialty();
 		                imagePath = Image.getCrewMemberImagePath(nerd);
+		                decrement = nerd.getDecrement();
+		                shieldIncrement = nerd.getShieldIncrement();
 		            break;
 		            case "Scout":
 		                Scout scout = new Scout("");
-		                label = scout.getDescription();
-		                healthLbl = "Max health: " + scout.getMaxHealth();
-		                specialtyLbl = "Specialty: " + scout.getSpecialty();
+		                description = scout.getDescription();
+		                maxHealth = scout.getMaxHealth();
+		                specialty = scout.getSpecialty();
 		                imagePath = Image.getCrewMemberImagePath(scout);
+		                decrement = scout.getDecrement();
+		                shieldIncrement = scout.getShieldIncrement();
 		            break;
 		            case "Soldier":
 		                Soldier soldier = new Soldier("");
-		                label = soldier.getDescription();
-		                healthLbl = "Max health: " + soldier.getMaxHealth();
-		                specialtyLbl = "Specialty: " + soldier.getSpecialty();
+		                description = soldier.getDescription();
+		                maxHealth = soldier.getMaxHealth();
+		                specialty = soldier.getSpecialty();
 		                imagePath = Image.getCrewMemberImagePath(soldier);
+		                decrement = soldier.getDecrement();
+		                shieldIncrement = soldier.getShieldIncrement();
 		            break;
 		            case "Medic":
 		                Medic medic = new Medic("");
-		                label = medic.getDescription();
-		                healthLbl = "Max health: " + medic.getMaxHealth();
-		                specialtyLbl = "Specialty: " + medic.getSpecialty();
+		                description = medic.getDescription();
+		                maxHealth = medic.getMaxHealth();
+		                specialty = medic.getSpecialty();
 		                imagePath = Image.getCrewMemberImagePath(medic);
+		                decrement = medic.getDecrement();
+		                shieldIncrement = medic.getShieldIncrement();
 		            break;
 				}
-				lblDescription.setText(label);
+				textAreaDescription.setText("Description: " + description);
 				lblMemberImage.setIcon(Funcs.getScaledIcon(imagePath, 150,150));
-				lblSpecialty.setText(specialtyLbl);
-				lblHealth.setText(healthLbl);
+				textAreaSpecialty.setText("Specialty: " + specialty);
+				lblHealth.setText("Max Health: " + maxHealth);
+				lblShieldHealth.setText("Increments shield health by: " + shieldIncrement);
+				textAreaDecrement.setText("Health, hunger and tiredness decrease by: " + decrement + " every day");
 			}
 		});
 		
@@ -351,7 +410,7 @@ public class SetUpScreen {
 					lblCharacterNameError.setText("");
 					numAddBtnPressed++;
 					if (btnNext.getText() == "Continue") {
-						cardLayout.show(contentPanel, "GAME_INFO_PANEL");
+						cardLayout.show(contentPanel, GAME_INSTRUCTIONS_PANEL_STRING);
 					}
 					if (numAddBtnPressed == game.getGameEnvironment().getCrew().getNumMembers()) {
 						type.setEnabled(false);
@@ -363,9 +422,12 @@ public class SetUpScreen {
 						characterNameTxt.setText("");
 						// Reset JCombo box
 						type.setSelectedIndex(0);
-						lblDescription.setText(barter.getDescription());
+						textAreaDescription.setText("Description: " + barter.getDescription());
+						lblMemberImage.setIcon(Funcs.getScaledIcon(Image.getCrewMemberImagePath(barter), 150,150));
+						textAreaSpecialty.setText("Specialty: " + barter.getSpecialty());
 						lblHealth.setText("Max Health: " + barter.getMaxHealth());
-						lblSpecialty.setText("Specialty: " + barter.getSpecialty());
+						lblShieldHealth.setText("Increments shield health by: " + barter.getShieldIncrement());
+						textAreaDecrement.setText("Health, hunger and tiredness decrease by: " + barter.getDecrement() + " every day");
 					}
 				}
 			}
@@ -375,7 +437,7 @@ public class SetUpScreen {
 	public void addGameInformationPanel() {
 		JPanel gameInfoPanel =  new JPanel();
 		gameInfoPanel.setLayout(null);
-		contentPanel.add(gameInfoPanel, "GAME_INFO_PANEL");
+		contentPanel.add(gameInfoPanel, GAME_INSTRUCTIONS_PANEL_STRING);
 
 		gameInfoPanel.add(getBigTitle());
 

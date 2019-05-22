@@ -8,12 +8,12 @@ public class Medic extends CrewMember {
     /**
      * A string representation of the specialty of Crew Member.
      */
-    public static final String SPECIALTY = "Having a medic around is always helpful, especially when travelling the solar system";
+    public static final String SPECIALTY = "";
 
     /**
      * A string representation of the description of Crew Member.
      */
-    public static final String DESCRIPTION = "";
+    public static final String DESCRIPTION = "Having a medic around is always helpful, especially when travelling the solar system";
 
     /**
      * An integer representation of the health of Crew Member.

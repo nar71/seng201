@@ -96,7 +96,8 @@ public class CrewPanel extends JPanel {
     }
 
     public void showCrewStatusCard() {
-        cardLayout.show(content, CREW_STATUS_PANEL_STRING);        
+        cardLayout.show(content, CREW_STATUS_PANEL_STRING);
+        refreshCrewDetailsPanel();     
         applyFoodBtn.setEnabled(true);
         crewDetailsBtn.setEnabled(false);
         pilotNewShipBtn.setEnabled(true);
@@ -107,22 +108,13 @@ public class CrewPanel extends JPanel {
 
     public void showPilotNewPlanetCard() {
         cardLayout.show(content, NEW_PLANET_PANEL_STRING);
+        refreshNewPlanetPanel();
         applyFoodBtn.setEnabled(true);
         crewDetailsBtn.setEnabled(true);
         pilotNewShipBtn.setEnabled(false);
         applyMedItemBtn.setEnabled(true);
         crewMemberSleepBtn.setEnabled(true);
         repairShipBtn.setEnabled(true);
-    }
-
-    public void refresh() {
-        showCrewStatusCard();
-        refreshCrewDetailsPanel();
-        refreshNewFoodPanel();
-        refreshNewMedicalItemPanel();
-        refreshNewPlanetPanel();
-        refreshCrewMemberSleepPanel();
-        refreshRepairShipPanel();
     }
 
     public void addSideBar() {
@@ -862,21 +854,25 @@ public class CrewPanel extends JPanel {
 
             if (labelToShow == "health") {
                 JLabel lblHealth = new JLabel("Current Health: " + member.getCurrentHealth());
-                lblHealth.setBounds(22, 170, 150, 23);
-                lblHealth.setFont(new Font("Tahoma", Font.PLAIN, 16));
+                lblHealth.setBounds(22, 170, 200, 23);
+                lblHealth.setFont(new Font("Tahoma", Font.PLAIN, 15));
                 insidePanel.add(lblHealth);
                 if (spaceOutPost.hasNoMedicalSupplies()) {
                     memberRadio.setEnabled(false);
                 }
             } else if (labelToShow == "hunger") {
                 JLabel lblHunger = new JLabel("Hunger Level: " + member.getHungerLevel());
-                lblHunger.setBounds(22, 170, 150, 23);
-                lblHunger.setFont(new Font("Tahoma", Font.PLAIN, 16));
+                lblHunger.setBounds(22, 170, 200, 23);
+                lblHunger.setFont(new Font("Tahoma", Font.PLAIN, 14));
                 insidePanel.add(lblHunger);
                 if (spaceOutPost.hasNoFoods()) {
                     memberRadio.setEnabled(false);
                 }
             } else if (labelToShow == "shield") {
+                JLabel lblShieldIncrement = new JLabel("+ " + member.getShieldIncrement() + " shield health");
+                lblShieldIncrement.setBounds(22, 170, 150, 23);
+                lblShieldIncrement.setFont(new Font("Tahoma", Font.PLAIN, 14));
+                insidePanel.add(lblShieldIncrement);
                 if (environment.getSpaceShip().isFullHealth()) {
                     memberRadio.setEnabled(false);
                 }

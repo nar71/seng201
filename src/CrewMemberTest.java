@@ -1,6 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test;
 public class CrewMemberTest {
     @Test
     final void testCrewMember() {
-        CrewMember member = new CrewMember("Name", "Type", "Description", 40, "Specialty");
+        CrewMember member = new CrewMember("Name", "Type", "Description", 40, "Specialty", 0, 0);
         
         // Getters and setters work
         assertEquals("Name", member.getName());
@@ -21,49 +22,65 @@ public class CrewMemberTest {
 
     @Test
     final void testEat() {
-        CrewMember member = new CrewMember("Name", "Type", "Description", 100, "Specialty");
+        CrewMember member = new CrewMember("Name", "Type", "Description", 100, "Specialty", 0, 0);
 
         // Decrease current health
         member.setHungerLevel(50);
-        Foof steak = new Steak();
+        Food steak = new Steak();
         member.applyFood(steak);
 
-        assertEquals(100, member.getHealthLevel());
+        assertEquals(100, member.getHungerLevel());
     
         member.setHungerLevel(50);
         Food salad = new Salad();
         member.applyFood(salad);
 
-        assetEquals(80, member.getHealthLevel());
+        assertEquals(100, member.getHungerLevel());
 
         member.setHungerLevel(50);
         Food apple = new Apple();
         member.applyFood(apple);
 
-        assetEquals(55, member.getHealthLevel());
+        assertEquals(55, member.getHungerLevel());
 
         member.setHungerLevel(50);
         Food noodles = new Noodles();
         member.applyFood(noodles);
 
-        assetEquals(70, member.getHealthLevel());
+        assertEquals(70, member.getHungerLevel());
 
         member.setHungerLevel(50);
         Food soup = new Soup();
         member.applyFood(soup);
 
-        assetEquals(60, member.getHealthLevel());        
-
+        assertEquals(60, member.getHungerLevel());        
+        
+        member.applyFood(noodles);
+        assertEquals(80, member.getHungerLevel());
+        
         member.setHungerLevel(20);
         Food pasta = new Pasta();
         member.applyFood(pasta);
-
-        assetEquals(100, member.getHealthLevel());
+        
+        // Proves also that applyFood() wont increase hunger level over 100
+        assertEquals(100, member.getHungerLevel());
+        
+        // Check applied foods.
+        ArrayList<Food> expectedFoods = new ArrayList<Food>();
+        expectedFoods.add(new Steak());
+        expectedFoods.add(new Salad());
+        expectedFoods.add(new Apple());
+        expectedFoods.add(new Noodles());
+        expectedFoods.add(new Soup());
+        expectedFoods.add(new Pasta());
+		ArrayList<Food> givenFoods = member.getAppliedFoods();
+		
+		assertTrue(givenFoods.equals(expectedFoods));
     }
 
     @Test
     final void testApplyMedical() {
-        CrewMember member = new CrewMember("Name", "Type", "Description", 100, "Specialty");
+        CrewMember member = new CrewMember("Name", "Type", "Description", 100, "Specialty", 0, 0);
 
         // Decrease current health
         member.setCurrentHealth(50);
@@ -72,5 +89,15 @@ public class CrewMemberTest {
         member.applyMedicalSupply(firstAidKit);
 
         assertEquals(100, member.getCurrentHealth());
+    }
+    
+    @Test
+    final void testSleep() {
+    	CrewMember member = new CrewMember("Name", "Type", "Description", 100, "Specialty", 0, 0);
+    	
+    	member.setTiredness(50);
+    	member.sleep();
+    	
+    	assertEquals(100, member.getTiredness());
     }
 }
