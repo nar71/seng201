@@ -8,58 +8,137 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.EmptyBorder;
 
 public class CrewPanel extends JPanel {
-    private HomeScreen screen;
 
-    private GameEnvironment environment;
-
-    private Crew crew;;
-
-    private SpaceOutPost spaceOutPost;
-
-    private CardLayout cardLayout;
-
-    private JPanel content;
-
-    private JPanel sideBar;
-
-    private JPanel crewDetailsPanel;
-
-    private JPanel repairShieldsPanel;
-
-    private JPanel newFoodPanel;
-    
-    private JPanel newMedicalItemPanel;
-
-    private JPanel newPlanetPanel;
-
-    private JPanel crewMemberSleepPanel;
-
-    private JButton crewDetailsBtn;
-
-    private JButton crewMemberSleepBtn;
-
-    private JButton repairShipBtn;
-
-    private JButton pilotNewShipBtn;
-
-    private JButton applyFoodBtn;
-
-    private JButton applyMedItemBtn;
-
-    private int numberOfCheckboxesChecked;
-
+    /**
+     * A string representation of the crew status panel, used for Card Layout.
+     */
     private static final String CREW_STATUS_PANEL_STRING = "CREW_STATUS_PANEL";
 
+    /**
+     * A string representation of the repair ship panel, used for Card Layout.
+     */
     private static final String REPAIR_SHIP_PANEL_STRING = "REPAIR_SHIP_PANEL";
 
+    /**
+     * A string representation of the new planet panel, used for Card Layout.
+     */
     private static final String NEW_PLANET_PANEL_STRING = "PILOT_NEW_PLANET_PANEL";
 
+    /**
+     * A string representation of the crew sleep panel, used for Card Layout.
+     */
     private static final String CREW_SLEEP_PANEL_STRING = "CREW_SLEEP";
 
+    /**
+     * A string representation of the apply food panel, used for Card Layout.
+     */
     private static final String CREW_APPLY_FOOD_PANEL_STRING = "APPLY_FOOD";
 
+    /**
+     * A string representation of the apply medical supply panel, used for Card Layout.
+     */
     private static final String CREW_APPLY_MEDICAL_PANEL_STRING = "APPLY_MEDICAL";
 
+    /**
+     * The Home Screen of the game (the actual game play). Used to produce the defeat/victory screens.
+     */
+    private HomeScreen screen;
+
+    /**
+     * The main game, the Game Environment holds all the data as the user goes through the game.
+     * It holds the crew members, space out post, space ship, medical supplies etc.
+     */ 
+    private GameEnvironment environment;
+
+    /**
+     * The Crew. Holds an array list of the crew members and can make these members do actions.
+     */
+    private Crew crew;;
+
+    /**
+     * The Space Out Post. Holds all medical supplies and foods.
+     */
+    private SpaceOutPost spaceOutPost;
+
+    /**
+     * A card layout used by content.
+     */
+    private CardLayout cardLayout;
+
+    /*
+     * The main content panel, which is used for every different card.
+     */
+    private JPanel content;
+
+    /**
+     * The sidebar which holds all the buttons for crew actions.
+     */
+    private JPanel sideBar;
+
+    /**
+     * A panel component of content.
+     */
+    private JPanel crewDetailsPanel;
+
+    /**
+     * A panel component of content.
+     */
+    private JPanel repairShieldsPanel;
+
+    /**
+     * A panel component of content.
+     */
+    private JPanel newFoodPanel;
+
+    /**
+     * A panel component of content.
+     */
+    private JPanel newMedicalItemPanel;
+
+    /**
+     * A panel component of content.
+     */
+    private JPanel newPlanetPanel;
+
+    /**
+     * A panel component of content.
+     */
+    private JPanel crewMemberSleepPanel;
+
+    /**
+     * A button of sidebar.
+     */
+    private JButton crewDetailsBtn;
+
+    /**
+     * A button of sidebar.
+     */
+    private JButton crewMemberSleepBtn;
+
+    /**
+     * A button of sidebar.
+     */
+    private JButton repairShipBtn;
+
+    /**
+     * A button of sidebar.
+     */
+    private JButton pilotNewShipBtn;
+
+    /**
+     * A button of sidebar.
+     */
+    private JButton applyFoodBtn;
+
+    /**
+     * A button of sidebar.
+     */
+    private JButton applyMedItemBtn;
+
+    /**
+     * Crew Panel constructor
+     * @param screen The main game play screen.
+     */
     CrewPanel(HomeScreen screen) {
         super();
 
@@ -71,6 +150,9 @@ public class CrewPanel extends JPanel {
         init();
     }
 
+    /** 
+     * Initialize the layout parameters and all all the panels.
+     */
     private void init() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
@@ -95,6 +177,10 @@ public class CrewPanel extends JPanel {
         addActionListeners();
     }
 
+    /**
+     * Shows the crew status card and makes all the other buttons disabled
+     * Used in Home Screen for every time the View Crew Details event handler is used.
+     */
     public void showCrewStatusCard() {
         cardLayout.show(content, CREW_STATUS_PANEL_STRING);
         refreshCrewDetailsPanel();     
@@ -106,6 +192,10 @@ public class CrewPanel extends JPanel {
         repairShipBtn.setEnabled(true);
     }
 
+    /**
+     * Shows the pilot to new planet card and makes all the other buttons disabled
+     * Used in Home Screen for every time the New Planet event handler is used.
+     */
     public void showPilotNewPlanetCard() {
         cardLayout.show(content, NEW_PLANET_PANEL_STRING);
         refreshNewPlanetPanel();
@@ -117,6 +207,9 @@ public class CrewPanel extends JPanel {
         repairShipBtn.setEnabled(true);
     }
 
+    /**
+     * Creates sidebar panel and adds buttons onto it
+     */
     public void addSideBar() {
         JPanel sideBar = new JPanel();
         sideBar.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -162,10 +255,14 @@ public class CrewPanel extends JPanel {
         add(sideBar);
     }
 
+    /**
+     * Adds action listeners for all buttons on the sidebar
+     * On each handler, a new card is showed.
+     */
     public void addActionListeners() {
         crewDetailsBtn.setEnabled(false);
         crewDetailsBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
+            public void actionPerformed(ActionEvent e) {
                 applyFoodBtn.setEnabled(true);
                 crewDetailsBtn.setEnabled(false);
                 pilotNewShipBtn.setEnabled(true);
@@ -204,7 +301,7 @@ public class CrewPanel extends JPanel {
         });
 
         pilotNewShipBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg1) {
+            public void actionPerformed(ActionEvent e) {
                 applyFoodBtn.setEnabled(true);
                 crewDetailsBtn.setEnabled(true);
                 pilotNewShipBtn.setEnabled(false);
@@ -217,7 +314,7 @@ public class CrewPanel extends JPanel {
         });
 
         applyFoodBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg2) {
+            public void actionPerformed(ActionEvent e) {
                 applyFoodBtn.setEnabled(false);
                 crewDetailsBtn.setEnabled(true);
                 pilotNewShipBtn.setEnabled(true);
@@ -230,7 +327,7 @@ public class CrewPanel extends JPanel {
         });
 
         applyMedItemBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg3) {
+            public void actionPerformed(ActionEvent e) {
                 applyFoodBtn.setEnabled(true);
                 crewDetailsBtn.setEnabled(true);
                 pilotNewShipBtn.setEnabled(true);
@@ -243,12 +340,18 @@ public class CrewPanel extends JPanel {
         });
     }
 
+    /**
+     * Adds crew details panel to content panel.
+     */
     private void addCrewDetailsPanel() {
         this.crewDetailsPanel = new JPanel();
         content.add(crewDetailsPanel, CREW_STATUS_PANEL_STRING);
         crewDetailsPanel.setLayout(new GridLayout(0, 4, 0, 0));  
     }
 
+    /**
+     * Refreshs crew details panel with the latest data.
+     */
     private void refreshCrewDetailsPanel() {
         crewDetailsPanel.removeAll();
 
@@ -361,12 +464,18 @@ public class CrewPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds crew member sleep panel to content panel.
+     */
     public void addCrewMemberSleepPanel() {
         this.crewMemberSleepPanel = new JPanel();
-        crewMemberSleepPanel.setLayout(new BoxLayout(crewMemberSleepPanel, BoxLayout.Y_AXIS));
+        crewMemberSleepPanel.setLayout(new GridLayout(2, 2, 0, 0));
         content.add(crewMemberSleepPanel, CREW_SLEEP_PANEL_STRING);
     }
 
+    /**
+     * Refreshs crew details panel with the latest data.
+     */
     public void refreshCrewMemberSleepPanel() {
         crewMemberSleepPanel.removeAll();
 
@@ -408,12 +517,18 @@ public class CrewPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds apply food panel to content panel.
+     */
     private void addNewFoodPanel() {
         this.newFoodPanel = new JPanel();
         newFoodPanel.setLayout(new BoxLayout(newFoodPanel, BoxLayout.Y_AXIS));
         content.add(newFoodPanel, CREW_APPLY_FOOD_PANEL_STRING);
     }
 
+    /**
+     * Refreshs apply food panel with the latest data.
+     */
     private void refreshNewFoodPanel() {
         newFoodPanel.removeAll();
 
@@ -497,12 +612,18 @@ public class CrewPanel extends JPanel {
         });
     }
 
+    /**
+     * Adds apply medical supply to content panel.
+     */
     private void addNewMedicalItemPanel() {
         this.newMedicalItemPanel = new JPanel();
         newMedicalItemPanel.setLayout(new BoxLayout(newMedicalItemPanel, BoxLayout.Y_AXIS));
         content.add(newMedicalItemPanel, CREW_APPLY_MEDICAL_PANEL_STRING);
     }
 
+    /**
+     * Refreshs apply medical supply panel with the latest data.
+     */
     public void refreshNewMedicalItemPanel() {
         newMedicalItemPanel.removeAll();
 
@@ -594,12 +715,18 @@ public class CrewPanel extends JPanel {
         });
     }
 
+    /**
+     * Adds new planet panel to content panel.
+     */
     private void addNewPlanetPanel() {
         this.newPlanetPanel = new JPanel();
         newPlanetPanel.setLayout(new BoxLayout(newPlanetPanel, BoxLayout.Y_AXIS));
         content.add(newPlanetPanel, NEW_PLANET_PANEL_STRING);
     }
 
+    /**
+     * Refreshs crew details panel with the latest data.
+     */
     private void refreshNewPlanetPanel() {
         newPlanetPanel.removeAll();
 
@@ -721,12 +848,18 @@ public class CrewPanel extends JPanel {
         });
     }
 
+    /**
+     * Adds repair ship panel with the latest data.
+     */
     public void addRepairShipPanel() {
         this.repairShieldsPanel = new JPanel();
         repairShieldsPanel.setLayout(new BoxLayout(repairShieldsPanel, BoxLayout.Y_AXIS));
         content.add(repairShieldsPanel, REPAIR_SHIP_PANEL_STRING);
     }
 
+    /**
+     * Refreshs crew details panel with the latest data.
+     */
     public void refreshRepairShipPanel() {
         repairShieldsPanel.removeAll();
 
@@ -757,7 +890,8 @@ public class CrewPanel extends JPanel {
         repairShieldsPanel.add(bottomPanel);
         bottomPanel.setLayout(null);
         bottomPanel.setPreferredSize(new Dimension(1000, 100));
-        JButton repairBtn = getActionButton("Repair Ship");
+        JButton repairBtn = new JButton("Repair Ship");
+        repairBtn.setBounds(600, 50, 150, 30);
         bottomPanel.add(repairBtn);
 
         repairBtn.addActionListener(new ActionListener() {
@@ -796,22 +930,33 @@ public class CrewPanel extends JPanel {
         });
     }
 
-    private void refreshPlanetsOntoPanel(ButtonGroup buttonGroup, JPanel planetsPanel) {
-        planetsPanel.removeAll();
+    /**
+     * Refreshs all planets onto given panel and button group.
+     * @param buttonGroup A specified button group.
+     * @param panel A specified panel.
+     */
+    private void refreshPlanetsOntoPanel(ButtonGroup buttonGroup, JPanel panel) {
+        panel.removeAll();
         Planet planet = environment.getPlanet();
         Planet[] allPlanets = planet.getAll();
         for (int i = 0; i < allPlanets.length; i++) {
             if (!allPlanets[i].getName().equals(environment.getCurrentPlanet().getName())) {
                 JPanel insidePanel = fillPlanetPanelAndButtonGroup(allPlanets[i], buttonGroup);
-                planetsPanel.add(insidePanel);
+                panel.add(insidePanel);
             }
         }
     }
 
+    /**
+     * Helper method for filling a given panel up with planet data.
+     * @param planet A planet object for which data is filled onto the panel.
+     * @param buttonGroup A specified button group.
+     * @return panel The filled panel with planet data.
+     */
     private JPanel fillPlanetPanelAndButtonGroup(Planet planet, ButtonGroup buttonGroup) {
-        JPanel insidePanel = new JPanel();
+        JPanel panel = new JPanel();
         //memberPanel.setBorder(new LineBorder(new Color(119, 119, 119)));
-        insidePanel.setLayout(null);
+        panel.setLayout(null);
 
         JRadioButton planetRadioBtn = new JRadioButton(planet.getName() + "    ");
         planetRadioBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -828,22 +973,35 @@ public class CrewPanel extends JPanel {
         lblPlanetImage.setIcon(Funcs.getScaledIcon(Image.getPlanetImagePath(planet), 120, 120));
 
         buttonGroup.add(planetRadioBtn);
-        insidePanel.add(lblPlanetImage);
-        insidePanel.add(planetRadioBtn);
-        return insidePanel;
+        panel.add(lblPlanetImage);
+        panel.add(planetRadioBtn);
+        return panel;
     }
 
+    /**
+     * A helper method for getting the crew members in a grid layout with labels and image.
+     * @param buttonGroup A desired button group.
+     * @param labelToShow The label to show as used for the apply medical item, apply food, repair shield
+     *                       and go to new planet actions.
+     * @return panel The new filled panel.
+     */
     public JPanel getGridSelectMembers(ButtonGroup buttonGroup, String labelToShow) {
-        JPanel membersPanel = new JPanel(new GridLayout(1, 4));
-        refillCrewPanelAndButtonGroup(membersPanel, buttonGroup, labelToShow);
-        return membersPanel;
+        JPanel panel = new JPanel(new GridLayout(1, 4));
+        refillCrewPanelAndButtonGroup(panel, buttonGroup, labelToShow);
+        return panel;
     }
 
-    public void refillCrewPanelAndButtonGroup(JPanel panel, ButtonGroup btnGroup, String labelToShow) {
+    /**
+     * Helper method for filling a given panel up with crew member data.
+     * @param panel The desired panel to fill.
+     * @param buttonGroup A specified button group.
+     * @param labelToShow The label wanted to show.
+     */
+    public void refillCrewPanelAndButtonGroup(JPanel panel, ButtonGroup buttonGroup, String labelToShow) {
         panel.removeAll();
         for (CrewMember member: crew.getMembers()) {
-            JPanel insidePanel = new JPanel();
-            insidePanel.setLayout(null);
+            JPanel memberPanel = new JPanel();
+            memberPanel.setLayout(null);
 
             JRadioButton memberRadio = new JRadioButton(member.getName());
             memberRadio.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -862,7 +1020,7 @@ public class CrewPanel extends JPanel {
                 JLabel lblHealth = new JLabel("Current Health: " + member.getCurrentHealth());
                 lblHealth.setBounds(22, 170, 200, 23);
                 lblHealth.setFont(new Font("Tahoma", Font.PLAIN, 15));
-                insidePanel.add(lblHealth);
+                memberPanel.add(lblHealth);
                 if (spaceOutPost.hasNoMedicalSupplies()) {
                     memberRadio.setEnabled(false);
                 }
@@ -870,7 +1028,7 @@ public class CrewPanel extends JPanel {
                 JLabel lblHunger = new JLabel("Hunger Level: " + member.getHungerLevel());
                 lblHunger.setBounds(22, 170, 200, 23);
                 lblHunger.setFont(new Font("Tahoma", Font.PLAIN, 14));
-                insidePanel.add(lblHunger);
+                memberPanel.add(lblHunger);
                 if (spaceOutPost.hasNoFoods()) {
                     memberRadio.setEnabled(false);
                 }
@@ -878,7 +1036,7 @@ public class CrewPanel extends JPanel {
                 JLabel lblShieldIncrement = new JLabel("+ " + member.getShieldIncrement() + " shield health");
                 lblShieldIncrement.setBounds(22, 170, 150, 23);
                 lblShieldIncrement.setFont(new Font("Tahoma", Font.PLAIN, 14));
-                insidePanel.add(lblShieldIncrement);
+                memberPanel.add(lblShieldIncrement);
                 if (environment.getSpaceShip().isFullHealth()) {
                     memberRadio.setEnabled(false);
                 }
@@ -888,10 +1046,10 @@ public class CrewPanel extends JPanel {
                 }
             }
 
-            btnGroup.add(memberRadio);
-            insidePanel.add(lblMemberImage);
-            insidePanel.add(memberRadio);
-            panel.add(insidePanel);
+            buttonGroup.add(memberRadio);
+            memberPanel.add(lblMemberImage);
+            memberPanel.add(memberRadio);
+            panel.add(memberPanel);
         }
 
         if ((4 - crew.getNumMembers()) > 0) {
@@ -903,16 +1061,10 @@ public class CrewPanel extends JPanel {
         }
     }
 
-    private JButton getActionButton(String name) {
-        JButton btn = new JButton(name);
-        btn.setBounds(600, 50, 150, 30);
-        return btn;
-    }
-
-    public ImageIcon getScaledMemberIcon(CrewMember member) {
-        return Funcs.getScaledIcon(Image.getCrewMemberImagePath(member), 100, 100);
-    } 
-
+    /**
+     * Checks if game is over - all actions used on the last day.
+     * @return boolean True on defeat False on not
+     */
     private boolean isPlayerDefeated() {
         return environment.isDefeated();
     }

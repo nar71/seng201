@@ -9,14 +9,20 @@ import javax.swing.border.LineBorder;
 
 public class VictoryScreen {
 
+    /**
+     * The game window manager.
+     */ 
     private Game game;
 
+    /**
+     * The main game, the Game Environment holds all the data as the user goes through the game.
+     * It holds the crew members, space out post, space ship, medical supplies etc.
+     */ 
     private GameEnvironment environment;
-
-    private JFrame window;
     
     /**
-     * Create the application.
+     * Victory Screen constructor
+     * @param game The game manager
      */
     public VictoryScreen(Game game) {
         this.game = game;
@@ -28,7 +34,7 @@ public class VictoryScreen {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        window = new JFrame();
+        JFrame window = new JFrame();
         window.setBounds(new Rectangle(0, 0, 1000,810));
         window.setResizable(false);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

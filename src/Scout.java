@@ -3,25 +3,32 @@ public class Scout extends CrewMember {
     /**
      * A string representation of the type of Crew Member.
      */
-    public static final String TYPE = "Scout";
+    private static final String TYPE = "Scout";
 
     /**
      * A string representation of the specialty of Crew Member.
      */
-    public static final String SPECIALTY = "";
+    private static final String SPECIALTY = "";
 
     /**
      * A string representation of the description of Crew Member.
      */
-    public static final String DESCRIPTION = "Scouts just cant wait to explore the wilderness of other planets";
+    private static final String DESCRIPTION = "Scouts just cant wait to explore the wilderness of other planets";
 
     /**
      * An integer representation of the health of Crew Member.
      */
-    public static final int HEALTH = 50;
+    private static final int HEALTH = 50;
 
+    /**
+     * An integer representation of the decrement of Crew Member.
+     * How much tiredness, hunger and health degrade over time.
+     */
     private static final int DECREMENT = 10;
 
+    /**
+     * An integer representation of how much health the crew member can restore to the space ship shield.
+     */
     private static final int SHIELD_INCREMENT = 25;
 
     /**

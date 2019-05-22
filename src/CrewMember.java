@@ -349,10 +349,18 @@ public class CrewMember {
         hungerLevel = level;
     }
 
+    /**
+     * Decrements current hunger level
+     * @param level An integer to decrement by
+     */
     public void decrementHungerLevel(int level) {
         hungerLevel -= level;
     }
 
+    /** 
+     * Returns decrement (the amount a crew member loses of hunger, tiredness and health per day)
+     * @return decrement An integer
+     */
     public int getDecrement() {
         return decrement;
     }

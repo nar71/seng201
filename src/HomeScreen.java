@@ -396,7 +396,7 @@ public class HomeScreen {
         JLabel lblSpaceShipImage = new JLabel("");
         lblSpaceShipImage.setBorder(new LineBorder(new Color(0, 0, 0)));
         lblSpaceShipImage.setBounds(100, 100, 200, 200);
-        lblSpaceShipImage.setIcon(new ImageIcon(getClass().getResource(spaceShip.getImagePath())));
+        lblSpaceShipImage.setIcon(new ImageIcon(Image.SPACESHIP_IMAGE_PATH));
         shipStatusPanel.add(lblSpaceShipImage);
 
         JLabel lblSpaceShipName = new JLabel(spaceShip.getName());

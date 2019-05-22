@@ -3,25 +3,32 @@ public class Soldier extends CrewMember {
     /**
      * A string representation of the type of Crew Member.
      */
-    public static final String TYPE = "Soldier";
+    private static final String TYPE = "Soldier";
 
     /**
      * A string representation of the specialty of Crew Member.
      */
-    public static final String SPECIALTY = "";
+    private static final String SPECIALTY = "";
 
     /**
      * A string representation of the description of Crew Member.
      */
-    public static final String DESCRIPTION = "A hardened soldier is ready to face any danger space throws at him";
+    private static final String DESCRIPTION = "A hardened soldier is ready to face any danger space throws at him";
 
     /**
      * An integer representation of the health of Crew Member.
      */
-    public static final int HEALTH = 100;
+    private static final int HEALTH = 100;
 
+    /**
+     * An integer representation of the decrement of Crew Member.
+     * How much tiredness, hunger and health degrade over time.
+     */
     private static final int DECREMENT = 20;
 
+    /**
+     * An integer representation of how much health the crew member can restore to the space ship shield.
+     */
     private static final int SHIELD_INCREMENT = 33;
 
     /**

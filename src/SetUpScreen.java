@@ -8,28 +8,54 @@ import javax.swing.border.LineBorder;
 
 public class SetUpScreen {
 
-	private JFrame window;
-	
-	private Game game;
-	
-	private int numAddBtnPressed;
-	
-	private JTextField name;
-
-	private CardLayout cardLayout;
-
-	private JPanel contentPanel;
-
+    /**
+     * A string representation of the start game panel, used for Card Layout.
+     */
 	private static final String START_GAME_PANEL_STRING = "START_GAME_PANEL";
 
+    /**
+     * A string representation of the game data panel, used for Card Layout.
+     */
 	private static final String GAME_DATA_PANEL_STRING = "GAME_DATA_PANEL";
 
+    /**
+     * A string representation of the choose character panel, used for Card Layout.
+     */
 	private static final String CHOOSE_CHARACTER_PANEL_STRING = "CHOOSE_CHARACTER_PANEL";
 
+    /**
+     * A string representation of the game instructions panel, used for Card Layout.
+     */
 	private static final String GAME_INSTRUCTIONS_PANEL_STRING = "GAME_INSTRUCTIONS_PANEL";
 
 	/**
-	 * Create the application.
+	 * The JFrame of the window.
+	 */
+	private JFrame window;
+	
+	/**
+	 * The main game manager.
+	 */
+	private Game game;
+	
+	/**
+	 * An integer representation for number of times the Add member button is pressed.
+	 */
+	private int numAddBtnPressed;
+	
+    /**
+     * A card layout used by content panel.
+     */
+	private CardLayout cardLayout;
+
+    /*
+     * The main content panel, which is used for every different card.
+     */
+	private JPanel contentPanel;
+
+	/**
+	 * SetUpScreen constuctor
+	 * @param game The game manger
 	 */
 	public SetUpScreen(Game game) {
 		this.game = game;
@@ -38,10 +64,16 @@ public class SetUpScreen {
 		window.setVisible(true);
 	}
 
+	/**
+	 * Disposes of window
+	 */
 	public void finishedWindow() {
 		window.dispose();
 	}
 
+	/**
+	 * Closes set up screen in the game manager.
+	 */
 	public void closeWindow() {
 		game.closeSetUpScreen(this);
 	}
@@ -71,6 +103,10 @@ public class SetUpScreen {
 		cardLayout.show(contentPanel, START_GAME_PANEL_STRING);
 	}
 
+	/**
+	 * Gets big game title
+	 * @return lblGameTitle The big game title
+	 */
 	private JLabel getBigTitle() {
 		JLabel lblGameTitle = new JLabel("SPACE TRAVELLERS");
 		lblGameTitle.setFont(new Font("Ringbearer", Font.PLAIN, 70));
@@ -79,6 +115,9 @@ public class SetUpScreen {
 		return lblGameTitle;
 	}
 
+    /**
+     * Adds start game panel to content panel.
+     */
 	public void addStartGamePanel() {
 		JPanel startGamePanel = new JPanel();
 		startGamePanel.setLayout(null);
@@ -107,6 +146,9 @@ public class SetUpScreen {
 		startGamePanel.add(exitBtn);
 	}
 
+    /**
+     * Adds game data panel to content panel.
+     */
 	public void addGameDataPanel() {
 		JPanel gameDataPanel = new JPanel();
 		gameDataPanel.setLayout(null);
@@ -232,6 +274,9 @@ public class SetUpScreen {
 		gameDataPanel.add(btnContinue);
 	}
 
+    /**
+     * Adds choose character panel to content panel.
+     */
 	public void addChooseCharacterPanel() {
 		JPanel chooseCharacterPanel =  new JPanel();
 		chooseCharacterPanel.setLayout(null);
@@ -278,10 +323,6 @@ public class SetUpScreen {
         lblMemberImage.setIcon(new ImageIcon(Image.getCrewMemberImagePath(barter)));
         chooseCharacterPanel.add(lblMemberImage);
 
-		/*JLabel lblDescription = new JLabel(barter.getDescription());
-		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblDescription.setBounds(577, 300, 300, 150);
-		chooseCharacterPanel.add(lblDescription);*/
 		JTextArea textAreaDescription = new JTextArea("Description: " + barter.getDescription(), 6, 20);
 		textAreaDescription.setSize(300, 100);
 		textAreaDescription.setLocation(577, 360);
@@ -291,11 +332,6 @@ public class SetUpScreen {
         textAreaDescription.setOpaque(false);
         textAreaDescription.setEditable(false);
         chooseCharacterPanel.add(textAreaDescription);
-
-		/*JLabel lblSpecialty = new JLabel("Specialty: " + barter.getSpecialty());
-		lblSpecialty.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSpecialty.setBounds(577, 400, 150, 150);
-		chooseCharacterPanel.add(lblSpecialty);*/
 
 		JTextArea textAreaSpecialty = new JTextArea("Specialty: " + barter.getSpecialty(), 6, 20);
 		textAreaSpecialty.setSize(300, 100);
@@ -434,6 +470,9 @@ public class SetUpScreen {
 		});
 	}
 
+    /**
+     * Adds game information panel to content panel.
+     */
 	public void addGameInformationPanel() {
 		JPanel gameInfoPanel =  new JPanel();
 		gameInfoPanel.setLayout(null);

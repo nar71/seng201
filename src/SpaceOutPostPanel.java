@@ -6,32 +6,76 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.EmptyBorder;
 
 public class SpaceOutPostPanel extends JPanel {
+
+    /**
+     * A string representation of the inventory panel, used for Card Layout.
+     */
     private static final String INVENTORY_PANEL_STRING = "INVENTORY_PANEL";
 
+    /**
+     * A string representation of the medical supplies panel, used for Card Layout.
+     */
     private static final String MEDICAL_SUPPLIES_PANEL_STRING = "MEDICAL_SUPPLIES_PANEL";
 
+    /**
+     * A string representation of the food panel, used for Card Layout.
+     */
     private static final String FOODS_PANEL_STRING = "FOODS_PANEL";
 
+    /**
+     * The space out post which holds all the medical supplies and foods
+     */
     private SpaceOutPost spaceOutPost;
 
+    /**
+     * A card layout used by content.
+     */
     private CardLayout cardLayout;
 
+    /*
+     * The main content panel, which is used for every different card.
+     */
     private JPanel content;
 
+    /**
+     * A panel component of content.
+     */
     private JPanel inventoryPanel;
 
+    /**
+     * A panel component of content.
+     */
     private JPanel medicalSuppliesPanel;
 
+    /**
+     * A panel component of content.
+     */
     private JPanel foodsPanel;
 
+    /**
+     * A label component of side bar.
+     */
     private JLabel lblCoins;
 
+    /**
+     * A button component of side bar.
+     */
     private JButton inventoryBtn;
 
+    /**
+     * A button component of side bar.
+     */
     private JButton medicalSuppliesBtn;
 
+    /**
+     * A button component of side bar.
+     */
     private JButton foodBtn;
 
+    /**
+     * SpaceOutPostPanel constructor
+     * @param spaceOutPost The space out post
+     */
 	SpaceOutPostPanel(SpaceOutPost spaceOutPost) {
 		super();
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -39,7 +83,6 @@ public class SpaceOutPostPanel extends JPanel {
 
         this.spaceOutPost = spaceOutPost;
 
-	
 		this.content = new JPanel();
         this.cardLayout = new CardLayout();
         content.setLayout(cardLayout);
@@ -57,15 +100,24 @@ public class SpaceOutPostPanel extends JPanel {
         addActionListeners();
 	}
 
+    /**
+     * Shows the inventory card - used on Home Screen by inventory and shop action handlers.
+     */
     public void showInventoryCard() {
         cardLayout.show(content, INVENTORY_PANEL_STRING);
         refreshInventoryPanel();
     }
 
+    /**
+     * Refreshs the current coins with latest data.
+     */
     public void refreshCoinLabel() {
         this.lblCoins.setText("Current coins: " + spaceOutPost.getCurrentMoney());
     }
 
+    /**
+     * Adds side bar panel with buttons.
+     */
     public void addSideBar() {
         JPanel sideBar = new JPanel();
         sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));
@@ -102,6 +154,9 @@ public class SpaceOutPostPanel extends JPanel {
         add(sideBar);
     }
 
+    /**
+     * Adds action listeners for sidebar buttons.
+     */
     public void addActionListeners() {
     	foodBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg1) {
@@ -134,12 +189,18 @@ public class SpaceOutPostPanel extends JPanel {
         });
     }
 
+    /**
+     * Adds inventory panel to content panel.
+     */
     private void addInventoryPanel() {
         this.inventoryPanel = new JPanel();
         inventoryPanel.setLayout(null);
         content.add(inventoryPanel, INVENTORY_PANEL_STRING);
     }
 
+    /**
+     * Refreshs inventory panel.
+     */
     private void refreshInventoryPanel() {
         inventoryPanel.removeAll();
         
@@ -194,12 +255,18 @@ public class SpaceOutPostPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds medical supplies panel to content panel.
+     */
     private void addMedicalSuppliesPanel() {
         this.medicalSuppliesPanel = new JPanel();
         medicalSuppliesPanel.setLayout(new GridLayout(2, 2, 0, 0));
         content.add(medicalSuppliesPanel, MEDICAL_SUPPLIES_PANEL_STRING);
     }
 
+    /**
+     * Refreshs medical supplies panel with latest data.
+     */
     private void refreshMedicalSuppliesPanel() {
         medicalSuppliesPanel.removeAll();
 
@@ -247,12 +314,18 @@ public class SpaceOutPostPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds foods panel to content panel.
+     */
     private void addFoodsPanel() {
         this.foodsPanel = new JPanel();
         foodsPanel.setLayout(new GridLayout(2, 3, 0, 0));
         content.add(foodsPanel, FOODS_PANEL_STRING);
     }
 
+    /**
+     * Refreshs foods panel with latest data.
+     */
     private void refreshFoodsPanel() {
         foodsPanel.removeAll();
 
