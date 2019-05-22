@@ -11,65 +11,127 @@ import java.time.LocalTime;
 
 public class HomeScreen {
 
-	private JFrame window;
+    /**
+     * A string representation of the home panel, used for Card Layout.
+     */
+    private static final String HOME_PANEL_STRING = "HOME_PANEL";
 
-	public Game game;
+    /**
+     * A string representation of the crew status panel, used for Card Layout.
+     */
+    private static final String CREW_STATUS_PANEL_STRING = "CREW_STATUS_PANEL";
 
-    public GameEnvironment environment;
+    /**
+     * A string representation of the ship status panel, used for Card Layout.
+     */
+    private static final String SHIP_STATUS_PANEL_STRING = "SHIP_STATUS_PANEL";
 
-    private Crew crew;
+    /**
+     * A string representation of the inventory, used for Card Layout.
+     */
+    private static final String INVENTORY_PANEL_STRING = "INVENTORY_PANEL";
 
-    private SpaceShip spaceShip;
-
-    private SpaceOutPost spaceOutPost;
-	
-	public JPanel contentPanel;
-
-	public JPanel mainPanel;
-	
-	public CrewPanel crewStatusPanel;
-
-	public JPanel inventoryPanel;
-
-	public JPanel pilotPanel;
-
-	public JPanel shipStatusPanel;
-
-	public JPanel hospitalPanel;
-
-    public JPanel explorePanel;
-
-    public SpaceOutPostPanel spaceOutPostPanel;
-
-	public CardLayout cardLayout;
-
-	public JLabel lblCurrentDay;
-
-	public JLabel lblCurrentPlanet;
-
-    public JLabel lblPeicesRequired;
-
-	public JButton homeBtn;
-
-	private static final String HOME_PANEL_STRING = "HOME_PANEL";
-
-	private static final String CREW_STATUS_PANEL_STRING = "CREW_STATUS_PANEL";
-
-	private static final String SHIP_STATUS_PANEL_STRING = "SHIP_STATUS_PANEL";
-
-	private static final String INVENTORY_PANEL_STRING = "INVENTORY_PANEL";
-
-	private static final String HOSPITAL_PANEL_STRING = "HOSPITAL_PANEL";
-
+    /**
+     * A string representation of the explore panel, used for Card Layout.
+     */
     private static final String EXPLORE_PANEL_STRING = "EXPLORE_PANEL";
 
-    private LocalTime previousTime;
+    /**
+     * Main game manger
+     */
+	public Game game;
+
+    /**
+     * The main game, the Game Environment holds all the data as the user goes through the game.
+     * It holds the crew members, space out post, space ship, medical supplies etc.
+     */ 
+    public GameEnvironment environment;
+
+    /**
+     * The Crew. Holds an array list of the crew members and can make these members do actions.
+     */
+    private Crew crew;
+
+    /**
+     * The space ship. Holds all data reguarding the ship.
+     */
+    private SpaceShip spaceShip;
+
+    /**
+     * The Space Out Post. Holds all medical supplies and foods.
+     */
+    private SpaceOutPost spaceOutPost;
+	
+    /*
+     * The main content panel, which is used for every different card.
+     */
+	public JPanel contentPanel;
+
+    /**
+     * The main panel, in which the content panel is used on.
+     */
+	public JPanel mainPanel;
+
+    /**
+     * A panel component of content panel.
+     */
+	public CrewPanel crewStatusPanel;
+
+    /**
+     * A panel component of content panel.
+     */
+	public JPanel inventoryPanel;
+
+    /**
+     * A panel component of content panel.
+     */
+	public JPanel pilotPanel;
+
+    /**
+     * A panel component of content panel.
+     */
+	public JPanel shipStatusPanel;
+
+    /**
+     * A panel component of content panel.
+     */
+    public JPanel explorePanel;
+
+    /**
+     * A panel component of content panel.
+     */
+    public SpaceOutPostPanel spaceOutPostPanel;
+
+    /**
+     * A card layout used by content.
+     */
+	public CardLayout cardLayout;
+
+    /**
+     * A label component of the home card.
+     */
+	public JLabel lblCurrentDay;
+
+    /**
+     * A label component of the home card.
+     */
+	public JLabel lblCurrentPlanet;
+
+    /**
+     * A label component of the home card.
+     */
+    public JLabel lblPeicesRequired;
+
+    /**
+     * A home button. Shown everywhere in the game.
+     */
+	public JButton homeBtn;
 
 	/**
-	 * Create the application.
+	 * HomeScreen constructor
+     * @param game The main game manager
 	 */
 	public HomeScreen(Game game) {
-		// Set up some variables
         this.game = game;
         this.environment = game.getGameEnvironment();
         this.crew = environment.getCrew();
@@ -82,10 +144,18 @@ public class HomeScreen {
 		window.setVisible(true);
 	}
 
+    /**
+     * Closes the home screen
+     */
 	public void finishedWindow() {
 		window.dispose();
 	}
 
+    /**
+     * Closes home screen and opens either a victory or defeat screen
+     * @param isVictory Boolean for is victorious or not
+     * @param message The error message.
+     */
 	public void closeWindow(boolean isVictory, String message) {
 		game.closeHomeScreen(this, isVictory, message);
 	}
@@ -123,27 +193,37 @@ public class HomeScreen {
 		window.setVisible(true);
 	}
 
-	public void refresh() {
-		refreshTopPanel();
-		refreshShipStatusPanel();
-    }
-
+    /**
+     * Refresh SpaceOutPost panel by showing the main inventory card and refreshing it.
+     */
     private void refreshSpaceOutPostPanel() {
         spaceOutPostPanel.showInventoryCard();
     }
 
+    /**
+     * Refresh CrewStatusPanel panel by showing the main inventory card and refreshing it.
+     */
     private void refreshCrewStatusPanel() {
         crewStatusPanel.showCrewStatusCard();
     }
 
+    /**
+     * Makes the home button clickable.
+     */
     private void enableHomeButton() {
         homeBtn.setEnabled(true);
     }
 
+    /**
+     * Makes the home button un clickable.
+     */
     private void disableHomeButton() {
         homeBtn.setEnabled(false);
     }
 
+    /**
+     * Adds the top panel to the main panel..
+     */
 	public void addTopPanel() {
         JPanel titlePanel = new JPanel();
         titlePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -165,7 +245,6 @@ public class HomeScreen {
         homeBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
         homeBtn.setBounds(10, 30, 150, 20);
         homeBtn.setHorizontalAlignment(SwingConstants.CENTER);
-        //topPanel.add(homeBtn);
         homeBtnPanel.add(homeBtn);
 
         JPanel dayLabelPanel = new JPanel();
@@ -174,7 +253,6 @@ public class HomeScreen {
         lblCurrentDay.setFont(new Font("Tahoma", Font.PLAIN, 12));
         lblCurrentDay.setBounds(10, 60, 150, 20);
         lblCurrentDay.setHorizontalAlignment(SwingConstants.CENTER);
-        //topPanel.add(dayLabel);
         dayLabelPanel.add(lblCurrentDay);
 
         JPanel currentPlanetPanel = new JPanel();
@@ -183,7 +261,6 @@ public class HomeScreen {
         lblCurrentPlanet.setFont(new Font("Tahoma", Font.PLAIN, 12));
         lblCurrentPlanet.setBounds(10, 90, 150, 20);
         lblCurrentPlanet.setHorizontalAlignment(SwingConstants.CENTER);
-        //topPanel.add(currentPlanetLabel);
         currentPlanetPanel.add(lblCurrentPlanet);
 
         JPanel peicesRequiredPanel = new JPanel();
@@ -192,18 +269,23 @@ public class HomeScreen {
         lblPeicesRequired.setFont(new Font("Tahoma", Font.PLAIN, 12));
         lblPeicesRequired.setBounds(10, 120, 150, 20);
         lblPeicesRequired.setHorizontalAlignment(SwingConstants.CENTER);
-        //topPanel.add(peicesRequiredLabel);
         peicesRequiredPanel.add(lblPeicesRequired);
         
         refreshTopPanel();
     }
 
+    /**
+     * Refreshs the current day, planet and how many peices found.
+     */
 	public void refreshTopPanel() {
 		lblCurrentDay.setText("Day: " +  environment.getCurrentDay() + "/" + environment.getNumDays());
 		lblCurrentPlanet.setText("Current Planet: " + environment.getCurrentPlanet().getName());
         lblPeicesRequired.setText("Peices: " + spaceShip.getPeicesFound() + "/" + spaceShip.getPeicesRequired());
 	}
 
+    /**
+     * Adds home panel to main content panel.
+     */
 	public void addHomePanel() {
 		JPanel homePanel = new JPanel();
 		homePanel.setLayout(new BoxLayout(homePanel, BoxLayout.X_AXIS));
@@ -307,7 +389,7 @@ public class HomeScreen {
 					nextDayBtn.setEnabled(false);
 				}
                 
-				refresh();
+				refreshTopPanel();
 			}
 		});
 
@@ -345,7 +427,7 @@ public class HomeScreen {
 
 		homeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-                refresh();
+                refreshTopPanel();
                 cardLayout.show(contentPanel, HOME_PANEL_STRING);
 			    disableHomeButton();
             }
@@ -371,16 +453,25 @@ public class HomeScreen {
 		contentPanel.add(homePanel, HOME_PANEL_STRING);
 	}
 
+    /**
+     * Adds crew status panel to content panel.
+     */
 	public void addCrewStatusPanel() {
 		this.crewStatusPanel = new CrewPanel(this);
         contentPanel.add(crewStatusPanel, CREW_STATUS_PANEL_STRING);
 	}
 
+    /**
+     * Adds ship status panel to content panel.
+     */
     public void addShipStatusPanel() {
 		this.shipStatusPanel = new JPanel();
 		contentPanel.add(shipStatusPanel, SHIP_STATUS_PANEL_STRING);
     }
 
+    /**
+     * Refreshs ship status panel with latest data.
+     */
     public void refreshShipStatusPanel() {
     	shipStatusPanel.removeAll();
 		shipStatusPanel.setLayout(null);
@@ -422,12 +513,18 @@ public class HomeScreen {
 		shipStatusPanel.add(lblPartsFound);
     }
 
+    /**
+     * Adds explore panel to content panel.
+     */
     public void addExplorePanel() {
         this.explorePanel = new JPanel();
         explorePanel.setLayout(new BoxLayout(explorePanel, BoxLayout.Y_AXIS));
         contentPanel.add(explorePanel, EXPLORE_PANEL_STRING);
     }
 
+    /**
+     * Refreshs explore panel with latest data.
+     */
     public void refreshExplorePanel() {
         explorePanel.removeAll();
 
@@ -516,6 +613,9 @@ public class HomeScreen {
         });
     }
 
+    /**
+     * Adds space out post panel to content panel.
+     */
     public void addSpaceOutPostPanel() {
         this.spaceOutPostPanel = new SpaceOutPostPanel(spaceOutPost);
         contentPanel.add(spaceOutPostPanel, INVENTORY_PANEL_STRING);

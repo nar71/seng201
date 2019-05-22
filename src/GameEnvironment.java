@@ -5,39 +5,74 @@ import java.util.ArrayList;
 import java.lang.Math;
 
 public class GameEnvironment {
-    private Crew crew;
-    private int numDays;
-    private SpaceShip spaceShip;
-    private SpaceOutPost spaceOutPost;
-    private LocalTime time;
 
+    /**
+     * The crew which holds all the crew members and their data.
+     */
+    private Crew crew;
+
+    /**
+     * An integer representation of the number of days.
+     */
+    private int numDays;
+
+    /**
+     * The Space Ship. Holds all information regarding the spaceship.
+     */
+    private SpaceShip spaceShip;
+    
+    /**
+     * The space out post which holds all the medical supplies and foods
+     */
+    private SpaceOutPost spaceOutPost;
+
+    /**
+     * A planet object for the curent planet.
+     */
     private Planet currentPlanet;
+
+    /**
+     * The planet object.
+     */
     private Planet planet;
 
+    /**
+     * An integer for the current day
+     */
     private int currentDay;
+    
+    /**
+     * An integer for the number of days specified by the player.
+     */
     private int maxDays;
 
+    /**
+     * An integer of all the gold found, to help produce a score.
+     */
     private int goldFound;
 	
+    /**
+     * GameEnvironment constructor
+     * @param teamName
+     * @param numMembers
+     * @param numDays
+     * @param shipName
+     */
     GameEnvironment(String teamName, int numMembers, int numDays, String shipName) {
     	this.crew = new Crew(teamName, numMembers);
     	this.spaceShip = new SpaceShip(shipName, numDays);
     	this.numDays = numDays;
     	this.spaceOutPost = new SpaceOutPost();
-    	this.time = LocalTime.now();
     	this.currentDay = 1;
         this.maxDays = numDays;
     	findStartingPlanet();
         this.planet = new Planet();
     }
     
-    public boolean isValidNumDays(int day) {
-    	if (day >= 3 && day <= 10) {
-    		return true;
-    	}
-    	return false;
-    }
-
+    /**
+     * Checks if current day is less than or equal to num days
+     * @return boolean
+     */
     public boolean isValidCurrentDay() {
         if (currentDay < maxDays) {
             return true;
@@ -45,21 +80,31 @@ public class GameEnvironment {
         return false;
     }
     
+    /**
+     * Finds the starting planet
+     */
     private void findStartingPlanet() {
         // Randomized event to find starting planet
         Random rand = new Random();
         double randNum = rand.nextDouble();
-        if (randNum < 0.25) {
+        if (randNum < 0.16) {
             currentPlanet = new Earth();
-        } else if (randNum >= 0.25 && randNum < 0.50) {
+        } else if (randNum >= 0.16 && randNum < 0.33) {
             currentPlanet = new Mars();
-        } else if (randNum >= 0.50 && randNum < 0.75) {
+        } else if (randNum >= 0.33 && randNum < 0.49) {
             currentPlanet = new Mercury();
-        } else {
+        } else if (randNum >= 0.49 && randNum < 0.66) {
             currentPlanet = new Venus();
+        } else if (randNum >= 0.66 && randNum < 0.83) {
+            currentPlanet = new Saturn();
+        } else {
+            currentPlanet = new Jupiter();
         }
     }
 
+    /**
+     * Checks if defeated - last day and no crew actions
+     */
     public boolean isDefeated() {
         if (hasDaysLeft()) {
             return false;
@@ -74,6 +119,10 @@ public class GameEnvironment {
         return isDefeated;
     }
 
+    /**
+     * Searchs planet for space parts
+     * @return String the part found
+     */
     public String searchPlanetForParts() {
         Random random = new Random();
 
@@ -124,26 +173,35 @@ public class GameEnvironment {
         return returnStr;
     }
     
+    /**
+     * Determines the random event to occur
+     * @return randomEvent If 1 its alien pirates, if 2 its space plague and so on
+     */
     public int determineRandomEvent() {
         Random random = new Random();
         double randomNumber = random.nextDouble();
-        int retVal;
+        int randomEvent;
         if (randomNumber < 0.33) {
             // Alien Pirate
-            retVal = 1;
+            randomEvent = 1;
             alienPirates();
         } else if (randomNumber >= 0.33 && randomNumber < 0.66) {
             // Space Plague
-            retVal = 2;
+            randomEvent = 2;
             spacePlague();
         } else {
             // Asteroid BELT
             retVal = 3;
             asteroidBelt();
         }
-        return retVal;
+        return randomEvent;
     }
 
+    /**
+     * Does the alien pirates random event
+     * Steals somethhing from your inventory
+     * @return type The medical or food item stolen type.
+     */
     private String alienPirates() {
         if (!spaceOutPost.isInventoryEmpty()) {
             ArrayList<MedicalSupply> medicalSuppliesOwned = new ArrayList<MedicalSupply>();
@@ -162,28 +220,32 @@ public class GameEnvironment {
 
             Random random = new Random();
             int medOrFood = random.nextInt(2);
-            String ret = "";
+            String type = "";
             if (medOrFood == 1) {
                 // Medical Supply.
                 int itemIndex = random.nextInt(medicalSuppliesOwned.size());
                 MedicalSupply medToRemove = medicalSuppliesOwned.get(itemIndex);
                 spaceOutPost.removeMedicalSupply(medToRemove);
             
-                ret = medToRemove.getType();
+                type = medToRemove.getType();
             } else {
                 // OR 0 -> We have a food
                 int itemIndex = random.nextInt(allFoodsOwned.size());
                 Food foodToRemove = allFoodsOwned.get(itemIndex);
                 spaceOutPost.removeFood(foodToRemove);
 
-                ret = foodToRemove.getType();
+                type = foodToRemove.getType();
             }
-            return ret;
+            return type;
         } else {
             return "Inventory empty (couldnt pinch anything)";
         }
     }
 
+    /**
+     * Does the space plague random event
+     * @return response string From what occured during space plague
+     */
     private String spacePlague() {
         Random random = new Random();
 
@@ -215,6 +277,11 @@ public class GameEnvironment {
         return returnString;
     }
 
+    /**
+     * Asteroid belt
+     * Decreases shield health by 50
+     * @return String the new shield health
+     */
     private String asteroidBelt() {
         // Decrease damage to the ship..
         //int decrement = Math.round(spaceShip.getShieldHealth() / 2);
@@ -223,6 +290,12 @@ public class GameEnvironment {
         return "Shield Health: " + shieldLevel;
     }
     
+    /**
+     * Goes to next day if possible
+     * Decreases members tiredness, hunger and health by decrement
+     * Decreases member health more if they are sick
+     * Removes member from array list if no health left.
+     */
     public void goToNextDay() {
         currentDay++;
         for (CrewMember member: crew.getMembers()) {
@@ -254,6 +327,10 @@ public class GameEnvironment {
         }
     }
 
+    /**
+     * Checks if there are days left
+     * @return boolean
+     */
     public boolean hasDaysLeft() {
         if (currentDay == numDays) {
             return false;
@@ -261,46 +338,82 @@ public class GameEnvironment {
         return true;
     }
     
+    /**
+     * Gets the current planet
+     * @return currentPlanet
+     */
     public Planet getCurrentPlanet() {
     	return currentPlanet;
     }
     
+    /**
+     * Gets planet object
+     * @return planet
+     */
     public Planet getPlanet() {
         return planet;
     }
 
+    /**
+     * Changes current planet
+     * @param planet New planet to change to
+     */
     public void changeCurrentPlanet(Planet planet) {
         this.currentPlanet = planet;
     }
 
+    /**
+     * Gets current day
+     * @param currentDay The current day
+     */
     public int getCurrentDay() {
     	return currentDay;
     }
     
+    /**
+     * Gets number of days
+     * @param numDays The number of day
+     */
     public int getNumDays() {
     	return numDays;
     }
     
+    /**
+     * Initalises space ship
+     * @param spaceShip The space ship object.
+     */
     public void setSpaceShip(SpaceShip spaceShip) {
     	this.spaceShip = spaceShip;
     }
     
+    /**
+     * Gets the space ship
+     * @return spaceShip
+     */
     public SpaceShip getSpaceShip() {
     	return spaceShip;
     }
     
+    /**
+     * Gets the space out post
+     * @return spaceOutPost
+     */
     public SpaceOutPost getSpaceOutPost() {
     	return spaceOutPost;
     }
     
+    /**
+     * Gets the crew
+     * @return crew
+     */
     public Crew getCrew() {
     	return this.crew;
     }
 
-    public LocalTime getTime() {
-        return time;
-    }
-
+    /**
+     * Returns gold found
+     * @return goldFound
+     */
     public int getGoldFound() {
         return goldFound;
     }
