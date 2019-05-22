@@ -315,6 +315,12 @@ public class CrewPanel extends JPanel {
             lblSick.setFont(new Font("Tahoma", Font.PLAIN, 15));
             lblSick.setBounds(10, 350, 190, 24);
 
+            JLabel lblDecrement = new JLabel("-" + member.getDecrement() + " per day");
+            lblDecrement.setHorizontalAlignment(SwingConstants.LEFT);
+            lblDecrement.setFont(new Font("Tahoma", Font.PLAIN, 15));
+            lblDecrement.setBounds(10, 380, 190, 24);
+            memberPanel.add(lblDecrement);
+
             JLabel lblAppliedMeds = new JLabel("Applied Meds:");
             lblAppliedMeds.setHorizontalAlignment(SwingConstants.LEFT);
             lblAppliedMeds.setBounds(10, 370, 200, 100);
