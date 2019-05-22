@@ -1,6 +1,6 @@
 class Steak extends Food {
     public static final String TYPE = "Steak";
-    public static final int COST = 40;
+    public static final int COST = 50;
     public static final int HUNGER_LEVEL = 100;
 
     Steak() {
@@ -10,8 +10,8 @@ class Steak extends Food {
 
 class Salad extends Food {
     public static final String TYPE = "Salad";
-    public static final int COST = 20;
-    public static final int HUNGER_LEVEL = 30;
+    public static final int COST = 30;
+    public static final int HUNGER_LEVEL = 50;
 
     Salad() {
         super(TYPE, COST, HUNGER_LEVEL);
@@ -30,7 +30,7 @@ class Apple extends Food {
 
 class Noodles extends Food {
     public static final String TYPE = "Noodles";
-    public static final int COST = 5;
+    public static final int COST = 10;
     public static final int HUNGER_LEVEL = 20;
 
     Noodles() {

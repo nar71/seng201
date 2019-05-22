@@ -1,72 +1,62 @@
 class Plaster extends MedicalSupply {
     public static final String TYPE = "Plaster";
 
-    public static final String DESCRIPTION = "";
-
     public static final int HEALTH = 10;
     
     public static final int COST = 10;
 
     Plaster() {
-        super(TYPE, DESCRIPTION, HEALTH, COST);
+        super(TYPE, HEALTH, COST);
     }
 }
 
 class Bandage extends MedicalSupply {
     public static final String TYPE = "Bandage";
 
-    public static final String DESCRIPTION = "";
-
-    public static final int HEALTH = 30;
+    public static final int HEALTH = 25;
     
-    public static final int COST = 15;
+    public static final int COST = 25;
 
     Bandage() {
-        super(TYPE, DESCRIPTION, HEALTH, COST);
+        super(TYPE, HEALTH, COST);
     }
 }
 
 class FirstAidKit extends MedicalSupply {
     public static final String TYPE = "First Aid Kit";
 
-    public static final String DESCRIPTION = "";
-
-    public static final int HEALTH = 30;
+    public static final int HEALTH = 50;
     
     public static final int COST = 50;
 
     FirstAidKit() {
-        super(TYPE, DESCRIPTION, HEALTH, COST);
+        super(TYPE, HEALTH, COST);
     }
 }
 
 class SpacePlagueCure extends MedicalSupply {
     public static final String TYPE = "Space Plague Cure";
 
-    public static final String DESCRIPTION = "";
-
     public static final int HEALTH = 0;
     
     public static final int COST = 50;
 
     SpacePlagueCure() {
-        super(TYPE, DESCRIPTION, HEALTH, COST);
+        super(TYPE, HEALTH, COST);
         isSpacePlagueCure = true;
     }
 }
 
 public class MedicalSupply {
 	private String type;
-	private String description;
 	private int health;
 	private int cost;
 	
 	private int countOfItems;
     protected boolean isSpacePlagueCure;
 
-	MedicalSupply(String type, String description, int health, int cost) {
+	MedicalSupply(String type, int health, int cost) {
 		this.type = type;
-		this.description = description;
 		this.cost = cost;
 		this.health = health;
         this.countOfItems = 0;
@@ -90,10 +80,6 @@ public class MedicalSupply {
 	
 	public String getType() {
 		return type;
-	}
-	
-	public String getDescription() {
-		return description;
 	}
 	
 	public int getHealth() {

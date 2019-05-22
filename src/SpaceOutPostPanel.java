@@ -229,6 +229,9 @@ public class SpaceOutPostPanel extends JPanel {
             }
             
             JLabel lblHealth = new JLabel("Gives " + medicalSupply.getHealth() + " health");
+            if (medicalSupply.isSpacePlagueCure()) {
+                lblHealth = new JLabel("Cures space plague");
+            }
             lblHealth.setFont(new Font("Tahoma", Font.PLAIN, 14));
             lblHealth.setBounds(83, 230, 250, 15);
             panel.add(lblHealth);
