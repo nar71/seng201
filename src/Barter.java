@@ -24,8 +24,14 @@ public class Barter extends CrewMember {
      */
     private static final int HEALTH = 50;
 
+    /**
+     * An integer decrement of the health of Crew Member.
+     */
     private static final int DECREMENT = 10;
 
+    /**
+     * An integer representation of shield health of Crew Member.
+     */
     private static final int SHIELD_INCREMENT = 25;
 
     /**

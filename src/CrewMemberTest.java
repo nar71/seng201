@@ -83,12 +83,31 @@ public class CrewMemberTest {
         CrewMember member = new CrewMember("Name", "Type", "Description", 100, "Specialty", 0, 0);
 
         // Decrease current health
-        member.setCurrentHealth(50);
+        member.setCurrentHealth(0);
 
         MedicalSupply firstAidKit = new FirstAidKit();
         member.applyMedicalSupply(firstAidKit);
 
-        assertEquals(100, member.getCurrentHealth());
+        assertEquals(50, member.getCurrentHealth());
+
+        Plaster plaster = new Plaster();
+        member.applyMedicalSupply(plaster);
+
+        assertEquals(60, member.getCurrentHealth());
+    
+        Bandage banage = new Banger();
+        member.applyMedicalSupply(bandage);
+
+        assertEquals(85, member.getCurrentHealth());
+
+        // Test space plague cure
+        member.makeSick();
+        assertEquals(true, member.isSick());
+
+        SpacePlagueCure cure = new SpacePlagueCure();
+        member.applyMedicalSupply(cure);
+
+        assertEquals(false, member.isSick());
     }
     
     @Test

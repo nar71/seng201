@@ -14,7 +14,14 @@ public class CrewMember {
         new Medic("")
     };
 
+    /**
+     * An array list of appiled Foods.
+     */
     private ArrayList<Food> appliedFoods;
+
+    /**
+     * An array list of appiled Medical Supplies.
+     */
     private ArrayList<MedicalSupply> appliedMedicalSupplies;
 
     /**
@@ -67,7 +74,14 @@ public class CrewMember {
      */
     private int hungerLevel;
 
+    /**
+     * An integer of the decrement the member takes on health over days
+     */
     private int decrement;
+
+    /**
+     * The amount of shield health one can give
+     */
     private int shieldIncrement;
 
     /**
@@ -76,7 +90,8 @@ public class CrewMember {
      * @param type A string that determines the type of the crew member
      * @param description A string for the description of crew member
      * @param health An integer for the maximum health a crew member can have
-     * @param specialty A string representation for the specialty of the crew member 
+     * @param specialty A string representation for the specialty of the crew member
+     * @param decrement An integer representation for decrement) 
      */
     CrewMember(String name, String type, String description, int health, String specialty, int decrement, int increment) {
         this.name = name;

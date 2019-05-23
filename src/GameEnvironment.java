@@ -191,7 +191,7 @@ public class GameEnvironment {
             spacePlague();
         } else {
             // Asteroid BELT
-            retVal = 3;
+            randomEvent = 3;
             asteroidBelt();
         }
         return randomEvent;

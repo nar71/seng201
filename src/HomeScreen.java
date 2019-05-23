@@ -37,6 +37,11 @@ public class HomeScreen {
     private static final String EXPLORE_PANEL_STRING = "EXPLORE_PANEL";
 
     /**
+     * Main JFrame.
+     */
+    public JFrame window;
+
+    /**
      * Main game manger
      */
 	public Game game;
@@ -137,7 +142,6 @@ public class HomeScreen {
         this.crew = environment.getCrew();
         this.spaceOutPost = environment.getSpaceOutPost();
         this.spaceShip = environment.getSpaceShip();
-        this.previousTime = environment.getTime();
 
 		initialize();
 
